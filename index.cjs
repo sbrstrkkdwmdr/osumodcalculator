@@ -102,13 +102,13 @@ function artoms(ar) {
  */
 function mstood(hitwindow300, hitwindow100, hitwindow50) {
     let od;
-    if(!isNaN(hitwindow300)){
-    od = Math.abs(((79.5 - hitwindow300) / 6).toFixed(2))
+    if (!isNaN(hitwindow300)) {
+        od = Math.abs(((79.5 - hitwindow300) / 6).toFixed(2))
     }
-    else if (!isNaN(hitwindow100)){
+    else if (!isNaN(hitwindow100)) {
         od = Math.abs(((139.5 - hitwindow100) / 8).toFixed(2))
     }
-    else if (!isNaN(hitwindow50)){
+    else if (!isNaN(hitwindow50)) {
         od = Math.abs(((199.5 - hitwindow50) / 10).toFixed(2))
     } else {
         od = '???'
@@ -213,7 +213,7 @@ function odht(od) {
  */
 function calcgrade(hit300, hit100, hit50, miss) {
     totalhits = hit300 + hit100 + hit50 + miss
-    topequation = Math.floor((300 * hit300) + (100 * hit100) + (50 * hit50) )
+    topequation = Math.floor((300 * hit300) + (100 * hit100) + (50 * hit50))
     bottomequation = Math.floor(300 * (hit300 + hit100 + hit50 + miss))
     fullequation = (Math.abs((topequation / bottomequation) * 100)).toString() + '%'
     shortequation = ((Math.abs((topequation / bottomequation) * 100)).toFixed(2)).toString() + '%'
@@ -355,5 +355,54 @@ function calcgrademania(hit300max, hit300, hit200, hit100, hit50, miss) {
 
 
 }
+/**
+ * 
+ * @param {number} cs circle size
+ * @param {number} ar approach rate
+ * @param {number} od overall difficulty
+ * @param {number} hp health
+ * @returns values converted to HR
+ */
+function toHR(cs, ar, od, hp) {
+    let csnew = cs * 1.3
+    let arnew = ar * 1.4
+    let odnew = od * 1.4
+    let hpnew = hp * 1.4
 
-module.exports = { doubletimear, halftimear, calcgrade, calcgradetaiko, calcgradecatch, calcgrademania, oddt, odht, odtoms, artoms, mstoar, mstood }
+    if (csnew > 10) csnew = 10;
+    if (arnew > 10) arnew = 10;
+    if (odnew > 10) odnew = 10;
+    if (hpnew > 10) hpnew = 10;
+
+    let hrobj = {
+        cs: csnew,
+        ar: arnew,
+        od: odnew,
+        hp: hpnew,
+    }
+    return hrobj;
+}
+/**
+ * 
+ * @param {number} cs circle size
+ * @param {number} ar approach rate
+ * @param {number} od overall difficulty
+ * @param {number} hp health
+ * @returns values converted to EZ
+ */
+function toEZ(cs, ar, od, hp) {
+    let csnew = cs / 2
+    let arnew = ar / 2
+    let odnew = od / 2
+    let hpnew = hp / 2
+
+    let ezobj = {
+        cs: csnew,
+        ar: arnew,
+        od: odnew,
+        hp: hpnew,
+    }
+    return ezobj;
+}
+
+module.exports = { doubletimear, halftimear, calcgrade, calcgradetaiko, calcgradecatch, calcgrademania, oddt, odht, odtoms, artoms, mstoar, mstood, toEZ, toHR }
