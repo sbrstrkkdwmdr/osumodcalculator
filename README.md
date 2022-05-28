@@ -1,6 +1,26 @@
 # osu! mod calculator
 edit of the calculator i made for [my discord bot](https://github.com/sbrstrkkdwmdr/sbrbot)
 
+### to do list: 
+    [x] convert AR to DT & HT
+    [x] convert OD to DT & HT
+    [x] convert AR & OD to milliseconds
+    [x] convert milliseconds to AR & OD
+    convert HP (drain) to DT & HT
+
+### to install:
+copy index.cjs into your project directory <br/>
+in the javascript file you want to use the functions in put 
+```js
+const { doubletimear, halftimear, calcgrade, calcgradetaiko, calcgradecatch, calcgrademania, oddt, odht, odtoms, artoms, mstoar, mstood } = require('./path/index.cjs')
+//code here 
+```
+OR 
+```js
+import { doubletimear, halftimear, calcgrade, calcgradetaiko, calcgradecatch, calcgrademania, oddt, odht, odtoms, artoms, mstoar, mstood } from './path/index.js'
+```
+
+
 ## conversion to double time
 
 ```js
