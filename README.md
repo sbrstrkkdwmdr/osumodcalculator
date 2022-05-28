@@ -6,6 +6,7 @@ edit of the calculator i made for [my discord bot](https://github.com/sbrstrkkdw
     [x] convert AR & OD to milliseconds
     [x] convert milliseconds to AR & OD
     convert HP (drain) to DT & HT
+    [x] convert values to HR & EZ
 
 ### to install:
 copy index.cjs into your project directory <br/>
@@ -19,7 +20,7 @@ OR
 import { doubletimear, halftimear, calcgrade, calcgradetaiko, calcgradecatch, calcgrademania, oddt, odht, odtoms, artoms, mstoar, mstood } from './path/index.js'
 ```
 ### notes:
-    EZ and HR calculations should come before DT/HT calculations
+    EZ & HR calculations should come before DT/HT calculations
     OD is listed as accuracy in the osu! api
     HP is listed as drain in the osu! api
 
