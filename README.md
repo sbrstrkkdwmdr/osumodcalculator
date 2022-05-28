@@ -1,5 +1,5 @@
 # osu! mod calculator
-[![NPM](https://nodei.co/npm/osumodcalculator.png)](https://nodei.co/npm/osumodcalculator/)
+[![NPM](https://nodei.co/npm/osumodcalculator.png)](https://nodei.co/npm/osumodcalculator/)<br/>
 edit of the calculator i made for [my discord bot](https://github.com/sbrstrkkdwmdr/sbrbot)
 ### to do list: 
     [x] convert AR to DT & HT
