@@ -1,6 +1,5 @@
 # osu! mod calculator
 edit of the calculator i made for [my discord bot](https://github.com/sbrstrkkdwmdr/sbrbot)
-
 ### to do list: 
     [x] convert AR to DT & HT
     [x] convert OD to DT & HT
@@ -19,7 +18,10 @@ OR
 ```js
 import { doubletimear, halftimear, calcgrade, calcgradetaiko, calcgradecatch, calcgrademania, oddt, odht, odtoms, artoms, mstoar, mstood } from './path/index.js'
 ```
-
+### notes:
+    EZ and HR calculations should come before DT/HT calculations
+    OD is listed as accuracy in the osu! api
+    HP is listed as drain in the osu! api
 
 ## conversion to double time
 
