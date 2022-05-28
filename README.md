@@ -12,12 +12,12 @@ edit of the calculator i made for [my discord bot](https://github.com/sbrstrkkdw
 run `npm i osumodcalculator`
 in your main js file:
 ```js
-const { doubletimear, halftimear, calcgrade, calcgradetaiko, calcgradecatch, calcgrademania, oddt, odht, odtoms, artoms, mstoar, mstood } = require('osumodcalculator')
+const { DoubleTimeAR, HalfTimeAR, calcgrade, calcgradeTaiko, calcgradeCatch, calcgradeMania, odDT, odHT, ODtoms, ARtoms, msToAR, msToOD, toEZ, toHR } = require('osumodcalculator')
 //code here 
 ```
 OR 
 ```js
-import { doubletimear, halftimear, calcgrade, calcgradetaiko, calcgradecatch, calcgrademania, oddt, odht, odtoms, artoms, mstoar, mstood } from 'osumodcalculator'
+import { DoubleTimeAR, HalfTimeAR, calcgrade, calcgradeTaiko, calcgradeCatch, calcgradeMania, odDT, odHT, ODtoms, ARtoms, msToAR, msToOD, toEZ, toHR } from 'osumodcalculator'
 ```
 ### notes:
     EZ & HR calculations should come before DT/HT calculations
@@ -29,7 +29,7 @@ import { doubletimear, halftimear, calcgrade, calcgradetaiko, calcgradecatch, ca
 ```js
 
 let baseAR = 9
-let ar_doubletime = doubletimear(baseAR)
+let ar_doubletime = DoubleTimeAR(baseAR)
 /*
     => {
         ar: 10.33
@@ -39,7 +39,7 @@ let ar_doubletime = doubletimear(baseAR)
 
 */
 let baseOD = 9
-let od_doubletime = oddt(baseOD)\
+let od_doubletime = odDT(baseOD)\
 /*
     => {
     hitwindow_300: 17,
@@ -59,7 +59,7 @@ let od_doubletime = oddt(baseOD)\
 ```js
 
 let baseAR = 9
-let ar_doubletime = halftimear(baseAR)
+let ar_doubletime = HalfTimeAR(baseAR)
 /*
     => {
     ar: 7.67
@@ -69,7 +69,7 @@ let ar_doubletime = halftimear(baseAR)
 
 */
 let baseOD = 9
-let od_halftime = odht(baseOD)
+let od_halftime = odHT(baseOD)
 /*
     => {
     hitwindow_300: 34,
@@ -111,7 +111,7 @@ let hitkatu = 0 //unused in calculation
 let hit100 = 11 // AKA good
 let hit50 = '?' //unused in calculation
 let miss = 1
-let accuracy = calcgradetaiko(hit300, hit100, miss)
+let accuracy = calcgradeTaiko(hit300, hit100, miss)
 /*
     =>  { 
     grade: 'S', 
@@ -128,7 +128,7 @@ let hitkatu = 1 // AKA missed droplets (DRP miss?)
 let hit100 = 3 // AKA drops caught / ticks
 let hit50 = 235 // AKA droplets caught
 let miss = 0 // missed fruits + missed drops
-let accuracy = calcgrade(hit300, hit100, hit50, miss)
+let accuracy = calcgradeCatch(hit300, hit100, hit50, miss)
 /*
     => { 
         grade: 'S', 
@@ -143,7 +143,7 @@ let hitkatu = 48 // AKA hit200
 let hit100 = 7
 let hit50 = 1
 let miss = 0
-let accuracy = calcgrademania(hitgeki, hit300, hitkatu, hit100, hit50, miss)
+let accuracy = calcgradeMania(hitgeki, hit300, hitkatu, hit100, hit50, miss)
 /* 
     => { grade: 'S', 
     accuracy: '95.10%', 
@@ -157,13 +157,13 @@ let accuracy = calcgrademania(hitgeki, hit300, hitkatu, hit100, hit50, miss)
 ```js
 //base values to milliseconds
 let ar = 9
-let arInMs = artoms(ar) 
+let arInMs = ARtoms(ar) 
 /*
     => 600
 */
 
 let od = 9 
-let odHitWindows = odtoms(od)
+let odHitWindows = ODtoms(od)
 /*
     => { 
     range300: 25.5, 
@@ -175,7 +175,7 @@ let odHitWindows = odtoms(od)
 
 //milliseconds to values
 let arInMs = 600
-let ar = mstoar(arInMs)
+let ar = msToAR(arInMs)
 /*
     => 9
 */
@@ -185,19 +185,49 @@ let hitWindow_300s = 25.5
 let hitWindow_100s = 67.5
 let hitWindow_50s = 109.5
 
-let od = mstood(hitWindow_300s, hitWindow_100s, hitWindow_50s) // only one of these is needed. to ignore a value replace it with NaN (null returns 13.25)
-let od = mstood(NaN, hitWindow_100s, hitWindow_50s)
-let od = mstood(NaN, NaN, hitWindow_50s)
+let od = msToOD(hitWindow_300s, hitWindow_100s, hitWindow_50s) // only one of these is needed. to ignore a value replace it with NaN (null returns 13.25)
+let od = msToOD(NaN, hitWindow_100s, hitWindow_50s)
+let od = msToOD(NaN, NaN, hitWindow_50s)
 /*
     => 9
 */
-let od = mstood(NaN, NaN, NaN)
+let od = msToOD(NaN, NaN, NaN)
 /*
     => '???'
 */
 ```
 
+## conversion to EZ/HR
+
+```js
+let baseCS = 4
+let baseAR = 9.8
+let baseOD = 9.1
+let baseHP = 5
+let valtoEZ = toEZ(baseCS, baseAR, baseOD, baseHP)
+/*
+    => {
+    cs: 2
+    ar: 4.9
+    od: 4.55
+    hp: 2.5
+    }
+*/
+let valtoEZ = toHR(baseCS, baseAR, baseOD, baseHP)
+/*
+    => {
+    cs: 5.2
+    ar: 10
+    od: 10
+    hp: 7
+    }
+*/
+
+
+```
+
+
 ### credits: 
-[osu! accuracy wiki](https://osu.ppy.sh/wiki/en/Gameplay/Accuracy)
-[osu! grades wiki](https://osu.ppy.sh/wiki/en/FAQ#grades)
-[Difficulty Settings Table](https://www.reddit.com/r/osugame/comments/6phntt/difficulty_settings_table_with_all_values/)
+[osu! accuracy wiki](https://osu.ppy.sh/wiki/en/Gameplay/Accuracy) <br/>
+[osu! grades wiki](https://osu.ppy.sh/wiki/en/FAQ#grades) <br/>
+[Difficulty Settings Table](https://www.reddit.com/r/osugame/comments/6phntt/difficulty_settings_table_with_all_values/) <br/>

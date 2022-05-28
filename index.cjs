@@ -3,7 +3,7 @@
  * @param {number} ar approach rate
  * @returns approach rate if the double time mod is applied
  */
-function doubletimear(ar) {
+function DoubleTimeAR(ar) {
     let ms;
 
     if (ar > 5) {
@@ -34,7 +34,7 @@ function doubletimear(ar) {
  * @param {number} ar approach rate
  * @returns approach rate if the half time mod is applied
  */
-function halftimear(ar) {
+function HalfTimeAR(ar) {
     let ms;
     if (ar > 5) {
         ogtoms = 1200 - (((ar - 5) * 10) * 15)
@@ -66,7 +66,7 @@ function halftimear(ar) {
  * @param {number} od overall difficulty / accuracy
  * @returns hitwindow values in milliseconds
  */
-function odtoms(od) {
+function ODtoms(od) {
     let range300 = 79 - (od * 6) + 0.5
     let range100 = 139 - (od * 8) + 0.5
     let range50 = 199 - (od * 10) + 0.5
@@ -83,7 +83,7 @@ function odtoms(od) {
  * @param {number} ar approach rate
  * @returns approach rate converted to milliseconds
  */
-function artoms(ar) {
+function ARtoms(ar) {
     if (ar > 5) {
         ogtoms = 1200 - (((ar - 5) * 10) * 15)
     }
@@ -100,7 +100,7 @@ function artoms(ar) {
  * @info set a value to a string to ignore
  * @returns od (overall difficulty)
  */
-function mstood(hitwindow300, hitwindow100, hitwindow50) {
+function msToOD(hitwindow300, hitwindow100, hitwindow50) {
     let od;
     if (!isNaN(hitwindow300)) {
         od = Math.abs(((79.5 - hitwindow300) / 6).toFixed(2))
@@ -122,7 +122,7 @@ function mstood(hitwindow300, hitwindow100, hitwindow50) {
  * @param {number} ms milliseconds
  * @returns ar (approach rate)
  */
-function mstoar(ms) {
+function msToAR(ms) {
     let ar
     if (ms < 300) {
         ar = 11
@@ -143,7 +143,7 @@ function mstoar(ms) {
  * @param {number} od overall difficulty / accuracy
  * @returns ms values for the od hitwindows and converts to double time
  */
-function oddt(od) {
+function odDT(od) {
     let oldrange300 = 79 - (od * 6) + 0.5
     let oldrange100 = 139 - (od * 8) + 0.5
     let oldrange50 = 199 - (od * 10) + 0.5
@@ -174,7 +174,7 @@ function oddt(od) {
  * @param {number} od overall difficulty / accuracy
  * @returns ms values for the od hitwindows and converts to half time
  */
-function odht(od) {
+function odHT(od) {
     let oldrange300 = 79 - (od * 6) + 0.5
     let oldrange100 = 139 - (od * 8) + 0.5
     let oldrange50 = 199 - (od * 10) + 0.5
@@ -249,7 +249,7 @@ function calcgrade(hit300, hit100, hit50, miss) {
  * @param {*} miss - misses (0%)
  * @returns an array containing grades and accuracy
  */
-function calcgradetaiko(hit300, hit100, miss) {
+function calcgradeTaiko(hit300, hit100, miss) {
     topequation = Math.abs(hit300 + (hit100 / 2))
     bottomequation = Math.abs(hit300 + hit100 + miss)
     fullequation = (Math.abs((topequation / bottomequation) * 100)).toString() + '%'
@@ -283,7 +283,7 @@ function calcgradetaiko(hit300, hit100, miss) {
  * @param {*} miss - misses
  * @returns an array containing grades and accuracy
  */
-function calcgradecatch(hit300, hit100, hit50, hitkatu, miss) {
+function calcgradeCatch(hit300, hit100, hit50, hitkatu, miss) {
     let hits = hit300 + hit100 + hit50 + miss + hitkatu
 
     topequation = Math.floor(hit300 + hit100 + hit50)
@@ -325,7 +325,7 @@ function calcgradecatch(hit300, hit100, hit50, hitkatu, miss) {
  * @param {*} miss - miss (0%)
  * @returns an array containing grades and accuracy
  */
-function calcgrademania(hit300max, hit300, hit200, hit100, hit50, miss) {
+function calcgradeMania(hit300max, hit300, hit200, hit100, hit50, miss) {
     topequation = Math.floor((300 * (hit300max + hit300)) + (200 * hit200) + (100 * hit100) + (50 * hit50))
     bottomequation = Math.floor(300 * (hit300max + hit300 + hit200 + hit100 + hit50 + miss))
     fullequation = (Math.abs((topequation / bottomequation) * 100)).toString() + '%'
@@ -405,4 +405,4 @@ function toEZ(cs, ar, od, hp) {
     return ezobj;
 }
 
-module.exports = { doubletimear, halftimear, calcgrade, calcgradetaiko, calcgradecatch, calcgrademania, oddt, odht, odtoms, artoms, mstoar, mstood, toEZ, toHR }
+module.exports = { DoubleTimeAR, HalfTimeAR, calcgrade, calcgradeTaiko, calcgradeCatch, calcgradeMania, odDT, odHT, ODtoms, ARtoms, msToAR, msToOD, toEZ, toHR }
