@@ -9,15 +9,15 @@ edit of the calculator i made for [my discord bot](https://github.com/sbrstrkkdw
     [x] convert values to HR & EZ
 
 ### to install:
-copy index.cjs into your project directory <br/>
-in the javascript file you want to use the functions in put 
+run `npm i osumodcalculator`
+in your main js file:
 ```js
-const { doubletimear, halftimear, calcgrade, calcgradetaiko, calcgradecatch, calcgrademania, oddt, odht, odtoms, artoms, mstoar, mstood } = require('./path/index.cjs')
+const { doubletimear, halftimear, calcgrade, calcgradetaiko, calcgradecatch, calcgrademania, oddt, odht, odtoms, artoms, mstoar, mstood } = require('osumodcalculator')
 //code here 
 ```
 OR 
 ```js
-import { doubletimear, halftimear, calcgrade, calcgradetaiko, calcgradecatch, calcgrademania, oddt, odht, odtoms, artoms, mstoar, mstood } from './path/index.js'
+import { doubletimear, halftimear, calcgrade, calcgradetaiko, calcgradecatch, calcgrademania, oddt, odht, odtoms, artoms, mstoar, mstood } from 'osumodcalculator'
 ```
 ### notes:
     EZ & HR calculations should come before DT/HT calculations
@@ -196,3 +196,8 @@ let od = mstood(NaN, NaN, NaN)
     => '???'
 */
 ```
+
+### credits: 
+[osu! accuracy wiki](https://osu.ppy.sh/wiki/en/Gameplay/Accuracy)
+[osu! grades wiki](https://osu.ppy.sh/wiki/en/FAQ#grades)
+[Difficulty Settings Table](https://www.reddit.com/r/osugame/comments/6phntt/difficulty_settings_table_with_all_values/)
