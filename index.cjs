@@ -355,10 +355,5 @@ function calcgrademania(hit300max, hit300, hit200, hit100, hit50, miss) {
 
 
 }
-let hitWindow_300s = NaN
-let hitWindow_100s = NaN
-let hitWindow_50s = NaN
 
-let od = mstood(hitWindow_300s, hitWindow_100s, hitWindow_50s) // only one of these is needed.
-console.log(od)
 module.exports = { doubletimear, halftimear, calcgrade, calcgradetaiko, calcgradecatch, calcgrademania, oddt, odht, odtoms, artoms, mstoar, mstood }
