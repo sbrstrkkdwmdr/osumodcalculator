@@ -219,7 +219,7 @@ function calcgrade(hit300, hit100, hit50, miss) {
     shortequation = ((Math.abs((topequation / bottomequation) * 100)).toFixed(2)).toString() + '%'
     //https://osu.ppy.sh/wiki/en/FAQ#grades
     grade = 'D'
-    if (hit300 / totalhits > 0.6 && miss == 0) {
+    if (hit300 / totalhits > 0.6 && miss == 0 || (hit300 / totalhits > 0.7) {
         grade = 'C'
     }
     if ((hit300 / totalhits > 0.7 && miss == 0) || (hit300 / totalhits > 0.8)) {
@@ -331,10 +331,10 @@ function calcgradeMania(hit300max, hit300, hit200, hit100, hit50, miss) {
     fullequation = (Math.abs((topequation / bottomequation) * 100)).toString() + '%'
     shortequation = ((Math.abs((topequation / bottomequation) * 100)).toFixed(2)).toString() + '%'
     grade = 'D'
-    if (topequation / bottomequation == 0.7) {
+    if (topequation / bottomequation > 0.7) {
         grade = 'C'
     }
-    if (topequation / bottomequation == 0.8) {
+    if (topequation / bottomequation > 0.8) {
         grade = 'B'
     }
     if (topequation / bottomequation > 0.9) {
