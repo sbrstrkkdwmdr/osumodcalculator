@@ -218,8 +218,8 @@ function calcgrade(hit300, hit100, hit50, miss) {
     fullequation = (Math.abs((topequation / bottomequation) * 100)).toString() + '%'
     shortequation = ((Math.abs((topequation / bottomequation) * 100)).toFixed(2)).toString() + '%'
     //https://osu.ppy.sh/wiki/en/FAQ#grades
-    grade = 'D'
-    if (hit300 / totalhits > 0.6 && miss == 0 || (hit300 / totalhits > 0.7) {
+    grade = 'D';
+    if ((hit300 / totalhits > 0.6 && miss == 0) || (hit300 / totalhits > 0.7)) {
         grade = 'C'
     }
     if ((hit300 / totalhits > 0.7 && miss == 0) || (hit300 / totalhits > 0.8)) {
