@@ -202,7 +202,7 @@ function odHT(od) {
 
     return odobj;
 }
-
+//https://osu.ppy.sh/wiki/en/Gameplay/Accuracy
 /**
  * 
  * @param {*} hit300 - hit 300s (100%)
