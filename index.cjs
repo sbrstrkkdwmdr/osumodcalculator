@@ -436,7 +436,7 @@ function ModStringToInt(mods) {
         modInt += 256
     }
     if (mods.toUpperCase().includes('NC')) {
-        modInt += 64//512
+        modInt += 512
     }
     if (mods.toUpperCase().includes('FL')) {
         modInt += 1024
