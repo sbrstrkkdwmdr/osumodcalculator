@@ -626,15 +626,22 @@ function ModIntToString(modInt) {
  */
 function OrderMods(modString) {
     let ModsOrder = ['AT', 'RX', 'AP', 'TP', 'SO', 'EZ', 'HD', 'HT', 'DT', 'NC', 'HR', 'SD', 'PF', 'FL', 'NF']
-    let modStringArray = modString.replace(/(.{2})/g, "$1 ").split(' ')
+    let modStringArray = modString.toUpperCase().replace(/(.{2})/g, "$1 ").split(' ')
     let modStringArrayOrdered = []
+    let modStringArrayOrderedtest = []
     for (let i = 0; i < ModsOrder.length; i++) {
         for (let j = 0; j < modStringArray.length; j++) {
             if (ModsOrder[i] === modStringArray[j]) {
-                modStringArrayOrdered.push(modStringArray[j])
+                modStringArrayOrderedtest.push(modStringArray[j])
             }
         }
     }
+    for (let i = 0; i < modStringArrayOrderedtest.length; i++) {
+        if (modStringArrayOrderedtest.indexOf(modStringArrayOrderedtest[i]) === i) {
+            modStringArrayOrdered.push(modStringArrayOrderedtest[i])
+        }
+    }
+
     return modStringArrayOrdered.join('')
 }
 
