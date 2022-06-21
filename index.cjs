@@ -404,7 +404,11 @@ function toEZ(cs, ar, od, hp) {
     }
     return ezobj;
 }
-
+/**
+ * 
+ * @param {*} mods 
+ * @returns converts mods to an integer (HDDTHR = 88)
+ */
 function ModStringToInt(mods) {
     let modInt = 0;
 
@@ -504,6 +508,11 @@ function ModStringToInt(mods) {
     return modInt;
 }
 
+/**
+ * 
+ * @param {*} modInt 
+ * @returns converts mod integers to a string (88 = HDDTHR)
+ */
 function ModIntToString(modInt) {
     let modString = '';
     if (modInt & 1) {
@@ -610,6 +619,11 @@ function ModIntToString(modInt) {
 
     return modString;
 }
+/**
+ * 
+ * @param {*} modString 
+ * @returns reorders mods to be in the correct order and removes duplicates.
+ */
 function OrderMods(modString) {
     let ModsOrder = ['AT', 'RX', 'AP', 'TP', 'SO', 'EZ', 'HD', 'HT', 'DT', 'NC', 'HR', 'SD', 'PF', 'FL', 'NF']
     let modStringArray = modString.replace(/(.{2})/g, "$1 ").split(' ')
