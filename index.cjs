@@ -6,12 +6,13 @@
 function DoubleTimeAR(ar) {
     let ms;
 
-    if (ar > 5) {
-        ms = 200 + (11 - ar) * 100;
-    }
-    else {
-        ms = 800 + (5 - ar) * 80;
-    }
+    /*     if (ar > 5) {
+            ms = 200 + (11 - ar) * 100;
+        }
+        else {
+            ms = 800 + (5 - ar) * 80;
+        } */
+    ms = ar > 5 ? 200 + (11 - ar) * 100 : 800 + (5 - ar) * 80;
 
     if (ms < 300) {
         newAR = 11
@@ -25,7 +26,6 @@ function DoubleTimeAR(ar) {
     let arobj = {
         ar: newAR,
         ms: ms,
-        ar_old: ar,
     }
     return arobj;
 }
@@ -36,12 +36,13 @@ function DoubleTimeAR(ar) {
  */
 function HalfTimeAR(ar) {
     let ms;
-    if (ar > 5) {
+/*     if (ar > 5) {
         ogtoms = 1200 - (((ar - 5) * 10) * 15)
     }
     else {
         ogtoms = 1800 - (((ar) * 10) * 12)
-    }
+    } */
+    let ogtoms = ar > 5 ? 200 + (11 - ar) * 100 : 800 + (5 - ar) * 80;
     ms = ogtoms * (4 / 3);
 
     if (ms < 300) {
@@ -56,8 +57,6 @@ function HalfTimeAR(ar) {
     let arobj = {
         ar: newAR,
         ms: ms,
-        ar_old: ar,
-        ms_old: ogtoms
     }
     return arobj;
 }
@@ -84,12 +83,13 @@ function ODtoms(od) {
  * @returns approach rate converted to milliseconds
  */
 function ARtoms(ar) {
-    if (ar > 5) {
-        ogtoms = 1200 - (((ar - 5) * 10) * 15)
-    }
-    else {
-        ogtoms = 1800 - (((ar) * 10) * 12)
-    }
+    /*     if (ar > 5) {
+            ogtoms = 1200 - (((ar - 5) * 10) * 15)
+        }
+        else {
+            ogtoms = 1800 - (((ar) * 10) * 12)
+        } */
+    ogtoms = ar > 5 ? 1200 - (((ar - 5) * 10) * 15) : 1800 - (((ar) * 10) * 12)
     return ogtoms;
 }
 /**
@@ -144,10 +144,6 @@ function msToAR(ms) {
  * @returns ms values for the od hitwindows and converts to double time
  */
 function odDT(od) {
-    let oldrange300 = 79 - (od * 6) + 0.5
-    let oldrange100 = 139 - (od * 8) + 0.5
-    let oldrange50 = 199 - (od * 10) + 0.5
-
     let range300 = (79 - (od * 6) + 0.5) * 2 / 3
     let range100 = (139 - (od * 8) + 0.5) * 2 / 3
     let range50 = (199 - (od * 10) + 0.5) * 2 / 3
@@ -160,10 +156,6 @@ function odDT(od) {
         hitwindow_100: range100,
         hitwindow_50: range50,
         od_num: odnew,
-        hitwin_300_old: oldrange300,
-        hitwin_100_old: oldrange100,
-        hitwin_50_old: oldrange50,
-        od_old: od
     }
 
     return odobj;
