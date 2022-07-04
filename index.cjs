@@ -36,12 +36,12 @@ function DoubleTimeAR(ar) {
  */
 function HalfTimeAR(ar) {
     let ms;
-/*     if (ar > 5) {
-        ogtoms = 1200 - (((ar - 5) * 10) * 15)
-    }
-    else {
-        ogtoms = 1800 - (((ar) * 10) * 12)
-    } */
+    /*     if (ar > 5) {
+            ogtoms = 1200 - (((ar - 5) * 10) * 15)
+        }
+        else {
+            ogtoms = 1800 - (((ar) * 10) * 12)
+        } */
     let ogtoms = ar > 5 ? 200 + (11 - ar) * 100 : 800 + (5 - ar) * 80;
     ms = ogtoms * (4 / 3);
 
@@ -66,14 +66,10 @@ function HalfTimeAR(ar) {
  * @returns hitwindow values in milliseconds
  */
 function ODtoms(od) {
-    let range300 = 79 - (od * 6) + 0.5
-    let range100 = 139 - (od * 8) + 0.5
-    let range50 = 199 - (od * 10) + 0.5
-
     let rangeobj = {
-        range300: range300,
-        range100: range100,
-        range50: range50,
+        range300: 79 - (od * 6) + 0.5,
+        range100: 139 - (od * 8) + 0.5,
+        range50: 199 - (od * 10) + 0.5,
     }
     return rangeobj;
 }
@@ -89,7 +85,7 @@ function ARtoms(ar) {
         else {
             ogtoms = 1800 - (((ar) * 10) * 12)
         } */
-    ogtoms = ar > 5 ? 1200 - (((ar - 5) * 10) * 15) : 1800 - (((ar) * 10) * 12)
+    let ogtoms = ar > 5 ? 1200 - (((ar - 5) * 10) * 15) : 1800 - (((ar) * 10) * 12)
     return ogtoms;
 }
 /**
@@ -112,6 +108,9 @@ function msToOD(hitwindow300, hitwindow100, hitwindow50) {
         od = Math.abs(((199.5 - hitwindow50) / 10).toFixed(2))
     } else {
         od = '???'
+    }
+    if (od > 11) {
+        od = 11
     }
 
     ;
@@ -145,17 +144,11 @@ function msToAR(ms) {
  */
 function odDT(od) {
     let range300 = (79 - (od * 6) + 0.5) * 2 / 3
-    let range100 = (139 - (od * 8) + 0.5) * 2 / 3
-    let range50 = (199 - (od * 10) + 0.5) * 2 / 3
-    let odnew = od * 4 / 3
-
-    odnew = Math.abs(((79.5 - range300) / 6).toFixed(2))
-
     let odobj = {
         hitwindow_300: range300,
-        hitwindow_100: range100,
-        hitwindow_50: range50,
-        od_num: odnew,
+        hitwindow_100: (139 - (od * 8) + 0.5) * 2 / 3,
+        hitwindow_50: (199 - (od * 10) + 0.5) * 2 / 3,
+        od_num: Math.abs(((79.5 - range300) / 6).toFixed(2)) * 4 / 3,
     }
 
     return odobj;
@@ -167,29 +160,13 @@ function odDT(od) {
  * @returns ms values for the od hitwindows and converts to half time
  */
 function odHT(od) {
-    let oldrange300 = 79 - (od * 6) + 0.5
-    let oldrange100 = 139 - (od * 8) + 0.5
-    let oldrange50 = 199 - (od * 10) + 0.5
-
     let range300 = (79 - (od * 6) + 0.5) * 4 / 3
-    let range100 = (139 - (od * 8) + 0.5) * 4 / 3
-    let range50 = (199 - (od * 10) + 0.5) * 4 / 3
-    let odnew = od * 2 / 3
-
-        ;
-    odnew = Math.abs(((79.5 - range300) / 6).toFixed(2))
-
-
-
     let odobj = {
         hitwindow_300: range300,
-        hitwindow_100: range100,
-        hitwindow_50: range50,
-        od_num: odnew,
-        hitwin_300_old: oldrange300,
-        hitwin_100_old: oldrange100,
-        hitwin_50_old: oldrange50,
-        od_old: od
+        hitwindow_100: (139 - (od * 8) + 0.5) * 4 / 3,
+        hitwindow_50: (199 - (od * 10) + 0.5) * 4 / 3,
+        od_num: Math.abs(((79.5 - range300) / 6).toFixed(2)) * 2 / 3
+        ,
     }
 
     return odobj;
@@ -204,11 +181,8 @@ function odHT(od) {
  * @returns an array containing grades and accuracy
  */
 function calcgrade(hit300, hit100, hit50, miss) {
-    totalhits = hit300 + hit100 + hit50 + miss
-    topequation = Math.floor((300 * hit300) + (100 * hit100) + (50 * hit50))
-    bottomequation = Math.floor(300 * (hit300 + hit100 + hit50 + miss))
-    fullequation = (Math.abs((topequation / bottomequation) * 100)).toString() + '%'
-    shortequation = ((Math.abs((topequation / bottomequation) * 100)).toFixed(2)).toString() + '%'
+    let totalhits = hit300 + hit100 + hit50 + miss
+    let equation = ((Math.floor((300 * hit300) + (100 * hit100) + (50 * hit50))) / (Math.floor(300 * (hit300 + hit100 + hit50 + miss)))) * 100
     //https://osu.ppy.sh/wiki/en/FAQ#grades
     grade = 'D';
     if ((hit300 / totalhits > 0.6 && miss == 0) || (hit300 / totalhits > 0.7)) {
@@ -228,8 +202,7 @@ function calcgrade(hit300, hit100, hit50, miss) {
     }
     let finalarr = {
         grade: grade,
-        accuracy: shortequation,
-        fullacc: fullequation
+        accuracy: equation,
     }
 
     return finalarr;
@@ -242,27 +215,25 @@ function calcgrade(hit300, hit100, hit50, miss) {
  * @returns an array containing grades and accuracy
  */
 function calcgradeTaiko(hit300, hit100, miss) {
-    topequation = Math.abs(hit300 + (hit100 / 2))
-    bottomequation = Math.abs(hit300 + hit100 + miss)
-    fullequation = (Math.abs((topequation / bottomequation) * 100)).toString() + '%'
-    shortequation = ((Math.abs((topequation / bottomequation) * 100)).toFixed(2)).toString() + '%'
-    grade = 'https://osu.ppy.sh/wiki/en/FAQ#grades'
-    if (topequation / bottomequation > 0.8) {
+    let equation = (Math.abs(hit300 + (hit100 / 2))) / (Math.abs(hit300 + hit100 + miss))
+
+    //grade = 'https://osu.ppy.sh/wiki/en/FAQ#grades'
+    let grade = 'D';
+    if (equation > 0.8) {
         grade = 'B'
     }
-    if (topequation / bottomequation > 0.9) {
+    if (equation > 0.9) {
         grade = 'A'
     }
-    if (topequation / bottomequation > 0.95) {
+    if (equation > 0.95) {
         grade = 'S'
     }
-    if (topequation / bottomequation == 1) {
+    if (equation == 1) {
         grade = 'SS'
     }
     let finalarr = {
         grade: grade,
-        accuracy: shortequation,
-        fullacc: fullequation
+        accuracy: equation * 100,
     }
     return finalarr;
 
@@ -276,34 +247,28 @@ function calcgradeTaiko(hit300, hit100, miss) {
  * @returns an array containing grades and accuracy
  */
 function calcgradeCatch(hit300, hit100, hit50, hitkatu, miss) {
-    let hits = hit300 + hit100 + hit50 + miss + hitkatu
-
-    topequation = Math.floor(hit300 + hit100 + hit50)
-    bottomequation = Math.floor(Math.abs(hits))
-    fullequation = (Math.abs((topequation / bottomequation) * 100)).toString() + '%'
-    shortequation = ((Math.abs((topequation / bottomequation) * 100)).toFixed(2)).toString() + '%'
+    let equation = Math.floor(hit300 + hit100 + hit50) / Math.floor(hit300 + hit100 + hit50 + hitkatu + miss)
 
     grade = 'D'
-    if (topequation / bottomequation > 0.85) {
+    if (equation > 0.85) {
         grade = 'C'
     }
-    if (topequation / bottomequation > 0.9) {
+    if (equation > 0.9) {
         grade = 'B'
     }
-    if (topequation / bottomequation > 0.94) {
+    if (equation > 0.94) {
         grade = 'A'
     }
-    if (topequation / bottomequation > 0.98) {
+    if (equation > 0.98) {
         grade = 'S'
     }
-    if (topequation / bottomequation == 1) {
+    if (equation == 1) {
         grade = 'SS'
     }
 
     let finalarr = {
         grade: grade,
-        accuracy: shortequation,
-        fullacc: fullequation
+        accuracy: equation * 100,
     }
     return finalarr;
 }
@@ -318,30 +283,26 @@ function calcgradeCatch(hit300, hit100, hit50, hitkatu, miss) {
  * @returns an array containing grades and accuracy
  */
 function calcgradeMania(hit300max, hit300, hit200, hit100, hit50, miss) {
-    topequation = Math.floor((300 * (hit300max + hit300)) + (200 * hit200) + (100 * hit100) + (50 * hit50))
-    bottomequation = Math.floor(300 * (hit300max + hit300 + hit200 + hit100 + hit50 + miss))
-    fullequation = (Math.abs((topequation / bottomequation) * 100)).toString() + '%'
-    shortequation = ((Math.abs((topequation / bottomequation) * 100)).toFixed(2)).toString() + '%'
+    let equation = Math.floor((300 * (hit300max + hit300)) + (200 * hit200) + (100 * hit100) + (50 * hit50)) / Math.floor(300 * (hit300max + hit300 + hit200 + hit100 + hit50 + miss))
     grade = 'D'
-    if (topequation / bottomequation > 0.7) {
+    if (equation > 0.7) {
         grade = 'C'
     }
-    if (topequation / bottomequation > 0.8) {
+    if (equation > 0.8) {
         grade = 'B'
     }
-    if (topequation / bottomequation > 0.9) {
+    if (equation > 0.9) {
         grade = 'A'
     }
-    if (topequation / bottomequation > 0.95) {
+    if (equation > 0.95) {
         grade = 'S'
     }
-    if (topequation / bottomequation == 1) {
+    if (equation == 1) {
         grade = 'SS'
     }
     let finalarr = {
         grade: grade,
-        accuracy: shortequation,
-        fullacc: fullequation
+        accuracy: equation * 100,
     }
     return finalarr;
 
@@ -376,10 +337,10 @@ function toHR(cs, ar, od, hp) {
 function toEZ(cs, ar, od, hp) {
 
     let ezobj = {
-        cs: cs / 2,
-        ar: ar / 2,
-        od: od / 2,
-        hp: hp / 2,
+        cs: cs / 2 > 10 ? 10 : cs / 2,
+        ar: ar / 2 > 10 ? 10 : ar / 2,
+        od: od / 2 > 10 ? 10 : od / 2,
+        hp: hp / 2 > 10 ? 10 : hp / 2,
     }
     return ezobj;
 }
