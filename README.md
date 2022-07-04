@@ -1,6 +1,7 @@
 # osu! mod calculator
-[![NPM](https://nodei.co/npm/osumodcalculator.png)](https://nodei.co/npm/osumodcalculator/)<br/>
-edit of the calculator i made for [my discord bot](https://github.com/sbrstrkkdwmdr/sbrbot/tree/main/calculations)
+
+python rewrite of the main branch
+
 ### to do list: 
     [x] convert AR to DT & HT
     [x] convert OD to DT & HT
@@ -10,16 +11,15 @@ edit of the calculator i made for [my discord bot](https://github.com/sbrstrkkdw
     [x] convert mod integers to string and vice versa
 
 ### to install:
-run `npm i osumodcalculator`
-in your main js file:
-```js
-const osucalc = require('osumodcalculator')
-//code here 
+
+```py
+import osumodcalc as *
 ```
-OR 
-```js
-import * as osucalc from 'osumodcalculator'
+or 
+```py
+import osumodcalc
 ```
+
 ### notes:
     EZ & HR calculations should come before DT/HT calculations
     OD is listed as accuracy in the osu! api
@@ -32,7 +32,7 @@ import * as osucalc from 'osumodcalculator'
 ```js
 
 let baseAR = 9
-let ar_doubletime = osucalc.DoubleTimeAR(baseAR)
+let ar_doubletime = osumodcalc.DoubleTimeAR(baseAR)
 /*
     => {
         ar: 10.33
