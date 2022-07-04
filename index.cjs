@@ -364,21 +364,12 @@ function calcgradeMania(hit300max, hit300, hit200, hit100, hit50, miss) {
  * @returns values converted to HR
  */
 function toHR(cs, ar, od, hp) {
-    let csnew = cs * 1.3
-    let arnew = ar * 1.4
-    let odnew = od * 1.4
-    let hpnew = hp * 1.4
-
-    if (csnew > 10) csnew = 10;
-    if (arnew > 10) arnew = 10;
-    if (odnew > 10) odnew = 10;
-    if (hpnew > 10) hpnew = 10;
 
     let hrobj = {
-        cs: csnew,
-        ar: arnew,
-        od: odnew,
-        hp: hpnew,
+        cs: cs * 1.3 > 10 ? 10 : cs * 1.3,
+        ar: ar * 1.4 > 10 ? 10 : ar * 1.4,
+        od: od * 1.4 > 10 ? 10 : od * 1.4,
+        hp: hp * 1.4 > 10 ? 10 : hp * 1.4,
     }
     return hrobj;
 }
@@ -391,16 +382,12 @@ function toHR(cs, ar, od, hp) {
  * @returns values converted to EZ
  */
 function toEZ(cs, ar, od, hp) {
-    let csnew = cs / 2
-    let arnew = ar / 2
-    let odnew = od / 2
-    let hpnew = hp / 2
 
     let ezobj = {
-        cs: csnew,
-        ar: arnew,
-        od: odnew,
-        hp: hpnew,
+        cs: cs / 2,
+        ar: ar / 2,
+        od: od / 2,
+        hp: hp / 2,
     }
     return ezobj;
 }
@@ -451,7 +438,7 @@ function ModStringToInt(mods) {
     if (mods.toUpperCase().includes('SO')) {
         modInt += 4096
     }
-    if (mods.toUpperCase().includes('AP')) {
+    if (mods.toUpperCase().includes('AP') || mods.toUpperCase().includes('RX2')) {
         modInt += 8192
     }
     if (mods.toUpperCase().includes('PF')) {
