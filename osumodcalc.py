@@ -3,8 +3,8 @@ import math
 # approach rate object
 class ApproachObj:
     def __init__(self, ar: float, ms: int):
-        self.ms = ms
         self.ar = ar
+        self.ms = ms
 
 # overall difficulty object
 class OdObj:
@@ -31,11 +31,7 @@ class MapValueObj:
 
 # convert approach rate to double time
 def DoubleTimeAR(ar: float):
-    ms = 0
-    if ar > 5:
-        ms = 200 + (11 - ar) * 100
-    else:
-        ms = 800 + (5 - ar) * 80
+    ms = 200 + (11 - ar) * 100 if ar > 5 else 800 + (5 - ar) * 80
 
     if ms < 300:
         newAR = 11
@@ -44,17 +40,12 @@ def DoubleTimeAR(ar: float):
     else:
         newAR = round((5 - (ms - 1200) / 120) * 100) / 100
 
-    approach = ApproachObj(ms, newAR)
+    approach = ApproachObj(newAR, ms)
     return approach
 
 # convert approach rate to half time
 def HalfTimeAR(ar: float):
-    if ar > 5:
-        fms = 1200 - (((ar-5) * 10)*15)
-    else:
-        fms = 1800 - (((ar)*10)*12)
-
-    ms = fms * (4/3)
+    ms = (200 + (11 - ar) * 100)* (4/3)if ar > 5 else (800 + (5 - ar) * 80)* (4/3)
 
     if ms < 300:
         newAR = 11
@@ -63,15 +54,13 @@ def HalfTimeAR(ar: float):
     else:
         newAR = round((5 - (ms - 1200) / 120) * 100) / 100
 
-    approach = ApproachObj(ms, newAR)
+    approach = ApproachObj(newAR, ms)
     return approach
 
 # convert approach rate to milliseconds
 def ARtoms(ar: float):
-    if ar > 5:
-        return 1200 - (((ar-5) * 10)*15)
-    else:
-        return 1800 - (((ar)*10)*12)
+    ms = 1200 - (((ar-5) * 10)*15) if ar>5 else 1800 - (((ar)*10)*12)
+    return ms
 
 # convert milliseconds to approach rate
 def msToAR(ms: int):
@@ -79,7 +68,6 @@ def msToAR(ms: int):
         ar = 11
     elif ms < 1200:
         ar = round((11 - (ms - 300) / 150) * 100) / 100
-
     else:
         ar = round((5 - (ms - 1200) / 120) * 100) / 100
     return ar
