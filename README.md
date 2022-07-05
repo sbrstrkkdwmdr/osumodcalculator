@@ -8,6 +8,7 @@ edit of the calculator i made for [my discord bot](https://github.com/sbrstrkkdw
     [x] convert milliseconds to AR & OD
     [x] convert values to HR & EZ
     [x] convert mod integers to string and vice versa
+    [x] convert circle size to object radius and vice versa
 
 ### to install:
 run `npm i osumodcalculator`
@@ -234,6 +235,20 @@ let unorderedMods = 'HDHDDTHDNFNFEZAT blhahblasblhsdbaslkhbdsahk'
 let orderedMods = osumodcalc.OrderMods(unorderedMods)
 /*
     => ATEZHDDTNF
+*/
+
+```
+
+## circle size to object radius
+```js
+let objectSize = osumodcalc.csToRadius(5)
+/*
+    => 32.006
+*/
+
+let cs = osumodcalc.csFromRadius(32.01)
+/*
+    => 5
 */
 
 ```

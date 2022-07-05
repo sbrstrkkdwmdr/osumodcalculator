@@ -476,4 +476,4 @@ function csFromRadius(radius){
     return (5000/8104533921)*radius**2 - (1808448550/8104533921)*radius + (8582285633270972/706821088118109)
 }
 
-module.exports = { DoubleTimeAR, HalfTimeAR, calcgrade, calcgradeTaiko, calcgradeCatch, calcgradeMania, odDT, odHT, ODtoms, ARtoms, msToAR, msToOD, toEZ, toHR, ModStringToInt, ModIntToString, OrderMods }
+module.exports = { DoubleTimeAR, HalfTimeAR, calcgrade, calcgradeTaiko, calcgradeCatch, calcgradeMania, odDT, odHT, ODtoms, ARtoms, msToAR, msToOD, toEZ, toHR, ModStringToInt, ModIntToString, OrderMods, csToRadius, csFromRadius }
