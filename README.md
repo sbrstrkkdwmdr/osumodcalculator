@@ -13,12 +13,12 @@ edit of the calculator i made for [my discord bot](https://github.com/sbrstrkkdw
 run `npm i osumodcalculator`
 in your main js file:
 ```js
-const osucalc = require('osumodcalculator')
+const osumodcalc = require('osumodcalculator')
 //code here 
 ```
 OR 
 ```js
-import * as osucalc from 'osumodcalculator'
+import * as osumodcalc from 'osumodcalculator'
 ```
 ### notes:
     EZ & HR calculations should come before DT/HT calculations
@@ -32,7 +32,7 @@ import * as osucalc from 'osumodcalculator'
 ```js
 
 let baseAR = 9
-let ar_doubletime = osucalc.DoubleTimeAR(baseAR)
+let ar_doubletime = osumodcalc.DoubleTimeAR(baseAR)
 /*
     => {
         ar: 10.33
@@ -41,7 +41,7 @@ let ar_doubletime = osucalc.DoubleTimeAR(baseAR)
 
 */
 let baseOD = 9
-let od_doubletime = osucalc.odDT(baseOD)\
+let od_doubletime = osumodcalc.odDT(baseOD)\
 /*
     => {
     hitwindow_300: 17,
@@ -57,7 +57,7 @@ let od_doubletime = osucalc.odDT(baseOD)\
 ```js
 
 let baseAR = 9
-let ar_doubletime = osucalc.HalfTimeAR(baseAR)
+let ar_doubletime = osumodcalc.HalfTimeAR(baseAR)
 /*
     => {
     ar: 7.67
@@ -66,7 +66,7 @@ let ar_doubletime = osucalc.HalfTimeAR(baseAR)
 
 */
 let baseOD = 9
-let od_halftime = osucalc.odHT(baseOD)
+let od_halftime = osumodcalc.odHT(baseOD)
 /*
     => {
     hitwindow_300: 34,
@@ -87,7 +87,7 @@ let hitkatu = 11 //unused in calculation
 let hit100 = 22
 let hit50 = 11
 let miss = 25
-let accuracy = osucalc.calcgrade(hit300, hit100, hit50, miss)
+let accuracy = osumodcalc.calcgrade(hit300, hit100, hit50, miss)
 /*
     => { 
     grade: 'B',
@@ -103,7 +103,7 @@ let hitkatu = 0 //unused in calculation
 let hit100 = 11 // AKA good
 let hit50 = '?' //unused in calculation
 let miss = 1
-let accuracy = osucalc.calcgradeTaiko(hit300, hit100, miss)
+let accuracy = osumodcalc.calcgradeTaiko(hit300, hit100, miss)
 /*
     =>  { 
     grade: 'S', 
@@ -119,7 +119,7 @@ let hitkatu = 1 // AKA missed droplets (DRP miss?)
 let hit100 = 3 // AKA drops caught / ticks
 let hit50 = 235 // AKA droplets caught
 let miss = 0 // missed fruits + missed drops
-let accuracy = osucalc.calcgradeCatch(hit300, hit100, hit50, miss)
+let accuracy = osumodcalc.calcgradeCatch(hit300, hit100, hit50, miss)
 /*
     => { 
         grade: 'S', 
@@ -135,7 +135,7 @@ let hitkatu = 48 // AKA hit200
 let hit100 = 7
 let hit50 = 1
 let miss = 0
-let accuracy = osucalc.calcgradeMania(hitgeki, hit300, hitkatu, hit100, hit50, miss)
+let accuracy = osumodcalc.calcgradeMania(hitgeki, hit300, hitkatu, hit100, hit50, miss)
 /* 
     => { 
     grade: 'S', 
@@ -149,13 +149,13 @@ let accuracy = osucalc.calcgradeMania(hitgeki, hit300, hitkatu, hit100, hit50, m
 ```js
 //base values to milliseconds
 let ar = 9
-let arInMs = osucalc.ARtoms(ar) 
+let arInMs = osumodcalc.ARtoms(ar) 
 /*
     => 600
 */
 
 let od = 9 
-let odHitWindows = osucalc.ODtoms(od)
+let odHitWindows = osumodcalc.ODtoms(od)
 /*
     => { 
     range300: 25.5, 
@@ -167,7 +167,7 @@ let odHitWindows = osucalc.ODtoms(od)
 
 //milliseconds to values
 let arInMs = 600
-let ar = osucalc.msToAR(arInMs)
+let ar = osumodcalc.msToAR(arInMs)
 /*
     => 9
 */
@@ -177,13 +177,13 @@ let hitWindow_300s = 25.5
 let hitWindow_100s = 67.5
 let hitWindow_50s = 109.5
 
-let od = osucalc.msToOD(hitWindow_300s, hitWindow_100s, hitWindow_50s) // only one of these is needed. to ignore a value replace it with NaN (null returns 13.25)
-let od = osucalc.msToOD(NaN, hitWindow_100s, hitWindow_50s)
-let od = osucalc.msToOD(NaN, NaN, hitWindow_50s)
+let od = osumodcalc.msToOD(hitWindow_300s, hitWindow_100s, hitWindow_50s) // only one of these is needed. to ignore a value replace it with NaN (null returns 13.25)
+let od = osumodcalc.msToOD(NaN, hitWindow_100s, hitWindow_50s)
+let od = osumodcalc.msToOD(NaN, NaN, hitWindow_50s)
 /*
     => 9
 */
-let od = osucalc.msToOD(NaN, NaN, NaN)
+let od = osumodcalc.msToOD(NaN, NaN, NaN)
 /*
     => '???'
 */
@@ -196,7 +196,7 @@ let baseCS = 4
 let baseAR = 9.8
 let baseOD = 9.1
 let baseHP = 5
-let valtoEZ = osucalc.toEZ(baseCS, baseAR, baseOD, baseHP)
+let valtoEZ = osumodcalc.toEZ(baseCS, baseAR, baseOD, baseHP)
 /*
     => {
     cs: 2
@@ -205,7 +205,7 @@ let valtoEZ = osucalc.toEZ(baseCS, baseAR, baseOD, baseHP)
     hp: 2.5
     }
 */
-let valtoEZ = osucalc.toHR(baseCS, baseAR, baseOD, baseHP)
+let valtoEZ = osumodcalc.toHR(baseCS, baseAR, baseOD, baseHP)
 /*
     => {
     cs: 5.2
@@ -220,18 +220,18 @@ let valtoEZ = osucalc.toHR(baseCS, baseAR, baseOD, baseHP)
 
 ## mod integer/string parsing
 ```js
-let modString = osucalc.ModIntToString(88)
+let modString = osumodcalc.ModIntToString(88)
 /*
     => 'HDDTHR'
 */
 
-let modInt = osucalc.ModStringToInt('EZHDDT')
+let modInt = osumodcalc.ModStringToInt('EZHDDT')
 /*
     => 74
 */
 
 let unorderedMods = 'HDHDDTHDNFNFEZAT blhahblasblhsdbaslkhbdsahk'
-let orderedMods = osucalc.OrderMods(unorderedMods)
+let orderedMods = osumodcalc.OrderMods(unorderedMods)
 /*
     => ATEZHDDTNF
 */
