@@ -351,3 +351,19 @@ def orderMods(mods:str):
     modArray.sort(key=lambda x: modOrder.index(x) if x in modOrder else len(modOrder))
     modArray = list(dict.fromkeys(modArray))
     return ''.join(modArray)
+
+def csToRadius(cs:float):
+    #1,49.94
+    #5,32.01
+    #10,9.6
+
+    radius = 0.00005556*cs**2 - 4.483*cs + 54.42
+    return radius
+
+def csFromRadius(radius:float):
+    #49.94,1
+    #32.01,5
+    #9.6, 10
+    cs = (5000/8104533921)*radius**2 - (1808448550/8104533921)*radius + (8582285633270972/706821088118109)
+
+    return cs
