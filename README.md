@@ -37,7 +37,6 @@ let ar_doubletime = osucalc.DoubleTimeAR(baseAR)
     => {
         ar: 10.33
         ms: 400
-        ar_old: 9
     }
 
 */
@@ -49,10 +48,6 @@ let od_doubletime = osucalc.odDT(baseOD)\
     hitwindow_100: 45,
     hitwindow_50: 73,
     od_num: 10.42,
-    hitwin_300_old: 25.5,
-    hitwin_100_old: 67.5,
-    hitwin_50_old: 109.5,
-    od_old: 9
 }
 
 */
@@ -67,7 +62,6 @@ let ar_doubletime = osucalc.HalfTimeAR(baseAR)
     => {
     ar: 7.67
     ms: 800
-    ar_old: 9
     }
 
 */
@@ -79,10 +73,6 @@ let od_halftime = osucalc.odHT(baseOD)
     hitwindow_100: 90,
     hitwindow_50: 146,
     od_num: 7.58,
-    hitwin_300_old: 25.5,
-    hitwin_100_old: 67.5,
-    hitwin_50_old: 109.5,
-    od_old: 9
     }
 
 */
@@ -101,8 +91,7 @@ let accuracy = osucalc.calcgrade(hit300, hit100, hit50, miss)
 /*
     => { 
     grade: 'B',
-    accuracy: '86.28%', 
-    fullacc: '86.28277153558052%' 
+    accuracy: 86.28277153558052, 
     }
 */
 
@@ -118,8 +107,7 @@ let accuracy = osucalc.calcgradeTaiko(hit300, hit100, miss)
 /*
     =>  { 
     grade: 'S', 
-    accuracy: '96.83%', 
-    fullacc: '96.82926829268293%' 
+    accuracy: 96.82926829268293, 
     }
 */
 
@@ -135,10 +123,11 @@ let accuracy = osucalc.calcgradeCatch(hit300, hit100, hit50, miss)
 /*
     => { 
         grade: 'S', 
-        accuracy: '99.77%', 
-        fullacc: '99.77324263038548%' 
+        accuracy: 99.77324263038548,
         }
 */
+
+
 //for mania
 let hitgeki = 213 //AKA hit max / hit 300+
 let hit300 = 170
@@ -148,9 +137,9 @@ let hit50 = 1
 let miss = 0
 let accuracy = osucalc.calcgradeMania(hitgeki, hit300, hitkatu, hit100, hit50, miss)
 /* 
-    => { grade: 'S', 
-    accuracy: '95.10%', 
-    fullacc: '95.10250569476082%' 
+    => { 
+    grade: 'S', 
+    accuracy: 95.10250569476082,
     }
 */
 ```
