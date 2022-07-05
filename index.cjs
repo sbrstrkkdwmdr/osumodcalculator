@@ -174,17 +174,17 @@ function odHT(od) {
 //https://osu.ppy.sh/wiki/en/Gameplay/Accuracy
 /**
  * 
- * @param {*} hit300 - hit 300s (100%)
- * @param {*} hit100 - hit 100s (33.33%)
- * @param {*} hit50  - hit 50s (16.66%)
- * @param {*} miss - hit 0s/misses (0%)
+ * @param {number} hit300 - hit 300s (100%)
+ * @param {number} hit100 - hit 100s (33.33%)
+ * @param {number} hit50  - hit 50s (16.66%)
+ * @param {number} miss - hit 0s/misses (0%)
  * @returns an array containing grades and accuracy
  */
 function calcgrade(hit300, hit100, hit50, miss) {
     let totalhits = hit300 + hit100 + hit50 + miss
     let equation = ((Math.floor((300 * hit300) + (100 * hit100) + (50 * hit50))) / (Math.floor(300 * (hit300 + hit100 + hit50 + miss)))) * 100
     //https://osu.ppy.sh/wiki/en/FAQ#grades
-    grade = 'D';
+    let grade = 'D';
     if ((hit300 / totalhits > 0.6 && miss == 0) || (hit300 / totalhits > 0.7)) {
         grade = 'C'
     }
@@ -209,9 +209,9 @@ function calcgrade(hit300, hit100, hit50, miss) {
 }
 /**
  * 
- * @param {*} hit300 - hit 300s/greats (100%)
- * @param {*} hit100 - hit 100s/good (50%)
- * @param {*} miss - misses (0%)
+ * @param {number} hit300 - hit 300s/greats (100%)
+ * @param {number} hit100 - hit 100s/good (50%)
+ * @param {number} miss - misses (0%)
  * @returns an array containing grades and accuracy
  */
 function calcgradeTaiko(hit300, hit100, miss) {
@@ -240,16 +240,16 @@ function calcgradeTaiko(hit300, hit100, miss) {
 }
 /**
  * 
- * @param {*} hit300 - fruits caught
- * @param {*} hit100 - drops caught
- * @param {*} hit50 - droplets caught
- * @param {*} miss - misses
+ * @param {number} hit300 - fruits caught
+ * @param {number} hit100 - drops caught
+ * @param {number} hit50 - droplets caught
+ * @param {number} miss - misses
  * @returns an array containing grades and accuracy
  */
 function calcgradeCatch(hit300, hit100, hit50, hitkatu, miss) {
     let equation = Math.floor(hit300 + hit100 + hit50) / Math.floor(hit300 + hit100 + hit50 + hitkatu + miss)
 
-    grade = 'D'
+    let grade = 'D'
     if (equation > 0.85) {
         grade = 'C'
     }
@@ -274,17 +274,17 @@ function calcgradeCatch(hit300, hit100, hit50, hitkatu, miss) {
 }
 /**
  * 
- * @param {*} hit300max - hit max/300+ (100%)
- * @param {*} hit300 - hit 300 (100%)
- * @param {*} hit200 - hit 200 (66.66%)
- * @param {*} hit100 - hit 100 (33.33%)
- * @param {*} hit50 - hit 50 (16.66%)
- * @param {*} miss - miss (0%)
+ * @param {number} hit300max - hit max/300+ (100%)
+ * @param {number} hit300 - hit 300 (100%)
+ * @param {number} hit200 - hit 200 (66.66%)
+ * @param {number} hit100 - hit 100 (33.33%)
+ * @param {number} hit50 - hit 50 (16.66%)
+ * @param {number} miss - miss (0%)
  * @returns an array containing grades and accuracy
  */
 function calcgradeMania(hit300max, hit300, hit200, hit100, hit50, miss) {
     let equation = Math.floor((300 * (hit300max + hit300)) + (200 * hit200) + (100 * hit100) + (50 * hit50)) / Math.floor(300 * (hit300max + hit300 + hit200 + hit100 + hit50 + miss))
-    grade = 'D'
+    let grade = 'D'
     if (equation > 0.7) {
         grade = 'C'
     }
@@ -346,8 +346,8 @@ function toEZ(cs, ar, od, hp) {
 }
 /**
  * 
- * @param {*} mods 
- * @returns converts mods to an integer (HDDTHR = 88)
+ * @param {string} mods 
+ * @returns {int} converts mods to an integer (HDDTHR = 88)
  */
 function ModStringToInt(mods) {
     let modInt = 0;
@@ -387,8 +387,8 @@ function ModStringToInt(mods) {
 
 /**
  * 
- * @param {*} modInt 
- * @returns converts mod integers to a string (88 = HDDTHR)
+ * @param {number} modInt 
+ * @returns {string} converts mod integers to a string (88 = HDDTHR)
  */
 function ModIntToString(modInt) {
     let modString = '';
@@ -433,8 +433,8 @@ function ModIntToString(modInt) {
 }
 /**
  * 
- * @param {*} modString 
- * @returns reorders mods to be in the correct order and removes duplicates.
+ * @param {string} modString 
+ * @returns {string} reorders mods to be in the correct order and removes duplicates.
  */
 function OrderMods(modString) {
     let ModsOrder = ['AT', 'RX', 'AP', 'TP', 'SO', 'EZ', 'HD', 'HT', 'DT', 'NC', 'HR', 'SD', 'PF', 'FL', 'NF']
@@ -457,5 +457,23 @@ function OrderMods(modString) {
     return modStringArrayOrdered.join('')
 }
 
+/**
+ * 
+ * @param {number} cs circle size
+ * @returns {number} the radius of the circle
+ */
+function csToRadius(cs){
+    return (0.00005556*cs**2 - 4.483*cs + 54.42)
+}
+
+/**
+ * 
+ * @param {number} radius the radius of the circle
+ * @returns {number} cs circle size
+ */
+
+function csFromRadius(radius){
+    return (5000/8104533921)*radius**2 - (1808448550/8104533921)*radius + (8582285633270972/706821088118109)
+}
 
 module.exports = { DoubleTimeAR, HalfTimeAR, calcgrade, calcgradeTaiko, calcgradeCatch, calcgradeMania, odDT, odHT, ODtoms, ARtoms, msToAR, msToOD, toEZ, toHR, ModStringToInt, ModIntToString, OrderMods }
