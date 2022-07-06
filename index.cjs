@@ -42,7 +42,7 @@ function HalfTimeAR(ar) {
         else {
             ogtoms = 1800 - (((ar) * 10) * 12)
         } */
-    let ogtoms = ar > 5 ? 200 + (11 - ar) * 100 : 800 + (5 - ar) * 80;
+    let ogtoms = ar > 5 ? 1200 - (ar - 5) * 150 : 1800 - (ar * 10) * 12;
     ms = ogtoms * (4 / 3);
 
     if (ms < 300) {
@@ -462,8 +462,8 @@ function OrderMods(modString) {
  * @param {number} cs circle size
  * @returns {number} the radius of the circle
  */
-function csToRadius(cs){
-    return (0.00005556*cs**2 - 4.483*cs + 54.42)
+function csToRadius(cs) {
+    return (0.00005556 * cs ** 2 - 4.483 * cs + 54.42)
 }
 
 /**
@@ -472,8 +472,8 @@ function csToRadius(cs){
  * @returns {number} cs circle size
  */
 
-function csFromRadius(radius){
-    return (5000/8104533921)*radius**2 - (1808448550/8104533921)*radius + (8582285633270972/706821088118109)
+function csFromRadius(radius) {
+    return (5000 / 8104533921) * radius ** 2 - (1808448550 / 8104533921) * radius + (8582285633270972 / 706821088118109)
 }
 
 module.exports = { DoubleTimeAR, HalfTimeAR, calcgrade, calcgradeTaiko, calcgradeCatch, calcgradeMania, odDT, odHT, ODtoms, ARtoms, msToAR, msToOD, toEZ, toHR, ModStringToInt, ModIntToString, OrderMods, csToRadius, csFromRadius }
