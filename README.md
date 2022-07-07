@@ -1,6 +1,6 @@
 # osu! mod calculator
-[![NPM](https://nodei.co/npm/osumodcalculator.png)](https://nodei.co/npm/osumodcalculator/)<br/>
-edit of the calculator i made for [my discord bot](https://github.com/sbrstrkkdwmdr/sbrbot/tree/main/calculations)
+
+C# recreate of the main branch
 ### to do list: 
     [x] convert AR to DT & HT
     [x] convert OD to DT & HT
@@ -8,18 +8,11 @@ edit of the calculator i made for [my discord bot](https://github.com/sbrstrkkdw
     [x] convert milliseconds to AR & OD
     [x] convert values to HR & EZ
     [x] convert mod integers to string and vice versa
-    [x] convert circle size to object radius and vice versa
+    [...] convert circle size to object radius and vice versa
 
 ### to install:
-run `npm i osumodcalculator`
-in your main js file:
-```js
-const osumodcalc = require('osumodcalculator')
-//code here 
-```
-OR 
-```js
-import * as osumodcalc from 'osumodcalculator'
+```cs
+using osumodcalc;
 ```
 ### notes:
     EZ & HR calculations should come before DT/HT calculations
@@ -30,10 +23,10 @@ import * as osumodcalc from 'osumodcalculator'
 
 ## conversion to double time
 
-```js
+```cs
 
-let baseAR = 9
-let ar_doubletime = osumodcalc.DoubleTimeAR(baseAR)
+float baseAR = 9;
+osumodcalc.objects.ARobj ar_doubletime = osumodcalc.DoubleTimeAR(baseAR);
 /*
     => {
         ar: 10.33
@@ -41,24 +34,24 @@ let ar_doubletime = osumodcalc.DoubleTimeAR(baseAR)
     }
 
 */
-let baseOD = 9
-let od_doubletime = osumodcalc.odDT(baseOD)\
+float baseOD = 9;
+osumodcalc.objects.ODobj od_doubletime = osumodcalc.ODDT(baseOD);
 /*
     => {
-    hitwindow_300: 17,
-    hitwindow_100: 45,
-    hitwindow_50: 73,
-    od_num: 10.42,
+    range_300: 17,
+    range_100: 45,
+    range_50: 73,
+    od: 10.42,
 }
 
 */
 ```
 
 ## conversion to half time
-```js
+```cs
 
-let baseAR = 9
-let ar_doubletime = osumodcalc.HalfTimeAR(baseAR)
+float baseAR = 9;
+osumodcalc.objects.ARobj ar_doubletime = osumodcalc.HalfTimeAR(baseAR);
 /*
     => {
     ar: 7.67
@@ -66,29 +59,29 @@ let ar_doubletime = osumodcalc.HalfTimeAR(baseAR)
     }
 
 */
-let baseOD = 9
-let od_halftime = osumodcalc.odHT(baseOD)
+float baseOD = 9;
+osumodcalc.objects.ODobj od_halftime = osumodcalc.ODHT(baseOD);
 /*
     => {
-    hitwindow_300: 34,
-    hitwindow_100: 90,
-    hitwindow_50: 146,
-    od_num: 7.58,
+    range_300: 34,
+    range_100: 90,
+    range_50: 146,
+    od: 7.58,
     }
 
 */
 ```
 
 ## calculating accuracy (all modes)
-```js 
+```cs 
 //for osu! standard
-let hitgeki = 42 //unused in calculation
-let hit300 = 298
-let hitkatu = 11 //unused in calculation
-let hit100 = 22
-let hit50 = 11
-let miss = 25
-let accuracy = osumodcalc.calcgrade(hit300, hit100, hit50, miss)
+int hitgeki = 42; //unused in calculation
+int hit300 = 298;
+int hitkatu = 11; //unused in calculation
+int hit100 = 22;
+int hit50 = 11;
+int miss = 25;
+osumodcalc.objects.AccGradeObj accuracy = osumodcalc.calcgrade(hit300, hit100, hit50, miss);
 /*
     => { 
     grade: 'B',
@@ -98,13 +91,13 @@ let accuracy = osumodcalc.calcgrade(hit300, hit100, hit50, miss)
 
 
 //for taiko
-let hitgeki = 0 //unused in calculation
-let hit300 = 193 // AKA great
-let hitkatu = 0 //unused in calculation
-let hit100 = 11 // AKA good
-let hit50 = '?' //unused in calculation
-let miss = 1
-let accuracy = osumodcalc.calcgradeTaiko(hit300, hit100, miss)
+int hitgeki = 0; //unused in calculation
+int hit300 = 193; // AKA great
+int hitkatu = 0; //unused in calculation
+int hit100 = 11; // AKA good
+int hit50 = 0; //unused in calculation
+int miss = 1;
+osumodcalc.objects.AccGradeObj accuracy = osumodcalc.calcgradeTaiko(hit300, hit100, miss)
 /*
     =>  { 
     grade: 'S', 
@@ -114,13 +107,13 @@ let accuracy = osumodcalc.calcgradeTaiko(hit300, hit100, miss)
 
 
 //for catch the beat
-let hitgeki = 0 //unused in calculation. AKA combo-ending fruits
-let hit300 = 202 // AKA fruits caught
-let hitkatu = 1 // AKA missed droplets (DRP miss?)
-let hit100 = 3 // AKA drops caught / ticks
-let hit50 = 235 // AKA droplets caught
-let miss = 0 // missed fruits + missed drops
-let accuracy = osumodcalc.calcgradeCatch(hit300, hit100, hit50, miss)
+int hitgeki = 0; //unused in calculation. AKA combo-ending fruits
+int hit300 = 202; // AKA fruits caught
+int hitkatu = 1; // AKA missed droplets (DRP miss?)
+int hit100 = 3; // AKA drops caught / ticks
+int hit50 = 235; // AKA droplets caught
+int miss = 0; // missed fruits + missed drops
+osumodcalc.objects.AccGradeObj accuracy = osumodcalc.calcgradeCatch(hit300, hit100, hit50, miss);
 /*
     => { 
         grade: 'S', 
@@ -130,13 +123,13 @@ let accuracy = osumodcalc.calcgradeCatch(hit300, hit100, hit50, miss)
 
 
 //for mania
-let hitgeki = 213 //AKA hit max / hit 300+
-let hit300 = 170
-let hitkatu = 48 // AKA hit200
-let hit100 = 7
-let hit50 = 1
-let miss = 0
-let accuracy = osumodcalc.calcgradeMania(hitgeki, hit300, hitkatu, hit100, hit50, miss)
+int hitgeki = 213; //AKA hit max / hit 300+
+int hit300 = 170;
+int hitkatu = 48; // AKA hit200
+int hit100 = 7;
+int hit50 = 1;
+int miss = 0;
+osumodcalc.objects.AccGradeObj accuracy = osumodcalc.calcgradeMania(hitgeki, hit300, hitkatu, hit100, hit50, miss);
 /* 
     => { 
     grade: 'S', 
@@ -147,57 +140,58 @@ let accuracy = osumodcalc.calcgradeMania(hitgeki, hit300, hitkatu, hit100, hit50
 
 ## converting values to/from ms (milliseconds)
 
-```js
+```cs
 //base values to milliseconds
-let ar = 9
-let arInMs = osumodcalc.ARtoms(ar) 
+float ar = 9;
+int arInMs = osumodcalc.ARtoms(ar); 
 /*
     => 600
 */
 
-let od = 9 
-let odHitWindows = osumodcalc.ODtoms(od)
+float od = 9; 
+osumodcalc.objects.ODobj odHitWindows = osumodcalc.ODtoms(od);
 /*
     => { 
-    range300: 25.5, 
-    range100: 67.5, 
-    range50: 109.5 
+    range_300: 25.5, 
+    range_100: 67.5, 
+    range_50: 109.5,
+    od: 9, 
     }
     range300 is how many ms from the exact timing point a hit will count as a 300 
 */
 
 //milliseconds to values
-let arInMs = 600
-let ar = osumodcalc.msToAR(arInMs)
+int arInMs = 600;
+float ar = osumodcalc.msToAR(arInMs);
 /*
     => 9
 */
 
 
-let hitWindow_300s = 25.5
-let hitWindow_100s = 67.5
-let hitWindow_50s = 109.5
+float hitWindow_300s = 25.5;
+float hitWindow_100s = 67.5;
+float hitWindow_50s = 109.5;
 
-let od = osumodcalc.msToOD(hitWindow_300s, hitWindow_100s, hitWindow_50s) // only one of these is needed. to ignore a value replace it with NaN (null returns 13.25)
-let od = osumodcalc.msToOD(NaN, hitWindow_100s, hitWindow_50s)
-let od = osumodcalc.msToOD(NaN, NaN, hitWindow_50s)
+dynamic od = osumodcalc.msToOD(hitWindow_300s, hitWindow_100s, hitWindow_50s); // only one of these is needed. to ignore a value replace it with 0
+od = osumodcalc.msToOD(0, hitWindow_100s, hitWindow_50s);
+od = osumodcalc.msToOD(0, 0, hitWindow_50s);
 /*
     => 9
 */
-let od = osumodcalc.msToOD(NaN, NaN, NaN)
+od = osumodcalc.msToOD(0, 0, 0);
 /*
-    => '???'
+    => "Error"
 */
 ```
 
 ## conversion to EZ/HR
 
-```js
-let baseCS = 4
-let baseAR = 9.8
-let baseOD = 9.1
-let baseHP = 5
-let valtoEZ = osumodcalc.toEZ(baseCS, baseAR, baseOD, baseHP)
+```cs
+float baseCS = 4;
+float baseAR = 9.8;
+float baseOD = 9.1;
+float baseHP = 5;
+osumodcalc.objects.BasicMapVal valtoEZ = osumodcalc.toEZ(baseCS, baseAR, baseOD, baseHP);
 /*
     => {
     cs: 2
@@ -206,7 +200,7 @@ let valtoEZ = osumodcalc.toEZ(baseCS, baseAR, baseOD, baseHP)
     hp: 2.5
     }
 */
-let valtoEZ = osumodcalc.toHR(baseCS, baseAR, baseOD, baseHP)
+osumodcalc.objects.BasicMapVal valtoEZ = osumodcalc.toHR(baseCS, baseAR, baseOD, baseHP);
 /*
     => {
     cs: 5.2
@@ -220,27 +214,27 @@ let valtoEZ = osumodcalc.toHR(baseCS, baseAR, baseOD, baseHP)
 ```
 
 ## mod integer/string parsing
-```js
-let modString = osumodcalc.ModIntToString(88)
+```cs
+string modString = osumodcalc.ModIntToString(88);
 /*
-    => 'HDDTHR'
+    => "HDDTHR"
 */
 
-let modInt = osumodcalc.ModStringToInt('EZHDDT')
+int modInt = osumodcalc.ModStringToInt('EZHDDT');
 /*
     => 74
 */
 
-let unorderedMods = 'HDHDDTHDNFNFEZAT blhahblasblhsdbaslkhbdsahk'
-let orderedMods = osumodcalc.OrderMods(unorderedMods)
+string unorderedMods = 'HDHDDTHDNFNFEZAT blhahblasblhsdbaslkhbdsahk';
+string orderedMods = osumodcalc.OrderMods(unorderedMods);
 /*
-    => ATEZHDDTNF
+    => "ATEZHDDTNF"
 */
 
 ```
 
 ## circle size to object radius
-```js
+```cs
 let objectSize = osumodcalc.csToRadius(5)
 /*
     => 32.006
