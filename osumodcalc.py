@@ -124,7 +124,7 @@ def osuGrade(hit300: int, hit100: int, hit50: int, miss: int):
     totalhits = hit300 + hit100 + hit50 + miss
     accuracy = (hit300 * 300 + hit100 * 100 + hit50 * 50) / (300*totalhits)
     grade = 'D'
-    if (hit300/totalhits > 0.6 and miss == 0) or hit300/totalhits > 0.7:
+    if hit300/totalhits > 0.6:
         grade = 'C'
     if (hit300/totalhits > 0.7 and miss == 0) or hit300/totalhits > 0.8:
         grade = 'B'
