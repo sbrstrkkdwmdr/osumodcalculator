@@ -60,9 +60,8 @@ namespace osumodcalc
         }
         public static osumodcalc.objects.ARobj HalfTimeAR(float ar)
         {
-            int ms = 0;
-            int oms = (int)(ar > 5 ? 1200 - (ar - 5) * 150 : 1800 - (ar * 10) * 12);
-            ms = oms * (4 / 3);
+            int oms = (int)((ar > 5 ? 1200 - (ar - 5) * 150 : 1800 - (ar * 10) * 12));
+            double ms = (oms * 4) / (double)3;
             float newar = 0;
             if (ms < 300)
             {
@@ -78,13 +77,13 @@ namespace osumodcalc
             }
             osumodcalc.objects.ARobj artoobj = new osumodcalc.objects.ARobj();
             artoobj.ar = newar;
-            artoobj.ms = ms;
+            artoobj.ms = (int)ms;
             return artoobj;
         }
 
         public static int ARtoMS(float ar)
         {
-            int ms = (int)(ar > 5 ? 200 + (11 - ar) * 100 : 800 + (5 - ar) * 80);
+            int ms = (int)(ar > 5 ? 1200 - (((ar - 5) * 10) * 15) : 1800 - (((ar) * 10) * 12));
             return ms;
         }
 
@@ -110,21 +109,23 @@ namespace osumodcalc
         //OD section (Overall Difficulty)
         public static osumodcalc.objects.ODobj ODDT(float od)
         {
+            double range300 = (79 - (od * 6) + 0.5) * 2 / (double)3;
             osumodcalc.objects.ODobj odo = new osumodcalc.objects.ODobj();
-            odo.od = (float)((79.5 - (od * 4 / 3)) / 6);
-            odo.range300 = (float)((79 - (od * 6) + 0.5) * 2 / 3);
-            odo.range100 = (float)((139 - (od * 8) + 0.5) * 2 / 3);
-            odo.range50 = (float)((199 - (od * 10) + 0.5) * 2 / 3);
+            odo.od = (float)((79.5 - range300) / (double)6);
+            odo.range300 = (float)range300;
+            odo.range100 = (float)((139 - (od * 8) + 0.5) * 2 / (double)3);
+            odo.range50 = (float)((199 - (od * 10) + 0.5) * 2 / (double)3);
             return odo;
         }
 
         public static osumodcalc.objects.ODobj ODHT(float od)
         {
+            double range300 = (79 - (od * 6) + 0.5) * 4 / (double)3;
             osumodcalc.objects.ODobj odo = new osumodcalc.objects.ODobj();
-            odo.od = (float)((79.5 - (od * 2 / 3)) / 6);
-            odo.range300 = (float)((79 - (od * 6) + 0.5) * 4 / 3);
-            odo.range100 = (float)((139 - (od * 8) + 0.5) * 4 / 3);
-            odo.range50 = (float)((199 - (od * 10) + 0.5) * 4 / 3);
+            odo.od = (float)((79.5 - range300) / (double)6);
+            odo.range300 = (float)(range300);
+            odo.range100 = (float)((139 - (od * 8) + 0.5) * 4 / (double)3);
+            odo.range50 = (float)((199 - (od * 10) + 0.5) * 4 / (double)3);
             return odo;
         }
 
@@ -161,7 +162,7 @@ namespace osumodcalc
         public static osumodcalc.objects.AccGradeObj CalcGradeSTD(int hit300, int hit100, int hit50, int miss)
         {
             int totalhits = hit300 + hit100 + hit50 + miss;
-            float fulleq = ((300 * hit300) + (100 * hit100) + (50 * hit50)) / (float)(300 * totalhits * 100);
+            float fulleq = ((300 * hit300) + (100 * hit100) + (50 * hit50)) / (float)(300 * totalhits) * 100;
 
             osumodcalc.objects.AccGradeObj acgrobj = new osumodcalc.objects.AccGradeObj();
             acgrobj.accuracy = (fulleq);
@@ -217,28 +218,28 @@ namespace osumodcalc
 
         public static osumodcalc.objects.AccGradeObj CalcGradeCatch(int hit300, int hitkatu, int hit100, int hit50, int miss)
         {
-            int totalhits = hit300 + hitkatu + hit100 + hit50 + miss;
-            float fulleq = (hit300 + hit100 + hit50) / totalhits;
+            double totalhits = hit300 + hitkatu + hit100 + hit50 + miss;
+            float fulleq = (float)((hit300 + hit100 + hit50) / totalhits);
             osumodcalc.objects.AccGradeObj acgrobj = new osumodcalc.objects.AccGradeObj();
-            acgrobj.accuracy = (fulleq);
+            acgrobj.accuracy = (fulleq) * 100;
             acgrobj.grade = "D";
-            if (hit300 / totalhits > 0.85)
+            if (fulleq > 0.85)
             {
                 acgrobj.grade = "C";
             }
-            if (hit300 / totalhits > 0.9)
+            if (fulleq > 0.9)
             {
                 acgrobj.grade = "B";
             }
-            if (hit300 / totalhits > 0.94)
+            if (fulleq > 0.94)
             {
                 acgrobj.grade = "A";
             }
-            if (hit300 / totalhits > 0.98)
+            if (fulleq > 0.98)
             {
                 acgrobj.grade = "S";
             }
-            if (hit300 == totalhits)
+            if (hit300 + hit100 + hit50 == totalhits)
             {
                 acgrobj.grade = "SS";
             }
