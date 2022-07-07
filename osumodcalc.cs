@@ -40,7 +40,6 @@ namespace osumodcalc
         {
             int ms = 0;
             ms = (int)(ar > 5 ? 200 + (11 - ar) * 100 : 800 + (5 - ar) * 80);
-            Console.WriteLine(ms);
             float newar = 0;
             if (ms < 300)
             {
@@ -83,13 +82,13 @@ namespace osumodcalc
             return artoobj;
         }
 
-        public static int ARtoms(float ar)
+        public static int ARtoMS(float ar)
         {
             int ms = (int)(ar > 5 ? 200 + (11 - ar) * 100 : 800 + (5 - ar) * 80);
             return ms;
         }
 
-        public static float msToAR(int ms)
+        public static float MStoAR(int ms)
         {
             float ar = 0;
             if (ms < 300)
@@ -130,7 +129,7 @@ namespace osumodcalc
         }
 
 
-        public static osumodcalc.objects.ODobj ODtoms(float od)
+        public static osumodcalc.objects.ODobj ODtoMS(float od)
         {
             osumodcalc.objects.ODobj odo = new osumodcalc.objects.ODobj();
             odo.od = od;
@@ -140,7 +139,7 @@ namespace osumodcalc
             return odo;
         }
 
-        public static float msToOD(float range300, float range100, float range50)
+        public static float MStoOD(float range300, float range100, float range50)
         {
             float od = 0;
             if (range300 != 0)
