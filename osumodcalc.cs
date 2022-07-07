@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-
+using System.Text.RegularExpressions;
 
 namespace osumodcalc
 {
@@ -386,22 +386,16 @@ namespace osumodcalc
         public static string OrderMods(string mods)
         {
             Array Order = new string[] { "AT", "RX", "AP", "TP", "SO", "EZ", "HD", "HT", "DT", "NC", "HR", "SD", "PF", "FL" };
-            //convert string mods into an array that follows the same order as Array "Order"
-            string[] modArray = mods.Split(' ');
+            string[] modArray = Regex.Split(mods, "(?<=^(.{2})+)");
+
             string modString = "";
-            string modString1 = "";
-            foreach (string mod in Order)
+            foreach (string s in Order)
             {
-                if (modArray.All(mod.Contains))
-                {
-                    modString1 += mod + " ";
-                }
-            }
-            foreach (string mod in modArray)
-            {
-                if (!modString1.Contains(mod))
-                {
-                    modString += mod + " ";
+                foreach(string mod in modArray){
+                    if(s == mod){
+                        modString += mod;
+                        break;
+                    }
                 }
             }
             return modString;
