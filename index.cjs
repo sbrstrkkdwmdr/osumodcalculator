@@ -185,7 +185,7 @@ function calcgrade(hit300, hit100, hit50, miss) {
     let equation = ((Math.floor((300 * hit300) + (100 * hit100) + (50 * hit50))) / (Math.floor(300 * (hit300 + hit100 + hit50 + miss)))) * 100
     //https://osu.ppy.sh/wiki/en/FAQ#grades
     let grade = 'D';
-    if ((hit300 / totalhits > 0.6 && miss == 0) || (hit300 / totalhits > 0.7)) {
+    if (hit300 / totalhits > 0.6) {
         grade = 'C'
     }
     if ((hit300 / totalhits > 0.7 && miss == 0) || (hit300 / totalhits > 0.8)) {
@@ -462,8 +462,8 @@ function OrderMods(modString) {
  * @param {number} cs circle size
  * @returns {number} the radius of the circle
  */
-function csToRadius(cs){
-    return (0.00005556*cs**2 - 4.483*cs + 54.42)
+function csToRadius(cs) {
+    return (0.00005556 * cs ** 2 - 4.483 * cs + 54.42)
 }
 
 /**
@@ -472,8 +472,8 @@ function csToRadius(cs){
  * @returns {number} cs circle size
  */
 
-function csFromRadius(radius){
-    return (5000/8104533921)*radius**2 - (1808448550/8104533921)*radius + (8582285633270972/706821088118109)
+function csFromRadius(radius) {
+    return (5000 / 8104533921) * radius ** 2 - (1808448550 / 8104533921) * radius + (8582285633270972 / 706821088118109)
 }
 
 module.exports = { DoubleTimeAR, HalfTimeAR, calcgrade, calcgradeTaiko, calcgradeCatch, calcgradeMania, odDT, odHT, ODtoms, ARtoms, msToAR, msToOD, toEZ, toHR, ModStringToInt, ModIntToString, OrderMods, csToRadius, csFromRadius }
