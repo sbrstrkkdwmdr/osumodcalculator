@@ -387,7 +387,7 @@ namespace osumodcalc
 
         public static string OrderMods(string mods)
         {
-            Array Order = new string[] { "AT", "RX", "AP", "TP", "SO", "EZ", "HD", "HT", "DT", "NC", "HR", "SD", "PF", "FL" };
+            Array Order = new string[] { "AT", "RX", "AP", "TP", "SO", "EZ", "HD", "HT", "DT", "NC", "HR", "SD", "PF", "FL", "NF" };
             string[] modArray = Regex.Split(mods, "(?<=^(.{2})+)");
 
             string modString = "";
