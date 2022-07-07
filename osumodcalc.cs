@@ -140,7 +140,7 @@ namespace osumodcalc
             return odo;
         }
 
-        public static float MStoOD(float range300, float range100, float range50)
+        public static dynamic MStoOD(float range300, float range100, float range50)
         {
             float od = 0;
             if (range300 != 0)
@@ -151,9 +151,11 @@ namespace osumodcalc
             {
                 od = (float)(139.5 - range100) / (float)(8);
             }
-            else
+            else if (range50 != 0)
             {
                 od = (float)(199.5 - range50) / (float)(10);
+            } else {
+                return "Error";
             }
             return od;
         }

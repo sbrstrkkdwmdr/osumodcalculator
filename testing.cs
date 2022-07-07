@@ -57,7 +57,7 @@ namespace m
             Console.WriteLine("");
 
             Console.WriteLine("METHOD MStoOD");
-            float msod = osumodcalc.functions.MStoOD(0, 0, (float)109.5);
+            dynamic msod = osumodcalc.functions.MStoOD(0, 0, 0);
             Console.WriteLine("OD" + msod);
             Console.WriteLine("");
 
