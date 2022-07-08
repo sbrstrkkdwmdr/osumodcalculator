@@ -112,6 +112,14 @@ namespace m
             Console.WriteLine(osumodcalc.functions.OrderMods("HDHDDTHDNFNFEZAT blhahblasblhsdbaslkhbdsahk"));
             Console.WriteLine("");
 
+            Console.WriteLine("METHOD CircleSizeToRadius");
+            Console.WriteLine(osumodcalc.functions.CircleSizeToRadius(5));
+            Console.WriteLine("");
+
+            Console.WriteLine("METHOD RadiusToCircleSize");
+            Console.WriteLine(osumodcalc.functions.RadiusToCircleSize((float)32.01));
+            Console.WriteLine("");
+
         }
     }
 }

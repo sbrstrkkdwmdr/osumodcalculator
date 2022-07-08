@@ -408,15 +408,17 @@ namespace osumodcalc
         }
 
         //circle size and object radius conversion
-        public static float CircleSizeToRadius(float cs)
+        public static double CircleSizeToRadius(float cs)
         {
-            return (0.00005556 * cs ** 2 - 4.483 * cs + 54.42);
+            double r = (0.00005556 * Math.Pow(cs, 2) - 4.483 * cs + 54.42);
+            return r;
         }
 
-        public static float RadiusToCircleSize(float r)
+        public static double RadiusToCircleSize(float r)
         {
-            return (5000 / 8104533921) * radius ** 2 - (1808448550 / 8104533921) * radius + (8582285633270972 / 706821088118109);
-        } 
+            double cs = (5000 / (double)8104533921) * Math.Pow(r, 2) - (1808448550 / (double)8104533921) * r + (8582285633270972 / (double)706821088118109);
+            return cs;
+        }
 
 
     }
