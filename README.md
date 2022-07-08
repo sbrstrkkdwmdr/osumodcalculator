@@ -26,7 +26,7 @@ using osumodcalc;
 ```cs
 
 float baseAR = 9;
-osumodcalc.objects.ARobj ar_doubletime = osumodcalc.DoubleTimeAR(baseAR);
+osumodcalc.objects.ARobj ar_doubletime = osumodcalc.functions.DoubleTimeAR(baseAR);
 /*
     => {
         ar: 10.33
@@ -35,7 +35,7 @@ osumodcalc.objects.ARobj ar_doubletime = osumodcalc.DoubleTimeAR(baseAR);
 
 */
 float baseOD = 9;
-osumodcalc.objects.ODobj od_doubletime = osumodcalc.ODDT(baseOD);
+osumodcalc.objects.ODobj od_doubletime = osumodcalc.functions.ODDT(baseOD);
 /*
     => {
     range_300: 17,
@@ -51,7 +51,7 @@ osumodcalc.objects.ODobj od_doubletime = osumodcalc.ODDT(baseOD);
 ```cs
 
 float baseAR = 9;
-osumodcalc.objects.ARobj ar_doubletime = osumodcalc.HalfTimeAR(baseAR);
+osumodcalc.objects.ARobj ar_doubletime = osumodcalc.functions.HalfTimeAR(baseAR);
 /*
     => {
     ar: 7.67
@@ -60,7 +60,7 @@ osumodcalc.objects.ARobj ar_doubletime = osumodcalc.HalfTimeAR(baseAR);
 
 */
 float baseOD = 9;
-osumodcalc.objects.ODobj od_halftime = osumodcalc.ODHT(baseOD);
+osumodcalc.objects.ODobj od_halftime = osumodcalc.functions.ODHT(baseOD);
 /*
     => {
     range_300: 34,
@@ -81,7 +81,7 @@ int hitkatu = 11; //unused in calculation
 int hit100 = 22;
 int hit50 = 11;
 int miss = 25;
-osumodcalc.objects.AccGradeObj accuracy = osumodcalc.calcgrade(hit300, hit100, hit50, miss);
+osumodcalc.objects.AccGradeObj accuracy = osumodcalc.functions.calcgrade(hit300, hit100, hit50, miss);
 /*
     => { 
     grade: 'B',
@@ -97,7 +97,7 @@ int hitkatu = 0; //unused in calculation
 int hit100 = 11; // AKA good
 int hit50 = 0; //unused in calculation
 int miss = 1;
-osumodcalc.objects.AccGradeObj accuracy = osumodcalc.calcgradeTaiko(hit300, hit100, miss)
+osumodcalc.objects.AccGradeObj accuracy = osumodcalc.functions.calcgradeTaiko(hit300, hit100, miss)
 /*
     =>  { 
     grade: 'S', 
@@ -113,7 +113,7 @@ int hitkatu = 1; // AKA missed droplets (DRP miss?)
 int hit100 = 3; // AKA drops caught / ticks
 int hit50 = 235; // AKA droplets caught
 int miss = 0; // missed fruits + missed drops
-osumodcalc.objects.AccGradeObj accuracy = osumodcalc.calcgradeCatch(hit300, hit100, hit50, miss);
+osumodcalc.objects.AccGradeObj accuracy = osumodcalc.functions.calcgradeCatch(hit300, hit100, hit50, miss);
 /*
     => { 
         grade: 'S', 
@@ -129,7 +129,7 @@ int hitkatu = 48; // AKA hit200
 int hit100 = 7;
 int hit50 = 1;
 int miss = 0;
-osumodcalc.objects.AccGradeObj accuracy = osumodcalc.calcgradeMania(hitgeki, hit300, hitkatu, hit100, hit50, miss);
+osumodcalc.objects.AccGradeObj accuracy = osumodcalc.functions.calcgradeMania(hitgeki, hit300, hitkatu, hit100, hit50, miss);
 /* 
     => { 
     grade: 'S', 
@@ -143,13 +143,13 @@ osumodcalc.objects.AccGradeObj accuracy = osumodcalc.calcgradeMania(hitgeki, hit
 ```cs
 //base values to milliseconds
 float ar = 9;
-int arInMs = osumodcalc.ARtoms(ar); 
+int arInMs = osumodcalc.functions.ARtoms(ar); 
 /*
     => 600
 */
 
 float od = 9; 
-osumodcalc.objects.ODobj odHitWindows = osumodcalc.ODtoms(od);
+osumodcalc.objects.ODobj odHitWindows = osumodcalc.functions.ODtoms(od);
 /*
     => { 
     range_300: 25.5, 
@@ -162,7 +162,7 @@ osumodcalc.objects.ODobj odHitWindows = osumodcalc.ODtoms(od);
 
 //milliseconds to values
 int arInMs = 600;
-float ar = osumodcalc.msToAR(arInMs);
+float ar = osumodcalc.functions.msToAR(arInMs);
 /*
     => 9
 */
@@ -172,13 +172,13 @@ float hitWindow_300s = 25.5;
 float hitWindow_100s = 67.5;
 float hitWindow_50s = 109.5;
 
-dynamic od = osumodcalc.msToOD(hitWindow_300s, hitWindow_100s, hitWindow_50s); // only one of these is needed. to ignore a value replace it with 0
-od = osumodcalc.msToOD(0, hitWindow_100s, hitWindow_50s);
-od = osumodcalc.msToOD(0, 0, hitWindow_50s);
+dynamic od = osumodcalc.functions.msToOD(hitWindow_300s, hitWindow_100s, hitWindow_50s); // only one of these is needed. to ignore a value replace it with 0
+od = osumodcalc.functions.msToOD(0, hitWindow_100s, hitWindow_50s);
+od = osumodcalc.functions.msToOD(0, 0, hitWindow_50s);
 /*
     => 9
 */
-od = osumodcalc.msToOD(0, 0, 0);
+od = osumodcalc.functions.msToOD(0, 0, 0);
 /*
     => "Error"
 */
@@ -191,7 +191,7 @@ float baseCS = 4;
 float baseAR = 9.8;
 float baseOD = 9.1;
 float baseHP = 5;
-osumodcalc.objects.BasicMapVal valtoEZ = osumodcalc.toEZ(baseCS, baseAR, baseOD, baseHP);
+osumodcalc.objects.BasicMapVal valtoEZ = osumodcalc.functions.toEZ(baseCS, baseAR, baseOD, baseHP);
 /*
     => {
     cs: 2
@@ -200,7 +200,7 @@ osumodcalc.objects.BasicMapVal valtoEZ = osumodcalc.toEZ(baseCS, baseAR, baseOD,
     hp: 2.5
     }
 */
-osumodcalc.objects.BasicMapVal valtoEZ = osumodcalc.toHR(baseCS, baseAR, baseOD, baseHP);
+osumodcalc.objects.BasicMapVal valtoEZ = osumodcalc.functions.toHR(baseCS, baseAR, baseOD, baseHP);
 /*
     => {
     cs: 5.2
@@ -215,18 +215,18 @@ osumodcalc.objects.BasicMapVal valtoEZ = osumodcalc.toHR(baseCS, baseAR, baseOD,
 
 ## mod integer/string parsing
 ```cs
-string modString = osumodcalc.ModIntToString(88);
+string modString = osumodcalc.functions.ModIntToString(88);
 /*
     => "HDDTHR"
 */
 
-int modInt = osumodcalc.ModStringToInt('EZHDDT');
+int modInt = osumodcalc.functions.ModStringToInt('EZHDDT');
 /*
     => 74
 */
 
 string unorderedMods = 'HDHDDTHDNFNFEZAT blhahblasblhsdbaslkhbdsahk';
-string orderedMods = osumodcalc.OrderMods(unorderedMods);
+string orderedMods = osumodcalc.functions.OrderMods(unorderedMods);
 /*
     => "ATEZHDDTNF"
 */
@@ -235,12 +235,12 @@ string orderedMods = osumodcalc.OrderMods(unorderedMods);
 
 ## circle size to object radius
 ```cs
-let objectSize = osumodcalc.csToRadius(5)
+double objectSize = osumodcalc.functions.csToRadius(5);
 /*
     => 32.006
 */
 
-let cs = osumodcalc.csFromRadius(32.01)
+double cs = osumodcalc.functions.csFromRadius(32.01);
 /*
     => 5
 */
