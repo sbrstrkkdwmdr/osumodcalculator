@@ -154,7 +154,9 @@ namespace osumodcalc
             else if (range50 != 0)
             {
                 od = (float)(199.5 - range50) / (float)(10);
-            } else {
+            }
+            else
+            {
                 return "Error";
             }
             return od;
@@ -393,8 +395,10 @@ namespace osumodcalc
             string modString = "";
             foreach (string s in Order)
             {
-                foreach(string mod in modArray){
-                    if(s == mod){
+                foreach (string mod in modArray)
+                {
+                    if (s == mod)
+                    {
                         modString += mod;
                         break;
                     }
@@ -402,6 +406,18 @@ namespace osumodcalc
             }
             return modString;
         }
+
+        //circle size and object radius conversion
+        public static float CircleSizeToRadius(float cs)
+        {
+            return (0.00005556 * cs ** 2 - 4.483 * cs + 54.42);
+        }
+
+        public static float RadiusToCircleSize(float r)
+        {
+            return (5000 / 8104533921) * radius ** 2 - (1808448550 / 8104533921) * radius + (8582285633270972 / 706821088118109);
+        } 
+
 
     }
 }
