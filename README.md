@@ -42,7 +42,7 @@ let ar_doubletime = osumodcalc.DoubleTimeAR(baseAR)
 
 */
 let baseOD = 9
-let od_doubletime = osumodcalc.odDT(baseOD)\
+let od_doubletime = osumodcalc.odDT(baseOD)
 /*
     => {
     hitwindow_300: 17,
