@@ -148,7 +148,7 @@ function odDT(od) {
         hitwindow_300: range300,
         hitwindow_100: (139 - (od * 8) + 0.5) * 2 / 3,
         hitwindow_50: (199 - (od * 10) + 0.5) * 2 / 3,
-        od_num: Math.abs(((79.5 - range300) / 6).toFixed(2)),
+        od_num: Math.abs(((79.5 - range300) / 6).toFixed(2)) > 11 ? 11 : Math.abs(((79.5 - range300) / 6).toFixed(2)),
     }
 
     return odobj;
@@ -165,8 +165,7 @@ function odHT(od) {
         hitwindow_300: range300,
         hitwindow_100: (139 - (od * 8) + 0.5) * 4 / 3,
         hitwindow_50: (199 - (od * 10) + 0.5) * 4 / 3,
-        od_num: Math.abs(((79.5 - range300) / 6).toFixed(2))
-        ,
+        od_num: Math.abs(((79.5 - range300) / 6).toFixed(2)) > 11 ? 11 : Math.abs(((79.5 - range300) / 6).toFixed(2)),
     }
 
     return odobj;
