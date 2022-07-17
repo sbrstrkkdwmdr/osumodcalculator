@@ -416,7 +416,7 @@ function ModIntToString(modInt) {
     modString += modInt & 524288 ? '8K' : '';
     modString += modInt & 16777216 ? '9K' : '';
     modString += modInt & 1048576 ? 'FI' : '';
-    modString += modInt & 2097152 ? 'RDM' : '';
+    modString += modInt & 2097152 ? 'RD' : '';
     modString += modInt & 4194304 ? 'CN' : '';
     modString += modInt & 8388608 ? 'TP' : '';
     modString += modInt & 33554432 ? 'KC' : '';
@@ -456,6 +456,96 @@ function OrderMods(modString) {
     return modStringArrayOrdered.join('')
 }
 
+
+/**
+ * 
+ * @param {string} modstring 
+ * @returns {string} converts mod strings to their shorthand name ie nightcore -> NC
+ */
+function shortModName(modstring) {
+    return modstring.toLowerCase()
+        .replaceAll(' ', '')
+        .replaceAll('-', '')
+        .replaceAll('nofail', 'NF')
+        .replaceAll('easy', 'EZ')
+        .replaceAll('touchdevice', 'TD')
+        .replaceAll('touchscreen', 'TD')
+        .replaceAll('touch', 'TD')
+        .replaceAll('hidden', 'HD')
+        .replaceAll('hardrock', 'HR')
+        .replaceAll('suddendeath', 'SD')
+        .replaceAll('doubletime', 'DT')
+        .replaceAll('relax', 'RX')
+        .replaceAll('halftime', 'HT')
+        .replaceAll('nightcore', 'NC')
+        .replaceAll('flashlight', 'FL')
+        .replaceAll('auto', 'AT')
+        .replaceAll('spunout', 'SO')
+        .replaceAll('autopilot', 'AP')
+        .replaceAll('perfect', 'PF')
+        .replaceAll('key1', '1K')
+        .replaceAll('key2', '2K')
+        .replaceAll('key3', '3K')
+        .replaceAll('key4', '4K')
+        .replaceAll('key5', '5K')
+        .replaceAll('key6', '6K')
+        .replaceAll('key7', '7K')
+        .replaceAll('key8', '8K')
+        .replaceAll('key9', '9K')
+        .replaceAll('fadein', 'FI')
+        .replaceAll('random', 'RD')
+        .replaceAll('cinema', 'CN')
+        .replaceAll('targetpractice', 'TP')
+        .replaceAll('keycoop', 'KC')
+        .replaceAll('coop', 'KC')
+        .replaceAll('scorev2', 'S2')
+        .replaceAll('mirror', 'MR')
+        ;
+}
+/**
+ * 
+ * @param {string} modstring 
+ * @returns {string} converts mod strings to their full name ie NC -> nightcore
+ */
+// do the opposite of above
+function longModName(modstring) {
+    return modstring
+        .replaceAll(' ', '')
+        .replaceAll('-', '')
+        .replaceAll('NF', 'No Fail')
+        .replaceAll('EZ', 'Easy')
+        .replaceAll('TD', 'Touch Device')
+        .replaceAll('HD', 'Hidden')
+        .replaceAll('HR', 'Hard Rock')
+        .replaceAll('SD', 'Sudden Death')
+        .replaceAll('DT', 'Double Time')
+        .replaceAll('RX', 'Relax')
+        .replaceAll('HT', 'Half Time')
+        .replaceAll('NC', 'Nightcore')
+        .replaceAll('FL', 'Flashlight')
+        .replaceAll('AT', 'Auto')
+        .replaceAll('SO', 'Spun Out')
+        .replaceAll('AP', 'Autopilot')
+        .replaceAll('PF', 'Perfect')
+        .replaceAll('1K', 'Key1')
+        .replaceAll('2K', 'Key2')
+        .replaceAll('3K', 'Key3')
+        .replaceAll('4K', 'Key4')
+        .replaceAll('5K', 'Key5')
+        .replaceAll('6K', 'Key6')
+        .replaceAll('7K', 'Key7')
+        .replaceAll('8K', 'Key8')
+        .replaceAll('9K', 'Key9')
+        .replaceAll('FI', 'Fade In')
+        .replaceAll('RD', 'Random')
+        .replaceAll('CN', 'Cinema')
+        .replaceAll('TP', 'Target Practice')
+        .replaceAll('KC', 'Key Co-op')
+        .replaceAll('S2', 'Score V2')
+        .replaceAll('MR', 'Mirror')
+        ;
+}
+
 /**
  * 
  * @param {number} cs circle size
@@ -475,4 +565,4 @@ function csFromRadius(radius) {
     return (5000 / 8104533921) * radius ** 2 - (1808448550 / 8104533921) * radius + (8582285633270972 / 706821088118109)
 }
 
-module.exports = { DoubleTimeAR, HalfTimeAR, calcgrade, calcgradeTaiko, calcgradeCatch, calcgradeMania, odDT, odHT, ODtoms, ARtoms, msToAR, msToOD, toEZ, toHR, ModStringToInt, ModIntToString, OrderMods, csToRadius, csFromRadius }
+module.exports = { DoubleTimeAR, HalfTimeAR, calcgrade, calcgradeTaiko, calcgradeCatch, calcgradeMania, odDT, odHT, ODtoms, ARtoms, msToAR, msToOD, toEZ, toHR, ModStringToInt, ModIntToString, OrderMods, shortModName, longModName, csToRadius, csFromRadius }
