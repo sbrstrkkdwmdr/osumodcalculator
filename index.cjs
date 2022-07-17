@@ -359,12 +359,12 @@ function ModStringToInt(mods) {
     modInt += mods.toUpperCase().includes('DT') ? 64 : 0;
     modInt += mods.toUpperCase().includes('RX') || mods.toUpperCase().includes('RL') || mods.toUpperCase().includes('RLX') ? 128 : 0;
     modInt += mods.toUpperCase().includes('HT') ? 256 : 0;
-    modInt += mods.toUpperCase().includes('NC') ? 512 : 0;
+    modInt += mods.toUpperCase().includes('NC') ? 512 + 64 : 0;
     modInt += mods.toUpperCase().includes('FL') ? 1024 : 0;
     modInt += mods.toUpperCase().includes('AT') ? 2048 : 0;
     modInt += mods.toUpperCase().includes('SO') ? 4096 : 0;
     modInt += mods.toUpperCase().includes('AP') || mods.toUpperCase().includes('RX2') ? 8192 : 0;
-    modInt += mods.toUpperCase().includes('PF') ? 16384 : 0;
+    modInt += mods.toUpperCase().includes('PF') ? 16384 + 32 : 0;
     modInt += mods.toUpperCase().includes('1K') ? 67108864 : 0;
     modInt += mods.toUpperCase().includes('2K') ? 268435456 : 0;
     modInt += mods.toUpperCase().includes('3K') ? 134217728 : 0;
