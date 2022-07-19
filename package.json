@@ -33,5 +33,8 @@
   "bugs": {
     "url": "https://github.com/sbrstrkkdwmdr/osumodcalculator/issues"
   },
-  "homepage": "https://github.com/sbrstrkkdwmdr/osumodcalculator#readme"
+  "homepage": "https://github.com/sbrstrkkdwmdr/osumodcalculator#readme",
+  "devDependencies": {
+    "@types/node": "^18.0.6"
+  }
 }
