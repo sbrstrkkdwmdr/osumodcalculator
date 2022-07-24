@@ -436,8 +436,8 @@ function ModIntToString(modInt) {
  * @returns {string} reorders mods to be in the correct order and removes duplicates.
  */
 function OrderMods(modString) {
-    let ModsOrder = ['AT', 'RX', 'AP', 'TP', 'SO', 'EZ', 'HD', 'HT', 'DT', 'NC', 'HR', 'SD', 'PF', 'FL', 'NF']
-    let modStringArray = modString.toUpperCase().replace(/(.{2})/g, "$1 ").split(' ')
+    let ModsOrder = ['EZ', 'HD', 'FI', 'HT', 'DT', 'NC', 'HR', 'SD', 'PF', 'FL', 'NF', 'AT', 'RX', 'AP', 'TP', 'SO', '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K', 'CP', 'RD', 'MR']
+    let modStringArray = modString.toUpperCase().replaceAll(' ', '').replaceAll(',', '').replace(/(.{2})/g, "$1 ").split(' ')
     let modStringArrayOrdered = []
     let modStringArrayOrderedtest = []
     for (let i = 0; i < ModsOrder.length; i++) {
