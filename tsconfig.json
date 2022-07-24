@@ -1,9 +1,0 @@
-{
-    "compilerOptions": {
-      "module": "commonjs",
-      "lib": ["ES2021"]
-    },
-    "files": [
-      "index.ts"
-    ]
-  }
