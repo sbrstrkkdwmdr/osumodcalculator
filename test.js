@@ -1,4 +1,4 @@
-const osumodcalc = require('./index');
+const osumodcalc = require('./index.js');
 
 
 console.log(

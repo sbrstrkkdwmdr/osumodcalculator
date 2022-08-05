@@ -1,9 +1,17 @@
 {
     "compilerOptions": {
-      "module": "commonjs",
-      "lib": ["ES2021"],
-      "resolveJsonModule": true
+        "module": "commonjs",
+        "lib": [
+            "ES2021",
+            "ES2021.String"
+        ],
+        "resolveJsonModule": true
     },
-    "include": ["*.ts"],
-
-  }
+    "include": [
+        "*.ts"
+    ],
+    "files": [
+        "index.ts",
+        "index.d.ts"
+    ]
+}
