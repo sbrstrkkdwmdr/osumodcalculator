@@ -565,4 +565,39 @@ function csFromRadius(radius) {
     return (5000 / 8104533921) * radius ** 2 - (1808448550 / 8104533921) * radius + (8582285633270972 / 706821088118109)
 }
 
+
+/**
+ * 
+ * @param {number} id the ID of the medal
+ * @returns {string} the name of the medal
+ */
+function achieveIDtostr(id) {
+    let str = 'unknown'
+    switch (id) {
+        case 0:
+            break;
+        case 31:
+            str = 'Natural 20'
+            break;
+        case 96:
+            str = 'Behold No Deception'
+            break;
+        case 104:
+            str = 'Realtor Extraordinare'
+            break;
+        case 142:
+            str = 'Camera Shy'
+            break;
+        case 147:
+            str = 'Lights Out'
+            break;
+        case 154:
+            str = 'Prepared'
+            break;
+    }
+    return str;
+}
+
+
+
 module.exports = { DoubleTimeAR, HalfTimeAR, calcgrade, calcgradeTaiko, calcgradeCatch, calcgradeMania, odDT, odHT, ODtoms, ARtoms, msToAR, msToOD, toEZ, toHR, ModStringToInt, ModIntToString, OrderMods, shortModName, longModName, csToRadius, csFromRadius }
