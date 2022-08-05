@@ -1,5 +1,17 @@
-const osumodcalc = require('./index.cjs')
+const osumodcalc = require('./index');
 
-console.log(osumodcalc.OrderMods('HDDT,HR 4k 5k'))
-console.log(osumodcalc.shortModName('hidden doubletime among us'))
-console.log(osumodcalc.longModName('HDDTHR'))
+
+console.log(
+    osumodcalc.calcValues(
+        5, 5, 5, 5,
+        220, 120,
+        'HRHT'
+    )
+)
+console.log(
+    osumodcalc.calcValues(
+        5, 5, 5, 5,
+        235, 235,
+        'HRDT'
+    )
+)
