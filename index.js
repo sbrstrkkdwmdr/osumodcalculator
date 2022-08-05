@@ -243,6 +243,7 @@ exports.calcgradeTaiko = calcgradeTaiko;
 /**
  *
  * @param hit300 - fruits caught
+ * @param hitkatu - 
  * @param hit100 - drops caught
  * @param hit50 - droplets caught
  * @param miss - misses
@@ -669,16 +670,30 @@ function calcValues(cs, ar, od, hp, bpm, length, mods) {
             nlength = length;
             break;
     }
-    var obj = {
-        cs: parseFloat(ncs.toFixed(2)),
-        ar: parseFloat(nar.toFixed(2)),
-        od: parseFloat(nod.toFixed(2)),
-        hp: parseFloat(nhp.toFixed(2)),
-        bpm: parseFloat(nbpm.toFixed(2)),
-        length: parseFloat(nlength.toFixed(2)),
-        mods: mods,
-        error: error
-    };
+    let obj = {
+            cs: parseFloat(ncs.toFixed(2)),
+            ar: parseFloat(nar.toFixed(2)),
+            od: parseFloat(nod.toFixed(2)),
+            hp: parseFloat(nhp.toFixed(2)),
+            bpm: parseFloat(nbpm.toFixed(2)),
+            length: parseFloat(nlength.toFixed(2)),
+            mods: mods,
+            error: error,
+            details: {
+                csRadius: csToRadius(ncs),
+                arMs: ARtoms(nar),
+                odMs: ODtoms(nod),
+                //mm:ss
+                lengthFull: nlength > 60 ? // if length over 60
+                    nlength % 60 < 10 ? //if length over 60 and seconds under 10
+                        Math.floor(nlength / 60) + ':0' + Math.floor(nlength % 60) : //seconds under 10
+                        Math.floor(nlength / 60) + ':' + Math.floor(nlength % 60) //seconds over 10
+                    : //false
+                    nlength % 60 < 10 ? //length under 60 and 10
+                        '00:' + Math.floor(nlength) : //true
+                        '00:' + Math.floor(nlength) //false
+            }
+        };
     return obj;
 }
 exports.calcValues = calcValues;
