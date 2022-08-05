@@ -12,6 +12,5 @@
     ],
     "files": [
         "index.ts",
-        "index.d.ts"
     ]
 }
