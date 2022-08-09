@@ -684,14 +684,14 @@ function calcValues(cs, ar, od, hp, bpm, length, mods) {
             arMs: ARtoms(nar),
             odMs: ODtoms(nod),
             //mm:ss
-            lengthFull: nlength > 60 ? // if length over 60
-                nlength % 60 < 10 ? //if length over 60 and seconds under 10
-                    Math.floor(nlength / 60) + ':0' + Math.floor(nlength % 60) : //seconds under 10
-                    Math.floor(nlength / 60) + ':' + Math.floor(nlength % 60) //seconds over 10
-                : //false
-                    nlength % 60 < 10 ? //length under 60 and 10
-                        '00:' + Math.floor(nlength) : //true
-                        '00:' + Math.floor(nlength) //false
+            lengthFull: nlength > 60 ?
+                nlength % 60 < 10 ?
+                    Math.floor(nlength / 60) + ':0' + Math.floor(nlength % 60) :
+                    Math.floor(nlength / 60) + ':' + Math.floor(nlength % 60)
+                :
+                    nlength % 60 < 10 ?
+                        Math.floor(nlength / 60) + ':0' + Math.floor(nlength % 60) :
+                        Math.floor(nlength / 60) + ':' + Math.floor(nlength % 60)
         }
     };
     return obj;

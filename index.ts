@@ -694,14 +694,14 @@ function calcValues(cs: number, ar: number, od: number, hp: number, bpm: number,
             arMs: ARtoms(nar),
             odMs: ODtoms(nod),
             //mm:ss
-            lengthFull: nlength > 60 ? // if length over 60
-                nlength % 60 < 10 ? //if length over 60 and seconds under 10
-                    Math.floor(nlength / 60) + ':0' + Math.floor(nlength % 60) : //seconds under 10
-                    Math.floor(nlength / 60) + ':' + Math.floor(nlength % 60) //seconds over 10
-                : //false
-                nlength % 60 < 10 ? //length under 60 and 10
-                    '00:' + Math.floor(nlength) : //true
-                    '00:' + Math.floor(nlength) //false
+            lengthFull: nlength > 60 ?
+                nlength % 60 < 10 ?
+                    Math.floor(nlength / 60) + ':0' + Math.floor(nlength % 60) :
+                    Math.floor(nlength / 60) + ':' + Math.floor(nlength % 60)
+                :
+                nlength % 60 < 10 ?
+                    Math.floor(nlength / 60) + ':0' + Math.floor(nlength % 60) :
+                    Math.floor(nlength / 60) + ':' + Math.floor(nlength % 60)
         }
     }
     return obj;
@@ -713,13 +713,13 @@ function calcValues(cs: number, ar: number, od: number, hp: number, bpm: number,
  */
 function ModeNameToInt(mode: string): number {
     switch (mode) {
-        case 'osu!std':case 'std':case 'osu': case 'o':case 'standard':
+        case 'osu!std': case 'std': case 'osu': case 'o': case 'standard':
             return 0;
-        case 'osu!taiko':case 'taiko':case 't':
+        case 'osu!taiko': case 'taiko': case 't':
             return 1;
-        case 'osu!catch':case 'catch':case 'c':case 'fruits':
+        case 'osu!catch': case 'catch': case 'c': case 'fruits':
             return 2;
-        case 'osu!mania':case 'mania':case 'm':
+        case 'osu!mania': case 'mania': case 'm':
             return 3;
         default:
             return 0;
