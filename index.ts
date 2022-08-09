@@ -706,6 +706,45 @@ function calcValues(cs: number, ar: number, od: number, hp: number, bpm: number,
     }
     return obj;
 }
+/**
+ * 
+ * @param mode mode to convert to its corresponding integer value
+ * @returns integer value of the mode 
+ */
+function ModeNameToInt(mode: string): number {
+    switch (mode) {
+        case 'osu!std':case 'std':case 'osu': case 'o':case 'standard':
+            return 0;
+        case 'osu!taiko':case 'taiko':case 't':
+            return 1;
+        case 'osu!catch':case 'catch':case 'c':case 'fruits':
+            return 2;
+        case 'osu!mania':case 'mania':case 'm':
+            return 3;
+        default:
+            return 0;
+    }
+}
+
+/**
+ * 
+ * @param mode the gamemode to convert to a string
+ * @returns osu standard, taiko, catch, or mania.
+ */
+function ModeIntToName(mode: number): string {
+    switch (mode) {
+        case 0:
+            return 'osu';
+        case 1:
+            return 'taiko';
+        case 2:
+            return 'fruits';
+        case 3:
+            return 'mania';
+        default:
+            return 'osu';
+    }
+}
 
 //module.exports = { DoubleTimeAR, HalfTimeAR, calcgrade, calcgradeTaiko, calcgradeCatch, calcgradeMania, odDT, odHT, ODtoms, ARtoms, msToAR, msToOD, toEZ, toHR, ModStringToInt, ModIntToString, OrderMods, shortModName, longModName, csToRadius, csFromRadius }
 export {
@@ -716,5 +755,6 @@ export {
     toEZ, toHR,
     ModStringToInt, ModIntToString, OrderMods, shortModName, longModName,
     csToRadius, csFromRadius,
-    calcValues
+    calcValues,
+    ModeNameToInt, ModeIntToName
 }

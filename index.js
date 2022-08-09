@@ -1,6 +1,6 @@
 "use strict";
 exports.__esModule = true;
-exports.calcValues = exports.csFromRadius = exports.csToRadius = exports.longModName = exports.shortModName = exports.OrderMods = exports.ModIntToString = exports.ModStringToInt = exports.toHR = exports.toEZ = exports.msToOD = exports.msToAR = exports.ARtoms = exports.ODtoms = exports.odHT = exports.odDT = exports.calcgradeMania = exports.calcgradeCatch = exports.calcgradeTaiko = exports.calcgrade = exports.HalfTimeAR = exports.DoubleTimeAR = void 0;
+exports.ModeIntToName = exports.ModeNameToInt = exports.calcValues = exports.csFromRadius = exports.csToRadius = exports.longModName = exports.shortModName = exports.OrderMods = exports.ModIntToString = exports.ModStringToInt = exports.toHR = exports.toEZ = exports.msToOD = exports.msToAR = exports.ARtoms = exports.ODtoms = exports.odHT = exports.odDT = exports.calcgradeMania = exports.calcgradeCatch = exports.calcgradeTaiko = exports.calcgrade = exports.HalfTimeAR = exports.DoubleTimeAR = void 0;
 /**
  *
  * @param ar approach rate
@@ -697,3 +697,54 @@ function calcValues(cs, ar, od, hp, bpm, length, mods) {
     return obj;
 }
 exports.calcValues = calcValues;
+/**
+ *
+ * @param mode mode to convert to its corresponding integer value
+ * @returns integer value of the mode
+ */
+function ModeNameToInt(mode) {
+    switch (mode) {
+        case 'osu!std':
+        case 'std':
+        case 'osu':
+        case 'o':
+        case 'standard':
+            return 0;
+        case 'osu!taiko':
+        case 'taiko':
+        case 't':
+            return 1;
+        case 'osu!catch':
+        case 'catch':
+        case 'c':
+        case 'fruits':
+            return 2;
+        case 'osu!mania':
+        case 'mania':
+        case 'm':
+            return 3;
+        default:
+            return 0;
+    }
+}
+exports.ModeNameToInt = ModeNameToInt;
+/**
+ *
+ * @param mode the gamemode to convert to a string
+ * @returns osu standard, taiko, catch, or mania.
+ */
+function ModeIntToName(mode) {
+    switch (mode) {
+        case 0:
+            return 'osu';
+        case 1:
+            return 'taiko';
+        case 2:
+            return 'fruits';
+        case 3:
+            return 'mania';
+        default:
+            return 'osu';
+    }
+}
+exports.ModeIntToName = ModeIntToName;
