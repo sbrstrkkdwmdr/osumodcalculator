@@ -718,6 +718,8 @@ function ModeNameToInt(mode) {
         case 'catch':
         case 'c':
         case 'fruits':
+        case 'ctb':
+        case 'catch the beat':
             return 2;
         case 'osu!mania':
         case 'mania':

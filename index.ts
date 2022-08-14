@@ -717,7 +717,7 @@ function ModeNameToInt(mode: string): number {
             return 0;
         case 'osu!taiko': case 'taiko': case 't':
             return 1;
-        case 'osu!catch': case 'catch': case 'c': case 'fruits':
+        case 'osu!catch': case 'catch': case 'c': case 'fruits': case 'ctb': case 'catch the beat':
             return 2;
         case 'osu!mania': case 'mania': case 'm':
             return 3;
