@@ -1,7 +1,7 @@
 # osu! mod calculator
 
 [![NPM](https://nodei.co/npm/osumodcalculator.png)](https://nodei.co/npm/osumodcalculator/)<br/>
-edit of the calculator i made for [my discord bot](https://github.com/sbrstrkkdwmdr/sbrbot/tree/main/calculations)
+calculator i made for [my discord bot](https://github.com/sbrstrkkdwmdr/sbrbot/tree/main/calculations)
 
 ### to do list:
 
