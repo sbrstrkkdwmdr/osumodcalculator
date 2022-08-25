@@ -2,7 +2,7 @@
 
 [![NPM](https://nodei.co/npm/osumodcalculator.png)](https://nodei.co/npm/osumodcalculator/)<br/>
 calculator i made for [my discord bot](https://github.com/sbrstrkkdwmdr/sbrbot/tree/main/calculations)
-
+[![CodeFactor](https://www.codefactor.io/repository/github/sbrstrkkdwmdr/osumodcalculator/badge)](https://www.codefactor.io/repository/github/sbrstrkkdwmdr/osumodcalculator)
 ### to do list:
 
     [x] convert AR to DT & HT

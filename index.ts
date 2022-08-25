@@ -752,6 +752,3 @@ export {
     calcValues,
     ModeNameToInt, ModeIntToName
 };
-console.log(calcValues(4,9,8,3,180,90,'HDDTHdvbR'))
-// console.log(OrderMods('HDHDDTHDNFNFEZAT blhahblasblhsdbaslkhbdsahk'))
-// console.log(msToOD(25.5,67.5,109.5))
