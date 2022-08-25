@@ -7,14 +7,13 @@ exports.ModeIntToName = exports.ModeNameToInt = exports.calcValues = exports.csF
  * @returns approach rate if the double time mod is applied
  */
 function DoubleTimeAR(ar) {
-    var ms;
     /*     if (ar > 5) {
             ms = 200 + (11 - ar) * 100;
         }
         else {
             ms = 800 + (5 - ar) * 80;
         } */
-    ms = ar > 5 ? 200 + (11 - ar) * 100 : 800 + (5 - ar) * 80;
+    var ms = ar > 5 ? 200 + (11 - ar) * 100 : 800 + (5 - ar) * 80;
     var newAR;
     if (ms < 300) {
         newAR = 11;
@@ -38,7 +37,6 @@ exports.DoubleTimeAR = DoubleTimeAR;
  * @returns approach rate if the half time mod is applied
  */
 function HalfTimeAR(ar) {
-    var ms;
     var newAR;
     /*     if (ar > 5) {
             ogtoms = 1200 - (((ar - 5) * 10) * 15)
@@ -47,7 +45,7 @@ function HalfTimeAR(ar) {
             ogtoms = 1800 - (((ar) * 10) * 12)
         } */
     var ogtoms = ar > 5 ? 200 + (11 - ar) * 100 : 800 + (5 - ar) * 80;
-    ms = ogtoms * (4 / 3);
+    var ms = ogtoms * (4 / 3);
     if (ms < 300) {
         newAR = 11;
     }
@@ -71,9 +69,9 @@ exports.HalfTimeAR = HalfTimeAR;
  */
 function ODtoms(od) {
     var rangeobj = {
-        range300: 79 - (od * 6) + 0.5,
-        range100: 139 - (od * 8) + 0.5,
-        range50: 199 - (od * 10) + 0.5
+        hitwindow_300: 79 - (od * 6) + 0.5,
+        hitwindow_100: 139 - (od * 8) + 0.5,
+        hitwindow_50: 199 - (od * 10) + 0.5
     };
     return rangeobj;
 }
@@ -119,7 +117,6 @@ function msToOD(hitwindow300, hitwindow100, hitwindow50) {
     if (parseFloat(od) > 11) {
         od = '11';
     }
-    ;
     return parseFloat(od);
 }
 exports.msToOD = msToOD;
@@ -750,3 +747,6 @@ function ModeIntToName(mode) {
     }
 }
 exports.ModeIntToName = ModeIntToName;
+console.log(calcValues(4, 9, 8, 3, 180, 90, 'HDDTHdvbR'));
+// console.log(OrderMods('HDHDDTHDNFNFEZAT blhahblasblhsdbaslkhbdsahk'))
+// console.log(msToOD(25.5,67.5,109.5))

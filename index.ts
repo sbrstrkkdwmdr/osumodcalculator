@@ -1,18 +1,17 @@
+import types = require('./types');
 /**
  * 
  * @param ar approach rate
  * @returns approach rate if the double time mod is applied
  */
 function DoubleTimeAR(ar: number) {
-    let ms: number;
-
     /*     if (ar > 5) {
             ms = 200 + (11 - ar) * 100;
         }
         else {
             ms = 800 + (5 - ar) * 80;
         } */
-    ms = ar > 5 ? 200 + (11 - ar) * 100 : 800 + (5 - ar) * 80;
+    const ms = ar > 5 ? 200 + (11 - ar) * 100 : 800 + (5 - ar) * 80;
     let newAR: number;
     if (ms < 300) {
         newAR = 11
@@ -23,7 +22,7 @@ function DoubleTimeAR(ar: number) {
     else {
         newAR = Math.round((5 - (ms - 1200) / 120) * 100) / 100;
     }
-    let arobj = {
+    const arobj: types.ApproachRateObj = {
         ar: newAR,
         ms: ms,
     }
@@ -35,7 +34,6 @@ function DoubleTimeAR(ar: number) {
  * @returns approach rate if the half time mod is applied
  */
 function HalfTimeAR(ar: number) {
-    let ms: number;
     let newAR: number;
     /*     if (ar > 5) {
             ogtoms = 1200 - (((ar - 5) * 10) * 15)
@@ -43,8 +41,8 @@ function HalfTimeAR(ar: number) {
         else {
             ogtoms = 1800 - (((ar) * 10) * 12)
         } */
-    let ogtoms = ar > 5 ? 200 + (11 - ar) * 100 : 800 + (5 - ar) * 80;
-    ms = ogtoms * (4 / 3);
+    const ogtoms = ar > 5 ? 200 + (11 - ar) * 100 : 800 + (5 - ar) * 80;
+    const ms = ogtoms * (4 / 3);
 
     if (ms < 300) {
         newAR = 11
@@ -55,7 +53,7 @@ function HalfTimeAR(ar: number) {
     else {
         newAR = Math.round((5 - (ms - 1200) / 120) * 100) / 100;
     }
-    let arobj = {
+    const arobj: types.ApproachRateObj = {
         ar: newAR,
         ms: ms,
     }
@@ -67,10 +65,10 @@ function HalfTimeAR(ar: number) {
  * @returns hitwindow values in milliseconds
  */
 function ODtoms(od: number) {
-    let rangeobj = {
-        range300: 79 - (od * 6) + 0.5,
-        range100: 139 - (od * 8) + 0.5,
-        range50: 199 - (od * 10) + 0.5,
+    const rangeobj: types.OverallDifficultyObj = {
+        hitwindow_300: 79 - (od * 6) + 0.5,
+        hitwindow_100: 139 - (od * 8) + 0.5,
+        hitwindow_50: 199 - (od * 10) + 0.5,
     }
     return rangeobj;
 }
@@ -86,7 +84,7 @@ function ARtoms(ar: number) {
         else {
             ogtoms = 1800 - (((ar) * 10) * 12)
         } */
-    let ogtoms = ar > 5 ? 1200 - (((ar - 5) * 10) * 15) : 1800 - (((ar) * 10) * 12)
+    const ogtoms = ar > 5 ? 1200 - (((ar - 5) * 10) * 15) : 1800 - (((ar) * 10) * 12)
     return ogtoms;
 }
 /**
@@ -113,8 +111,6 @@ function msToOD(hitwindow300: number, hitwindow100: number, hitwindow50: number)
     if (parseFloat(od) > 11) {
         od = '11'
     }
-
-    ;
     return parseFloat(od);
 }
 /**
@@ -144,8 +140,8 @@ function msToAR(ms: number) {
  * @returns ms values for the od hitwindows and converts to double time
  */
 function odDT(od: number) {
-    let range300 = (79 - (od * 6) + 0.5) * 2 / 3
-    let odobj = {
+    const range300 = (79 - (od * 6) + 0.5) * 2 / 3
+    const odobj: types.OverallDifficultyObj = {
         hitwindow_300: range300,
         hitwindow_100: (139 - (od * 8) + 0.5) * 2 / 3,
         hitwindow_50: (199 - (od * 10) + 0.5) * 2 / 3,
@@ -161,8 +157,8 @@ function odDT(od: number) {
  * @returns ms values for the od hitwindows and converts to half time
  */
 function odHT(od: number) {
-    let range300 = (79 - (od * 6) + 0.5) * 4 / 3
-    let odobj = {
+    const range300 = (79 - (od * 6) + 0.5) * 4 / 3
+    const odobj = {
         hitwindow_300: range300,
         hitwindow_100: (139 - (od * 8) + 0.5) * 4 / 3,
         hitwindow_50: (199 - (od * 10) + 0.5) * 4 / 3,
@@ -181,8 +177,8 @@ function odHT(od: number) {
  * @returns an array containing grades and accuracy
  */
 function calcgrade(hit300: number, hit100: number, hit50: number, miss: number) {
-    let totalhits = hit300 + hit100 + hit50 + miss
-    let equation = ((Math.floor((300 * hit300) + (100 * hit100) + (50 * hit50))) / (Math.floor(300 * (hit300 + hit100 + hit50 + miss)))) * 100
+    const totalhits = hit300 + hit100 + hit50 + miss
+    const equation = ((Math.floor((300 * hit300) + (100 * hit100) + (50 * hit50))) / (Math.floor(300 * (hit300 + hit100 + hit50 + miss)))) * 100
     //https://osu.ppy.sh/wiki/en/FAQ#grades
     let grade = 'D';
     if (hit300 / totalhits > 0.6) {
@@ -200,7 +196,7 @@ function calcgrade(hit300: number, hit100: number, hit50: number, miss: number) 
     if (hit100 < 1 && hit50 < 1 && miss == 0) {
         grade = 'SS'
     }
-    let finalarr = {
+    const finalarr: types.AccGra = {
         grade: grade,
         accuracy: equation,
     }
@@ -215,8 +211,7 @@ function calcgrade(hit300: number, hit100: number, hit50: number, miss: number) 
  * @returns an array containing grades and accuracy
  */
 function calcgradeTaiko(hit300: number, hit100: number, miss: number) {
-    let equation = (Math.abs(hit300 + (hit100 / 2))) / (Math.abs(hit300 + hit100 + miss))
-
+    const equation = (Math.abs(hit300 + (hit100 / 2))) / (Math.abs(hit300 + hit100 + miss))
     //grade = 'https://osu.ppy.sh/wiki/en/FAQ#grades'
     let grade = 'D';
     if (equation > 0.8) {
@@ -231,7 +226,7 @@ function calcgradeTaiko(hit300: number, hit100: number, miss: number) {
     if (equation == 1) {
         grade = 'SS'
     }
-    let finalarr = {
+    const finalarr: types.AccGra = {
         grade: grade,
         accuracy: equation * 100,
     }
@@ -248,8 +243,7 @@ function calcgradeTaiko(hit300: number, hit100: number, miss: number) {
  * @returns an array containing grades and accuracy
  */
 function calcgradeCatch(hit300: number, hit100: number, hit50: number, hitkatu: number, miss: number) {
-    let equation = Math.floor(hit300 + hit100 + hit50) / Math.floor(hit300 + hit100 + hit50 + hitkatu + miss)
-
+    const equation = Math.floor(hit300 + hit100 + hit50) / Math.floor(hit300 + hit100 + hit50 + hitkatu + miss)
     let grade = 'D'
     if (equation > 0.85) {
         grade = 'C'
@@ -267,7 +261,7 @@ function calcgradeCatch(hit300: number, hit100: number, hit50: number, hitkatu: 
         grade = 'SS'
     }
 
-    let finalarr = {
+    const finalarr: types.AccGra = {
         grade: grade,
         accuracy: equation * 100,
     }
@@ -284,7 +278,7 @@ function calcgradeCatch(hit300: number, hit100: number, hit50: number, hitkatu: 
  * @returns an array containing grades and accuracy
  */
 function calcgradeMania(hit300max: number, hit300: number, hit200: number, hit100: number, hit50: number, miss: number) {
-    let equation = Math.floor((300 * (hit300max + hit300)) + (200 * hit200) + (100 * hit100) + (50 * hit50)) / Math.floor(300 * (hit300max + hit300 + hit200 + hit100 + hit50 + miss))
+    const equation = Math.floor((300 * (hit300max + hit300)) + (200 * hit200) + (100 * hit100) + (50 * hit50)) / Math.floor(300 * (hit300max + hit300 + hit200 + hit100 + hit50 + miss))
     let grade = 'D'
     if (equation > 0.7) {
         grade = 'C'
@@ -301,7 +295,7 @@ function calcgradeMania(hit300max: number, hit300: number, hit200: number, hit10
     if (equation == 1) {
         grade = 'SS'
     }
-    let finalarr = {
+    const finalarr: types.AccGra = {
         grade: grade,
         accuracy: equation * 100,
     }
@@ -319,7 +313,7 @@ function calcgradeMania(hit300max: number, hit300: number, hit200: number, hit10
  */
 function toHR(cs: number, ar: number, od: number, hp: number) {
 
-    let hrobj = {
+    const hrobj: types.ValObj = {
         cs: cs * 1.3 > 10 ? 10 : cs * 1.3,
         ar: ar * 1.4 > 10 ? 10 : ar * 1.4,
         od: od * 1.4 > 10 ? 10 : od * 1.4,
@@ -337,7 +331,7 @@ function toHR(cs: number, ar: number, od: number, hp: number) {
  */
 function toEZ(cs: number, ar: number, od: number, hp: number) {
 
-    let ezobj = {
+    const ezobj: types.ValObj = {
         cs: cs / 2 > 10 ? 10 : cs / 2,
         ar: ar / 2 > 10 ? 10 : ar / 2,
         od: od / 2 > 10 ? 10 : od / 2,
@@ -438,10 +432,10 @@ function ModIntToString(modInt: number) {
  * @returns reorders mods to be in the correct order and removes duplicates.
  */
 function OrderMods(modString: string) {
-    let ModsOrder = ['EZ', 'HD', 'FI', 'HT', 'DT', 'NC', 'HR', 'SD', 'PF', 'FL', 'NF', 'AT', 'RX', 'AP', 'TP', 'SO', '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K', 'CP', 'RD', 'MR']
-    let modStringArray = modString.toUpperCase().replaceAll(' ', '').replaceAll(',', '').replace(/(.{2})/g, "$1 ").split(' ')
-    let modStringArrayOrdered = []
-    let modStringArrayOrderedtest = []
+    const ModsOrder: types.ModList[] = ['EZ', 'HD', 'FI', 'HT', 'DT', 'NC', 'HR', 'SD', 'PF', 'FL', 'NF', 'AT', 'RX', 'AP', 'TP', 'SO', '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K', 'CP', 'RD', 'MR']
+    const modStringArray = modString.toUpperCase().replaceAll(' ', '').replaceAll(',', '').replace(/(.{2})/g, "$1 ").split(' ')
+    const modStringArrayOrdered = []
+    const modStringArrayOrderedtest = []
     for (let i = 0; i < ModsOrder.length; i++) {
         for (let j = 0; j < modStringArray.length; j++) {
             if (ModsOrder[i] === modStringArray[j]) {
@@ -585,7 +579,7 @@ function calcValues(cs: number, ar: number, od: number, hp: number, bpm: number,
     let nbpm: number = bpm;
     let nlength: number = length;
     let error: string | boolean = false;
-    let nmods = mods.includes('NC') ? mods.toUpperCase().replace('NC', 'DT') : mods.toUpperCase();
+    const nmods = mods.includes('NC') ? mods.toUpperCase().replace('NC', 'DT') : mods.toUpperCase();
 
 
     switch (true) {
@@ -680,7 +674,7 @@ function calcValues(cs: number, ar: number, od: number, hp: number, bpm: number,
             break;
     }
 
-    let obj = {
+    const obj: types.ValObj = {
         cs: parseFloat(ncs.toFixed(2)),
         ar: parseFloat(nar.toFixed(2)),
         od: parseFloat(nod.toFixed(2)),
@@ -757,4 +751,7 @@ export {
     csToRadius, csFromRadius,
     calcValues,
     ModeNameToInt, ModeIntToName
-}
+};
+console.log(calcValues(4,9,8,3,180,90,'HDDTHdvbR'))
+// console.log(OrderMods('HDHDDTHDNFNFEZAT blhahblasblhsdbaslkhbdsahk'))
+// console.log(msToOD(25.5,67.5,109.5))

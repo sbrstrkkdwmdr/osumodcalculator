@@ -172,12 +172,12 @@ let od = 9;
 let odHitWindows = osumodcalc.ODtoms(od);
 /*
     => { 
-    range300: 25.5, 
-    range100: 67.5, 
-    range50: 109.5 
+    hitwindow_300: 25.5, 
+    hitwindow_100: 67.5, 
+    hitwindow_50: 109.5 
     }
-    range300 is how many ms from the exact timing point a hit will count as a 300 
-*/
+    hitwindow_300 is how many ms from the exact timing point a hit will count as a 300 
+    */
 
 //milliseconds to values
 let arInMs = 600;
@@ -245,7 +245,7 @@ let modInt = osumodcalc.ModStringToInt("EZHDDT");
 let unorderedMods = "HDHDDTHDNFNFEZAT blhahblasblhsdbaslkhbdsahk";
 let orderedMods = osumodcalc.OrderMods(unorderedMods);
 /*
-    => ATEZHDDTNF
+    => EZHDDTSDNFAT
 */
 ```
 
@@ -289,7 +289,7 @@ let values = osumodcalc.calcValues(cs, ar, od, hp, bpm, length, mods);
     details: {
         csRadius: 31.1099023424,
         arMs: 300,
-        odMs: { range300: 13.5, range100: 51.5, range50: 89.5 },
+        odMs: { hitwindow_300: 13.5, hitwindow_100: 51.5, hitwindow_50: 89.5 },
         lengthFull: '1:00'
         }
     }
