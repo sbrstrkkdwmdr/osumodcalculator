@@ -84,7 +84,7 @@ function HalfTimeAR(ar: number) {
             ogtoms = 1200 - (((ar - 5) * 10) * 15)
         }
         else {
-            ogtoms = 1800 - (((ar) * 10) * 12)
+            ogtoms = 1800 - (((ar) * 10) * 12j)
         } */
     const ogtoms = ar > 5 ? 1200 - ((ar - 5) * 10 * 15) : 1800 - ((ar * 10) * 12);
     const ms = ogtoms * (4 / 3);
@@ -185,11 +185,11 @@ function msToAR(ms: number) {
  * @returns ms values for the od hitwindows and converts to double time
  */
 function odDT(od: number) {
-    const range300 = (79 - (od * 6) + 0.5) * 2 / 3;
+    const range300 = ((79 - (od * 6) + 0.5) * 2 / 3) + 0.33;
     const odobj: OverallDifficultyObj = {
         hitwindow_300: range300,
-        hitwindow_100: (139 - (od * 8) + 0.5) * 2 / 3,
-        hitwindow_50: (199 - (od * 10) + 0.5) * 2 / 3,
+        hitwindow_100: ((139 - (od * 8) + 0.5) * 2 / 3) + 0.33,
+        hitwindow_50: ((199 - (od * 10) + 0.5) * 2 / 3) + 0.33,
         od_num: parseFloat(((79.5 - range300) / 6).toFixed(2)) > 11 ? 11 : parseFloat(((79.5 - range300) / 6).toFixed(2)),
     };
 
@@ -202,11 +202,11 @@ function odDT(od: number) {
  * @returns ms values for the od hitwindows and converts to half time
  */
 function odHT(od: number) {
-    const range300 = (79 - (od * 6) + 0.5) * 4 / 3;
+    const range300 = ((79 - (od * 6) + 0.5) * 4 / 3) + 0.66;
     const odobj = {
         hitwindow_300: range300,
-        hitwindow_100: (139 - (od * 8) + 0.5) * 4 / 3,
-        hitwindow_50: (199 - (od * 10) + 0.5) * 4 / 3,
+        hitwindow_100: ((139 - (od * 8) + 0.5) * 4 / 3) + 0.66,
+        hitwindow_50: ((199 - (od * 10) + 0.5) * 4 / 3) + 0.66,
         od_num: parseFloat(((79.5 - range300) / 6).toFixed(2)) > 11 ? 11 : parseFloat(((79.5 - range300) / 6).toFixed(2)),
     };
 

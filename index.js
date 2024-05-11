@@ -42,7 +42,7 @@ function HalfTimeAR(ar) {
             ogtoms = 1200 - (((ar - 5) * 10) * 15)
         }
         else {
-            ogtoms = 1800 - (((ar) * 10) * 12)
+            ogtoms = 1800 - (((ar) * 10) * 12j)
         } */
     var ogtoms = ar > 5 ? 1200 - ((ar - 5) * 10 * 15) : 1800 - ((ar * 10) * 12);
     var ms = ogtoms * (4 / 3);
@@ -145,11 +145,11 @@ exports.msToAR = msToAR;
  * @returns ms values for the od hitwindows and converts to double time
  */
 function odDT(od) {
-    var range300 = (79 - (od * 6) + 0.5) * 2 / 3;
+    var range300 = ((79 - (od * 6) + 0.5) * 2 / 3) + 0.33;
     var odobj = {
         hitwindow_300: range300,
-        hitwindow_100: (139 - (od * 8) + 0.5) * 2 / 3,
-        hitwindow_50: (199 - (od * 10) + 0.5) * 2 / 3,
+        hitwindow_100: ((139 - (od * 8) + 0.5) * 2 / 3) + 0.33,
+        hitwindow_50: ((199 - (od * 10) + 0.5) * 2 / 3) + 0.33,
         od_num: parseFloat(((79.5 - range300) / 6).toFixed(2)) > 11 ? 11 : parseFloat(((79.5 - range300) / 6).toFixed(2)),
     };
     return odobj;
@@ -161,11 +161,11 @@ exports.odDT = odDT;
  * @returns ms values for the od hitwindows and converts to half time
  */
 function odHT(od) {
-    var range300 = (79 - (od * 6) + 0.5) * 4 / 3;
+    var range300 = ((79 - (od * 6) + 0.5) * 4 / 3) + 0.66;
     var odobj = {
         hitwindow_300: range300,
-        hitwindow_100: (139 - (od * 8) + 0.5) * 4 / 3,
-        hitwindow_50: (199 - (od * 10) + 0.5) * 4 / 3,
+        hitwindow_100: ((139 - (od * 8) + 0.5) * 4 / 3) + 0.66,
+        hitwindow_50: ((199 - (od * 10) + 0.5) * 4 / 3) + 0.66,
         od_num: parseFloat(((79.5 - range300) / 6).toFixed(2)) > 11 ? 11 : parseFloat(((79.5 - range300) / 6).toFixed(2)),
     };
     return odobj;
