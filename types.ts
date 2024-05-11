@@ -3,30 +3,35 @@ export type OverallDifficultyObj = {
     hitwindow_100: number,
     hitwindow_50: number,
     od_num?: number,
-}
+};
 export type ApproachRateObj = {
     ar: number,
     ms: number,
-}
+};
 export type AccGra = {
     grade: string,
-    accuracy: number
-}
+    accuracy: number;
+};
 export type ValObj = {
     cs: number,
     ar: number,
     od: number,
     hp: number,
-    bpm?:number,
-    length?:number,
-    mods?:string,
-    error?:string|boolean,
+    bpm?: number,
+    length?: number,
+    mods?: string,
+    error?: string | boolean,
     details?: {
         csRadius: number,
         arMs: number,
         odMs: OverallDifficultyObj,
-        lengthFull:string,
-    }
-}
+        lengthFull: string,
+    };
+};
 export type ModList =
-    'EZ' | 'HD' | 'FI' | 'HT' | 'DT' | 'NC' | 'HR' | 'SD' | 'PF' | 'FL' | 'NF' | 'AT' | 'RX' | 'AP' | 'TP' | 'SO' | '1K' | '2K' | '3K' | '4K' | '5K' | '6K' | '7K' | '8K' | '9K' | 'CP' | 'RD' | 'MR'
+    'EZ' | 'HD' | 'FI' | 'HT' | 'DT' | 'NC' | 'HR' | 'SD' | 'PF' | 'FL' | 'NF' | 'AT' | 'RX' | 'AP' | 'TP' | 'SO' | '1K' | '2K' | '3K' | '4K' | '5K' | '6K' | '7K' | '8K' | '9K' | 'CP' | 'RD' | 'MR';
+
+export type GameMode = 'osu' | 'taiko' | 'fruits' | 'mania';
+
+export type Rank = 'XH' | 'X' | 'SH' | 'S' | 'A' | 'B' | 'C' | 'D' | 'E' | 'F';
+

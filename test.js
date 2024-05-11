@@ -1,17 +1,7 @@
-const osumodcalc = require('./index.js');
-
-
-console.log(
-    osumodcalc.calcValues(
-        5, 5, 5, 5,
-        220, 120,
-        'HRHT'
-    )
-)
-console.log(
-    osumodcalc.calcValues(
-        5, 5, 5, 5,
-        235, 235,
-        'HRDT'
-    ).details
-)
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var osumodcalc = require("./index");
+osumodcalc.DoubleTimeAR(9);
+osumodcalc.odDT(9);
+osumodcalc.HalfTimeAR(9);
+osumodcalc.odHT(9);

@@ -1,6 +1,6 @@
 "use strict";
-exports.__esModule = true;
-exports.ModeIntToName = exports.ModeNameToInt = exports.calcValues = exports.csFromRadius = exports.csToRadius = exports.longModName = exports.shortModName = exports.OrderMods = exports.ModIntToString = exports.ModStringToInt = exports.toHR = exports.toEZ = exports.msToOD = exports.msToAR = exports.ARtoms = exports.ODtoms = exports.odHT = exports.odDT = exports.calcgradeMania = exports.calcgradeCatch = exports.calcgradeTaiko = exports.calcgrade = exports.HalfTimeAR = exports.DoubleTimeAR = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.recdiff = exports.bws = exports.unrankedMods_stable = exports.unrankedMods_lazer = exports.toHR = exports.toEZ = exports.shortModName = exports.odHT = exports.odDT = exports.msToOD = exports.msToAR = exports.longModName = exports.csToRadius = exports.csFromRadius = exports.checkGrade = exports.calcgradeTaiko = exports.calcgradeMania = exports.calcgradeCatch = exports.calcgrade = exports.calcValues = exports.OrderMods = exports.ODtoms = exports.ModeNameToInt = exports.ModeIntToName = exports.ModStringToInt = exports.ModIntToString = exports.HalfTimeAR = exports.DoubleTimeAR = exports.ARtoms = exports.calcValuesAlt = exports.modHandler = exports.ModShort = exports.ModsLong = void 0;
 /**
  *
  * @param ar approach rate
@@ -26,7 +26,7 @@ function DoubleTimeAR(ar) {
     }
     var arobj = {
         ar: newAR,
-        ms: ms
+        ms: ms,
     };
     return arobj;
 }
@@ -44,7 +44,7 @@ function HalfTimeAR(ar) {
         else {
             ogtoms = 1800 - (((ar) * 10) * 12)
         } */
-    var ogtoms = ar > 5 ? 200 + (11 - ar) * 100 : 800 + (5 - ar) * 80;
+    var ogtoms = ar > 5 ? 1200 - ((ar - 5) * 10 * 15) : 1800 - ((ar * 10) * 12);
     var ms = ogtoms * (4 / 3);
     if (ms < 300) {
         newAR = 11;
@@ -57,7 +57,7 @@ function HalfTimeAR(ar) {
     }
     var arobj = {
         ar: newAR,
-        ms: ms
+        ms: ms,
     };
     return arobj;
 }
@@ -71,7 +71,7 @@ function ODtoms(od) {
     var rangeobj = {
         hitwindow_300: 79 - (od * 6) + 0.5,
         hitwindow_100: 139 - (od * 8) + 0.5,
-        hitwindow_50: 199 - (od * 10) + 0.5
+        hitwindow_50: 199 - (od * 10) + 0.5,
     };
     return rangeobj;
 }
@@ -150,7 +150,7 @@ function odDT(od) {
         hitwindow_300: range300,
         hitwindow_100: (139 - (od * 8) + 0.5) * 2 / 3,
         hitwindow_50: (199 - (od * 10) + 0.5) * 2 / 3,
-        od_num: parseFloat(((79.5 - range300) / 6).toFixed(2)) > 11 ? 11 : parseFloat(((79.5 - range300) / 6).toFixed(2))
+        od_num: parseFloat(((79.5 - range300) / 6).toFixed(2)) > 11 ? 11 : parseFloat(((79.5 - range300) / 6).toFixed(2)),
     };
     return odobj;
 }
@@ -166,7 +166,7 @@ function odHT(od) {
         hitwindow_300: range300,
         hitwindow_100: (139 - (od * 8) + 0.5) * 4 / 3,
         hitwindow_50: (199 - (od * 10) + 0.5) * 4 / 3,
-        od_num: parseFloat(((79.5 - range300) / 6).toFixed(2)) > 11 ? 11 : parseFloat(((79.5 - range300) / 6).toFixed(2))
+        od_num: parseFloat(((79.5 - range300) / 6).toFixed(2)) > 11 ? 11 : parseFloat(((79.5 - range300) / 6).toFixed(2)),
     };
     return odobj;
 }
@@ -184,7 +184,7 @@ function calcgrade(hit300, hit100, hit50, miss) {
     var totalhits = hit300 + hit100 + hit50 + miss;
     var equation = ((Math.floor((300 * hit300) + (100 * hit100) + (50 * hit50))) / (Math.floor(300 * (hit300 + hit100 + hit50 + miss)))) * 100;
     //https://osu.ppy.sh/wiki/en/FAQ#grades
-    var grade = 'D';
+    var _a = ['D', 'D'], grade = _a[0], gradeLazer = _a[1];
     if (hit300 / totalhits > 0.6) {
         grade = 'C';
     }
@@ -199,10 +199,24 @@ function calcgrade(hit300, hit100, hit50, miss) {
     }
     if (hit100 < 1 && hit50 < 1 && miss == 0) {
         grade = 'SS';
+        gradeLazer = 'SS';
+    }
+    if (equation >= 70) {
+        grade = 'C';
+    }
+    if (equation >= 80) {
+        grade = 'B';
+    }
+    if (equation >= 90) {
+        grade = 'A';
+    }
+    if (equation >= 95 && miss == 0) {
+        gradeLazer = 'S';
     }
     var finalarr = {
         grade: grade,
-        accuracy: equation
+        gradeLazer: gradeLazer,
+        accuracy: equation,
     };
     return finalarr;
 }
@@ -215,24 +229,29 @@ exports.calcgrade = calcgrade;
  * @returns an array containing grades and accuracy
  */
 function calcgradeTaiko(hit300, hit100, miss) {
+    var _a, _b, _c;
     var equation = (Math.abs(hit300 + (hit100 / 2))) / (Math.abs(hit300 + hit100 + miss));
     //grade = 'https://osu.ppy.sh/wiki/en/FAQ#grades'
-    var grade = 'D';
-    if (equation > 0.8) {
-        grade = 'B';
+    var _d = ['D', 'D'], grade = _d[0], gradeLazer = _d[1];
+    if (equation >= 0.8) {
+        _a = ['B', 'B'], grade = _a[0], gradeLazer = _a[1];
     }
-    if (equation > 0.9) {
-        grade = 'A';
+    if (equation >= 0.9) {
+        _b = ['A', 'B'], grade = _b[0], gradeLazer = _b[1];
     }
-    if (equation > 0.95) {
+    if (equation >= 0.95) {
         grade = 'S';
     }
+    if (equation >= 0.95 && miss == 0) {
+        gradeLazer = 'S';
+    }
     if (equation == 1) {
-        grade = 'SS';
+        _c = ['SS', 'SS'], grade = _c[0], gradeLazer = _c[1];
     }
     var finalarr = {
         grade: grade,
-        accuracy: equation * 100
+        gradeLazer: gradeLazer,
+        accuracy: equation * 100,
     };
     return finalarr;
 }
@@ -247,26 +266,28 @@ exports.calcgradeTaiko = calcgradeTaiko;
  * @returns an array containing grades and accuracy
  */
 function calcgradeCatch(hit300, hit100, hit50, hitkatu, miss) {
+    var _a, _b, _c, _d, _e;
     var equation = Math.floor(hit300 + hit100 + hit50) / Math.floor(hit300 + hit100 + hit50 + hitkatu + miss);
-    var grade = 'D';
-    if (equation > 0.85) {
-        grade = 'C';
+    var _f = ['D', 'D'], grade = _f[0], gradeLazer = _f[1];
+    if (equation >= 0.85) {
+        _a = ['C', 'C'], grade = _a[0], gradeLazer = _a[1];
     }
-    if (equation > 0.9) {
-        grade = 'B';
+    if (equation >= 0.9) {
+        _b = ['B', 'B'], grade = _b[0], gradeLazer = _b[1];
     }
-    if (equation > 0.94) {
-        grade = 'A';
+    if (equation >= 0.94) {
+        _c = ['A', 'A'], grade = _c[0], gradeLazer = _c[1];
     }
-    if (equation > 0.98) {
-        grade = 'S';
+    if (equation >= 0.98) {
+        _d = ['S', 'S'], grade = _d[0], gradeLazer = _d[1];
     }
     if (equation == 1) {
-        grade = 'SS';
+        _e = ['SS', 'SS'], grade = _e[0], gradeLazer = _e[1];
     }
     var finalarr = {
         grade: grade,
-        accuracy: equation * 100
+        gradeLazer: gradeLazer,
+        accuracy: equation * 100,
     };
     return finalarr;
 }
@@ -282,26 +303,28 @@ exports.calcgradeCatch = calcgradeCatch;
  * @returns an array containing grades and accuracy
  */
 function calcgradeMania(hit300max, hit300, hit200, hit100, hit50, miss) {
+    var _a, _b, _c, _d, _e;
     var equation = Math.floor((300 * (hit300max + hit300)) + (200 * hit200) + (100 * hit100) + (50 * hit50)) / Math.floor(300 * (hit300max + hit300 + hit200 + hit100 + hit50 + miss));
-    var grade = 'D';
-    if (equation > 0.7) {
-        grade = 'C';
+    var _f = ['D', 'D'], grade = _f[0], gradeLazer = _f[1];
+    if (equation >= 0.7) {
+        _a = ['C', 'C'], grade = _a[0], gradeLazer = _a[1];
     }
-    if (equation > 0.8) {
-        grade = 'B';
+    if (equation >= 0.8) {
+        _b = ['B', 'B'], grade = _b[0], gradeLazer = _b[1];
     }
-    if (equation > 0.9) {
-        grade = 'A';
+    if (equation >= 0.9) {
+        _c = ['A', 'A'], grade = _c[0], gradeLazer = _c[1];
     }
-    if (equation > 0.95) {
-        grade = 'S';
+    if (equation >= 0.95) {
+        _d = ['S', 'S'], grade = _d[0], gradeLazer = _d[1];
     }
     if (equation == 1) {
-        grade = 'SS';
+        _e = ['SS', 'SS'], grade = _e[0], gradeLazer = _e[1];
     }
     var finalarr = {
         grade: grade,
-        accuracy: equation * 100
+        gradeLazer: gradeLazer,
+        accuracy: equation * 100,
     };
     return finalarr;
 }
@@ -319,7 +342,7 @@ function toHR(cs, ar, od, hp) {
         cs: cs * 1.3 > 10 ? 10 : cs * 1.3,
         ar: ar * 1.4 > 10 ? 10 : ar * 1.4,
         od: od * 1.4 > 10 ? 10 : od * 1.4,
-        hp: hp * 1.4 > 10 ? 10 : hp * 1.4
+        hp: hp * 1.4 > 10 ? 10 : hp * 1.4,
     };
     return hrobj;
 }
@@ -337,11 +360,81 @@ function toEZ(cs, ar, od, hp) {
         cs: cs / 2 > 10 ? 10 : cs / 2,
         ar: ar / 2 > 10 ? 10 : ar / 2,
         od: od / 2 > 10 ? 10 : od / 2,
-        hp: hp / 2 > 10 ? 10 : hp / 2
+        hp: hp / 2 > 10 ? 10 : hp / 2,
     };
     return ezobj;
 }
 exports.toEZ = toEZ;
+var ModsLong;
+(function (ModsLong) {
+    ModsLong[ModsLong["None"] = 0] = "None";
+    ModsLong[ModsLong["NoFail"] = 1] = "NoFail";
+    ModsLong[ModsLong["Easy"] = 2] = "Easy";
+    ModsLong[ModsLong["TouchDevice"] = 4] = "TouchDevice";
+    ModsLong[ModsLong["Hidden"] = 8] = "Hidden";
+    ModsLong[ModsLong["HardRock"] = 16] = "HardRock";
+    ModsLong[ModsLong["SuddenDeath"] = 32] = "SuddenDeath";
+    ModsLong[ModsLong["DoubleTime"] = 64] = "DoubleTime";
+    ModsLong[ModsLong["Relax"] = 128] = "Relax";
+    ModsLong[ModsLong["HalfTime"] = 256] = "HalfTime";
+    ModsLong[ModsLong["Nightcore"] = 512] = "Nightcore";
+    ModsLong[ModsLong["Flashlight"] = 1024] = "Flashlight";
+    ModsLong[ModsLong["Autoplay"] = 2048] = "Autoplay";
+    ModsLong[ModsLong["SpunOut"] = 4096] = "SpunOut";
+    ModsLong[ModsLong["AutoPilot"] = 8192] = "AutoPilot";
+    ModsLong[ModsLong["Perfect"] = 16384] = "Perfect";
+    ModsLong[ModsLong["Key4"] = 32768] = "Key4";
+    ModsLong[ModsLong["Key5"] = 65536] = "Key5";
+    ModsLong[ModsLong["Key6"] = 131072] = "Key6";
+    ModsLong[ModsLong["Key7"] = 262144] = "Key7";
+    ModsLong[ModsLong["Key8"] = 524288] = "Key8";
+    ModsLong[ModsLong["FadeIn"] = 1048576] = "FadeIn";
+    ModsLong[ModsLong["Random"] = 2097152] = "Random";
+    ModsLong[ModsLong["Cinema"] = 4194304] = "Cinema";
+    ModsLong[ModsLong["Target"] = 8388608] = "Target";
+    ModsLong[ModsLong["Key9"] = 16777216] = "Key9";
+    ModsLong[ModsLong["KeyCoop"] = 33554432] = "KeyCoop";
+    ModsLong[ModsLong["Key1"] = 67108864] = "Key1";
+    ModsLong[ModsLong["Key3"] = 134217728] = "Key3";
+    ModsLong[ModsLong["Key2"] = 268435456] = "Key2";
+    ModsLong[ModsLong["ScoreV2"] = 536870912] = "ScoreV2";
+    ModsLong[ModsLong["Mirror"] = 1073741824] = "Mirror";
+})(ModsLong || (exports.ModsLong = ModsLong = {}));
+var ModShort;
+(function (ModShort) {
+    ModShort[ModShort["NM"] = 0] = "NM";
+    ModShort[ModShort["NF"] = 1] = "NF";
+    ModShort[ModShort["EZ"] = 2] = "EZ";
+    ModShort[ModShort["TD"] = 4] = "TD";
+    ModShort[ModShort["HD"] = 8] = "HD";
+    ModShort[ModShort["HR"] = 16] = "HR";
+    ModShort[ModShort["SD"] = 32] = "SD";
+    ModShort[ModShort["DT"] = 64] = "DT";
+    ModShort[ModShort["RL"] = 128] = "RL";
+    ModShort[ModShort["HT"] = 256] = "HT";
+    ModShort[ModShort["NC"] = 512] = "NC";
+    ModShort[ModShort["FL"] = 1024] = "FL";
+    ModShort[ModShort["AT"] = 2048] = "AT";
+    ModShort[ModShort["SO"] = 4096] = "SO";
+    ModShort[ModShort["AP"] = 8192] = "AP";
+    ModShort[ModShort["PF"] = 16384] = "PF";
+    ModShort[ModShort["4K"] = 32768] = "4K";
+    ModShort[ModShort["5K"] = 65536] = "5K";
+    ModShort[ModShort["6K"] = 131072] = "6K";
+    ModShort[ModShort["7K"] = 262144] = "7K";
+    ModShort[ModShort["8K"] = 524288] = "8K";
+    ModShort[ModShort["FI"] = 1048576] = "FI";
+    ModShort[ModShort["RD"] = 2097152] = "RD";
+    ModShort[ModShort["CM"] = 4194304] = "CM";
+    ModShort[ModShort["TP"] = 8388608] = "TP";
+    ModShort[ModShort["9K"] = 16777216] = "9K";
+    ModShort[ModShort["CP"] = 33554432] = "CP";
+    ModShort[ModShort["1K"] = 67108864] = "1K";
+    ModShort[ModShort["3K"] = 134217728] = "3K";
+    ModShort[ModShort["2K"] = 268435456] = "2K";
+    ModShort[ModShort["SV2"] = 536870912] = "SV2";
+    ModShort[ModShort["MR"] = 1073741824] = "MR";
+})(ModShort || (exports.ModShort = ModShort = {}));
 /**
  *
  * @param mods
@@ -375,7 +468,7 @@ function ModStringToInt(mods) {
     modInt += mods.toUpperCase().includes('9K') ? 16777216 : 0;
     modInt += mods.toUpperCase().includes('FI') ? 1048576 : 0;
     modInt += mods.toUpperCase().includes('RDM') ? 2097152 : 0;
-    modInt += mods.toUpperCase().includes('CN') ? 4194304 : 0;
+    modInt += mods.toUpperCase().includes('CM') ? 4194304 : 0;
     modInt += mods.toUpperCase().includes('TP') ? 8388608 : 0;
     modInt += mods.toUpperCase().includes('KC') ? 33554432 : 0;
     modInt += mods.toUpperCase().includes('SV2') || mods.toUpperCase().includes('S2') ? 536870912 : 0;
@@ -397,7 +490,7 @@ function ModIntToString(modInt) {
     modString += modInt & 16 ? 'HR' : '';
     modString += modInt & 32 ? 'SD' : '';
     modString += modInt & 64 ? 'DT' : '';
-    modString += modInt & 128 ? 'RX' : '';
+    modString += modInt & 128 ? 'RL' : '';
     modString += modInt & 256 ? 'HT' : '';
     modString += modInt & 512 ? 'NC' : '';
     modString += modInt & 1024 ? 'FL' : '';
@@ -427,7 +520,7 @@ function ModIntToString(modInt) {
     if (modString.includes('SD') && modString.includes('PF')) {
         modString = modString.replace('SD', '');
     }
-    return OrderMods(modString);
+    return OrderMods(modString).string;
 }
 exports.ModIntToString = ModIntToString;
 /**
@@ -436,8 +529,15 @@ exports.ModIntToString = ModIntToString;
  * @returns reorders mods to be in the correct order and removes duplicates.
  */
 function OrderMods(modString) {
-    var ModsOrder = ['EZ', 'HD', 'FI', 'HT', 'DT', 'NC', 'HR', 'SD', 'PF', 'FL', 'NF', 'AT', 'RX', 'AP', 'TP', 'SO', '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K', 'CP', 'RD', 'MR'];
-    var modStringArray = modString.toUpperCase().replaceAll(' ', '').replaceAll(',', '').replace(/(.{2})/g, "$1 ").split(' ');
+    var ModsOrder = ['EZ', 'HD', 'FI', 'HT', 'DT', 'NC', 'HR', 'FL', 'SD', 'PF', 'NF', 'AT', 'CM', 'RL', 'AP', 'TP', 'SO', 'TD', '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K', 'CP', 'RD', 'MR', 'SV2'];
+    var modStringArray = modString.toUpperCase().replaceAll(' ', '').replaceAll(',', '').replace(/(.{2})/g, "$1 ")
+        .replaceAll('RLX', 'RL')
+        .replaceAll('RX', 'RL')
+        .replaceAll('AU', 'AT')
+        .replaceAll('CN', 'CM')
+        .replaceAll('V2', 'SV2')
+        .replaceAll('S2', 'SV2')
+        .split(' ');
     var modStringArrayOrdered = [];
     var modStringArrayOrderedtest = [];
     for (var i = 0; i < ModsOrder.length; i++) {
@@ -452,7 +552,10 @@ function OrderMods(modString) {
             modStringArrayOrdered.push(modStringArrayOrderedtest[i]);
         }
     }
-    return modStringArrayOrdered.join('');
+    return {
+        string: modStringArrayOrdered.join(''),
+        array: modStringArrayOrdered
+    };
 }
 exports.OrderMods = OrderMods;
 /**
@@ -496,8 +599,10 @@ function shortModName(modstring) {
         .replaceAll('targetpractice', 'TP')
         .replaceAll('keycoop', 'KC')
         .replaceAll('coop', 'KC')
+        .replaceAll('co-op', 'KC')
         .replaceAll('scorev2', 'S2')
-        .replaceAll('mirror', 'MR'));
+        .replaceAll('mirror', 'MR')).string;
+    ;
 }
 exports.shortModName = shortModName;
 /**
@@ -507,10 +612,10 @@ exports.shortModName = shortModName;
  */
 // do the opposite of above
 function longModName(modstring) {
-    return (OrderMods(modstring))
+    return (OrderMods(modstring).string)
         .replaceAll(' ', '')
         .replaceAll('-', '')
-        .replaceAll('NF', 'No Fail ')
+        .replaceAll('NF', 'NoFail ')
         .replaceAll('EZ', 'Easy ')
         .replaceAll('TD', 'TouchDevice ')
         .replaceAll('HD', 'Hidden ')
@@ -543,6 +648,85 @@ function longModName(modstring) {
         .replaceAll('MR', 'Mirror ');
 }
 exports.longModName = longModName;
+/**
+ * checks if any of the mods given are "unranked" (unsubmitted on stable)
+ * @param mods shorthand mods name to verify (ie HDDT not hidden double time or 72)
+ */
+function unrankedMods_stable(mods) {
+    var val = false;
+    var unverifiable = [
+        'AT', 'CM', 'RL', 'AP', 'SV2', 'TP'
+    ];
+    val = unverifiable.some(function (x) { return mods.includes(x); });
+    return val;
+}
+exports.unrankedMods_stable = unrankedMods_stable;
+/**
+ * checks if any of the mods given are "unranked" (unsubmitted on stable)
+ * @param mods shorthand mods name to verify (ie HDDT not hidden double time or 72)
+ */
+function unrankedMods_lazer(mods) {
+    var val = false;
+    var unverifiable = [
+        'AT', 'CM'
+    ];
+    return val;
+}
+exports.unrankedMods_lazer = unrankedMods_lazer;
+/**
+ * reorders mods to be in the correct order, removes duplicates and mods that don't fit the mode
+ * NOTE LAZER MODS ARE IGNORED
+ */
+function modHandler(mods, mode) {
+    var ModsOrder = ['EZ', 'HD', 'FI', 'HT', 'DT', 'NC', 'HR', 'FL', 'SD', 'PF', 'NF', 'AT', 'CM', 'RL', 'AP', 'TP', 'SO', 'TD', '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K', 'CP', 'RD', 'MR', 'SV2'];
+    var modStringArray = mods.toUpperCase().replaceAll(' ', '').replaceAll(',', '').replace(/(.{2})/g, "$1 ")
+        .replaceAll('RLX', 'RL')
+        .replaceAll('RX', 'RL')
+        .replaceAll('AU', 'AT')
+        .replaceAll('CN', 'CM')
+        .replaceAll('V2', 'SV2')
+        .replaceAll('S2', 'SV2')
+        .split(' ');
+    var modStringArrayOrdered = [];
+    var modStringArrayOrderedtest = [];
+    for (var i = 0; i < ModsOrder.length; i++) {
+        for (var j = 0; j < modStringArray.length; j++) {
+            if (ModsOrder[i] === modStringArray[j]) {
+                modStringArrayOrderedtest.push(modStringArray[j]);
+            }
+        }
+    }
+    var maniaOnlyMods = ['FI', '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K', 'CP', 'RD', 'MR',];
+    var standardMods = ['AP', 'TP', 'SO', 'TD',];
+    var ignoreMods = [];
+    switch (mode) {
+        default:
+        case 'osu':
+            ignoreMods = maniaOnlyMods;
+            break;
+        case 'taiko':
+        case 'fruits':
+            ignoreMods = maniaOnlyMods.concat(standardMods);
+            break;
+        case 'mania':
+            ignoreMods = standardMods;
+            break;
+    }
+    for (var _i = 0, modStringArrayOrderedtest_1 = modStringArrayOrderedtest; _i < modStringArrayOrderedtest_1.length; _i++) {
+        var elem = modStringArrayOrderedtest_1[_i];
+        if (ignoreMods.includes(elem)) {
+            var index = modStringArrayOrderedtest.indexOf(elem);
+            modStringArrayOrderedtest.splice(index, 1);
+        }
+    }
+    for (var i = 0; i < modStringArrayOrderedtest.length; i++) {
+        if (modStringArrayOrderedtest.indexOf(modStringArrayOrderedtest[i]) === i) {
+            modStringArrayOrdered.push(modStringArrayOrderedtest[i]);
+        }
+    }
+    return modStringArrayOrdered;
+}
+exports.modHandler = modHandler;
 /**
  *
  * @param cs circle size
@@ -696,6 +880,50 @@ function calcValues(cs, ar, od, hp, bpm, length, mods) {
 exports.calcValues = calcValues;
 /**
  *
+ * @param cs circle size
+ * @param ar approach rate
+ * @param od overall difficulty
+ * @param hp health
+ * @param bpm beats per minute
+ * @param length length in seconds
+ * @param mods mods
+ */
+function calcValuesAlt(cs, ar, od, hp, bpm, length, speedMult) {
+    speedMult = (speedMult !== null && speedMult !== void 0 ? speedMult : 1);
+    var arMs = ARtoms(ar);
+    var odMs = ODtoms(od);
+    var nar = msToAR(arMs / speedMult);
+    var nod = msToOD(odMs.hitwindow_300 / speedMult);
+    var nbpm = bpm / speedMult;
+    var nlength = length / speedMult;
+    var obj = {
+        cs: +cs.toFixed(2),
+        ar: +nar.toFixed(2),
+        od: +nod.toFixed(2),
+        hp: +hp.toFixed(2),
+        bpm: +nbpm.toFixed(2),
+        length: +nlength.toFixed(2),
+        speedMult: speedMult,
+        details: {
+            csRadius: csToRadius(cs),
+            arMs: arMs,
+            odMs: odMs,
+            //mm:ss
+            lengthFull: nlength > 60 ?
+                nlength % 60 < 10 ?
+                    Math.floor(nlength / 60) + ':0' + Math.floor(nlength % 60) :
+                    Math.floor(nlength / 60) + ':' + Math.floor(nlength % 60)
+                :
+                    nlength % 60 < 10 ?
+                        Math.floor(nlength / 60) + ':0' + Math.floor(nlength % 60) :
+                        Math.floor(nlength / 60) + ':' + Math.floor(nlength % 60)
+        }
+    };
+    return obj;
+}
+exports.calcValuesAlt = calcValuesAlt;
+/**
+ *
  * @param mode mode to convert to its corresponding integer value
  * @returns integer value of the mode
  */
@@ -747,3 +975,59 @@ function ModeIntToName(mode) {
     }
 }
 exports.ModeIntToName = ModeIntToName;
+/**
+ *
+ * @param string
+ */
+function checkGrade(string, defaultRank) {
+    var grade;
+    if (!defaultRank) {
+        defaultRank = 'A';
+    }
+    switch (true) {
+        case string.toUpperCase().includes('SSH'):
+            grade = 'XH';
+            break;
+        case string.toUpperCase().includes('SS'):
+            grade = 'X';
+            break;
+        case string.toUpperCase().includes('SH'):
+            grade = 'SH';
+            break;
+        case string.toUpperCase().includes('S'):
+            grade = 'S';
+            break;
+        case string.toUpperCase().includes('A'):
+            grade = 'A';
+            break;
+        case string.toUpperCase().includes('B'):
+            grade = 'B';
+            break;
+        case string.toUpperCase().includes('C'):
+            grade = 'C';
+            break;
+        case string.toUpperCase().includes('D'):
+            grade = 'D';
+            break;
+        case string.toUpperCase().includes('F'):
+            grade = 'F';
+            break;
+        default:
+            grade = defaultRank;
+            break;
+    }
+    return grade;
+}
+exports.checkGrade = checkGrade;
+//badge weight seeding
+function bws(badges, rank) {
+    return badges > 0 ?
+        Math.pow(rank, (Math.pow(0.9937, (Math.pow(badges, 2))))) :
+        rank;
+}
+exports.bws = bws;
+//recommended difficulty
+function recdiff(pp) {
+    return (Math.pow(pp, 0.4)) * 0.195;
+}
+exports.recdiff = recdiff;
