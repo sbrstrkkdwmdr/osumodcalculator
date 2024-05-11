@@ -241,8 +241,13 @@ let modInt = osumodcalc.ModStringToInt("EZHDDT");
     => 74
 */
 
-let unorderedMods = "HDHDDTHDNFNFEZAT blhahblasblhsdbaslkhbdsahk";
+let unorderedMods = "HDHDDTHDNFNFEZAT4K blhahblasblhsdbaslkhbdsahk";
 let orderedMods = osumodcalc.OrderMods(unorderedMods);
+/*
+    => EZHDDTSDNFAT4k
+*/
+//this variant also removes mods that don't match the mode
+let orderedMods = osumodcalc.OrderMods(unorderedMods, 'osu');
 /*
     => EZHDDTSDNFAT
 */
@@ -305,6 +310,22 @@ let modeName = osumodcalc.ModeIntToName(0)
 let modeInt = osumodcalc.ModeNameToInt('fruits') //'catch' also works
 /*
     => 2
+*/
+```
+
+## get a player's badge weight seed rank
+```js
+let bws = osumodcalc.bws(9, 45000)
+/*
+    => 615.0208751630769
+*/
+```
+
+## get a player's recommended map difficulty
+```js
+let difficulty = osumodcalc.recdiff(5646)
+/*
+    => 6.1763366653105205
 */
 ```
 
