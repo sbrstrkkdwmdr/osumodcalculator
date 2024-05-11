@@ -35,7 +35,7 @@ export type ValObj = {
 };
 
 export type ModList =
-    'EZ' | 'HD' | 'FI' | 'HT' | 'DT' | 'NC' | 'HR' | 'FL' | 'SD' | 'PF' | 'NF' | 'AT' | 'CM' | 'RL' | 'AP' | 'TP' | 'SO' | 'TD' | '1K' | '2K' | '3K' | '4K' | '5K' | '6K' | '7K' | '8K' | '9K' | 'CP' | 'RD' | 'MR' | 'SV2';
+    'EZ' | 'HD' | 'FI' | 'HT' | 'DT' | 'NC' | 'HR' | 'FL' | 'SD' | 'PF' | 'NF' | 'AT' | 'CM' | 'RL' | 'AP' | 'TP' | 'SO' | 'TD' | '1K' | '2K' | '3K' | '4K' | '5K' | '6K' | '7K' | '8K' | '9K' | 'CP' | 'RD' | 'MR' | 'V2';
 
 export type ModListLazer = ModList | 'DC' | 'BL' | 'ST' /**strict tracking */ | 'DA' | 'CL' | 'AL' | 'ST' /**single tap */ | 'TR' /**transform */ | 'WI' | 'SI' | 'GR' | 'DF' | 'WU' | 'WD' | 'TR' /**traceable */ | 'BR' | 'AD' | 'MU' | 'NS' | 'MG' | 'RP' | 'AS' | 'FF';
 
@@ -569,14 +569,13 @@ function ModIntToString(modInt: number) {
  * @returns reorders mods to be in the correct order and removes duplicates.
  */
 function OrderMods(modString: string) {
-    const ModsOrder: ModList[] = ['EZ', 'HD', 'FI', 'HT', 'DT', 'NC', 'HR', 'FL', 'SD', 'PF', 'NF', 'AT', 'CM', 'RL', 'AP', 'TP', 'SO', 'TD', '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K', 'CP', 'RD', 'MR', 'SV2'];
+    const ModsOrder: ModList[] = ['EZ', 'HD', 'FI', 'HT', 'DT', 'NC', 'HR', 'FL', 'SD', 'PF', 'NF', 'AT', 'CM', 'RL', 'AP', 'TP', 'SO', 'TD', '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K', 'CP', 'RD', 'MR', 'V2'];
     const modStringArray = modString.toUpperCase().replaceAll(' ', '').replaceAll(',', '').replace(/(.{2})/g, "$1 ")
         .replaceAll('RLX', 'RL')
         .replaceAll('RX', 'RL')
         .replaceAll('AU', 'AT')
         .replaceAll('CN', 'CM')
-        .replaceAll('V2', 'SV2')
-        .replaceAll('S2', 'SV2')
+        .replaceAll('S2', 'V2')
         .split(' ');
     const modStringArrayOrdered = [];
     const modStringArrayOrderedtest = [];
@@ -697,7 +696,7 @@ function longModName(modstring: string) {
 function unrankedMods_stable(mods: string) {
     let val = false;
     const unverifiable: ModList[] = [
-        'AT', 'CM', 'RL', 'AP', 'SV2', 'TP'
+        'AT', 'CM', 'RL', 'AP', 'V2', 'TP'
     ];
     val = unverifiable.some(x => mods.includes(x));
     return val;
@@ -720,14 +719,13 @@ function unrankedMods_lazer(mods: string) {
  * NOTE LAZER MODS ARE IGNORED
  */
 export function modHandler(mods: string, mode: 'osu' | 'taiko' | 'fruits' | 'mania') {
-    const ModsOrder: ModList[] = ['EZ', 'HD', 'FI', 'HT', 'DT', 'NC', 'HR', 'FL', 'SD', 'PF', 'NF', 'AT', 'CM', 'RL', 'AP', 'TP', 'SO', 'TD', '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K', 'CP', 'RD', 'MR', 'SV2'];
+    const ModsOrder: ModList[] = ['EZ', 'HD', 'FI', 'HT', 'DT', 'NC', 'HR', 'FL', 'SD', 'PF', 'NF', 'AT', 'CM', 'RL', 'AP', 'TP', 'SO', 'TD', '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K', 'CP', 'RD', 'MR', 'V2'];
     const modStringArray = mods.toUpperCase().replaceAll(' ', '').replaceAll(',', '').replace(/(.{2})/g, "$1 ")
         .replaceAll('RLX', 'RL')
         .replaceAll('RX', 'RL')
         .replaceAll('AU', 'AT')
         .replaceAll('CN', 'CM')
-        .replaceAll('V2', 'SV2')
-        .replaceAll('S2', 'SV2')
+        .replaceAll('S2', 'V2')
         .split(' ');
     const modStringArrayOrdered: ModList[] = [];
     const modStringArrayOrderedtest: ModList[] = [];
@@ -771,9 +769,7 @@ export function modHandler(mods: string, mode: 'osu' | 'taiko' | 'fruits' | 'man
 }
 
 /**
- * 
- * @param cs circle size
- * @returns the radius of the circle
+ * get the radius of the circle (in pixels)
  */
 function csToRadius(cs: number) {
     return (0.00005556 * cs ** 2 - 4.483 * cs + 54.42);
@@ -790,14 +786,7 @@ function csFromRadius(radius: number) {
 }
 
 /**
- * 
- * @param cs circle size
- * @param ar approach rate
- * @param od overall difficulty
- * @param hp health
- * @param bpm beats per minute
- * @param length length in seconds
- * @param mods mods
+ * calculate values after mods are applied
  */
 function calcValues(cs: number, ar: number, od: number, hp: number, bpm: number, length: number, mods: string) {
     let ncs: number = cs;
@@ -929,14 +918,7 @@ function calcValues(cs: number, ar: number, od: number, hp: number, bpm: number,
 }
 
 /**
- * 
- * @param cs circle size
- * @param ar approach rate
- * @param od overall difficulty
- * @param hp health
- * @param bpm beats per minute
- * @param length length in seconds
- * @param mods mods
+ * calculate all values after a speed multiplier is applied
  */
 export function calcValuesAlt(cs: number, ar: number, od: number, hp: number, bpm: number, length: number, speedMult: number) {
     speedMult = (speedMult ?? 1);
@@ -974,9 +956,7 @@ export function calcValuesAlt(cs: number, ar: number, od: number, hp: number, bp
 }
 
 /**
- * 
- * @param mode mode to convert to its corresponding integer value
- * @returns integer value of the mode 
+ * convert a mode name into it's corresponding integer value
  */
 function ModeNameToInt(mode: string): number {
     switch (mode) {
@@ -994,9 +974,7 @@ function ModeNameToInt(mode: string): number {
 }
 
 /**
- * 
- * @param mode the gamemode to convert to a string
- * @returns osu standard, taiko, catch, or mania.
+ * convert an integer into it's corresponding mode name
  */
 function ModeIntToName(mode: number): types.GameMode {
     switch (mode) {
@@ -1014,8 +992,7 @@ function ModeIntToName(mode: number): types.GameMode {
 }
 
 /**
- * 
- * @param string 
+ * convert a string into an osu! rank/grade
  */
 function checkGrade(string: string, defaultRank?: types.Rank) {
     let grade: types.Rank;
@@ -1062,14 +1039,19 @@ function checkGrade(string: string, defaultRank?: types.Rank) {
 //module.exports = { DoubleTimeAR, HalfTimeAR, calcgrade, calcgradeTaiko, calcgradeCatch, calcgradeMania, odDT, odHT, ODtoms, ARtoms, msToAR, msToOD, toEZ, toHR, ModStringToInt, ModIntToString, OrderMods, shortModName, longModName, csToRadius, csFromRadius }
 export { ARtoms, DoubleTimeAR, HalfTimeAR, ModIntToString, ModStringToInt, ModeIntToName, ModeNameToInt, ODtoms, OrderMods, calcValues, calcgrade, calcgradeCatch, calcgradeMania, calcgradeTaiko, checkGrade, csFromRadius, csToRadius, longModName, msToAR, msToOD, odDT, odHT, shortModName, toEZ, toHR, unrankedMods_lazer, unrankedMods_stable };
 
-//badge weight seeding
+/**
+ * convert a player's rank into their badge weight seeding rank
+ */
 export function bws(badges: number, rank: number) {
     return badges > 0 ?
         rank ** (0.9937 ** (badges ** 2)) :
         rank;
 }
 
-//recommended difficulty
+/**
+ * find a player's recommended map difficulty
+ * @param pp the player's total performance
+ */
 export function recdiff(pp: number) {
     return (pp ** 0.4) * 0.195;
 }
