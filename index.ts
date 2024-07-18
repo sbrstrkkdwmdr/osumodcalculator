@@ -1,11 +1,11 @@
-import types = require("./types")
+import types = require("./types");
 
 
 export type OverallDifficultyObj = {
     hitwindow_300: number,
     hitwindow_100: number,
     hitwindow_50: number,
-    od_num?: number,
+    od_num: number,
 };
 export type ApproachRateObj = {
     ar: number,
@@ -114,6 +114,7 @@ function ODtoms(od: number) {
         hitwindow_300: 79 - (od * 6) + 0.5,
         hitwindow_100: 139 - (od * 8) + 0.5,
         hitwindow_50: 199 - (od * 10) + 0.5,
+        od_num: od,
     };
     return rangeobj;
 }
@@ -123,12 +124,6 @@ function ODtoms(od: number) {
  * @returns approach rate converted to milliseconds
  */
 function ARtoms(ar: number) {
-    /*     if (ar > 5) {
-            ogtoms = 1200 - (((ar - 5) * 10) * 15)
-        }
-        else {
-            ogtoms = 1800 - (((ar) * 10) * 12)
-        } */
     const ogtoms = ar > 5 ? 1200 - (((ar - 5) * 10) * 15) : 1800 - (((ar) * 10) * 12);
     return ogtoms;
 }
@@ -141,22 +136,20 @@ function ARtoms(ar: number) {
  * @returns od (overall difficulty)
  */
 function msToOD(hitwindow300: number, hitwindow100?: number, hitwindow50?: number) {
-    let od: string;
+    let od: string = 'NaN';
     if (!isNaN(hitwindow300)) {
         od = ((79.5 - hitwindow300) / 6).toFixed(2);
     }
-    else if (!isNaN(hitwindow100)) {
+    else if (hitwindow100 && !isNaN(hitwindow100)) {
         od = ((139.5 - hitwindow100) / 8).toFixed(2);
     }
-    else if (!isNaN(hitwindow50)) {
+    else if (hitwindow50 && !isNaN(hitwindow50)) {
         od = ((199.5 - hitwindow50) / 10).toFixed(2);
-    } else {
-        od = '???';
     }
-    if (parseFloat(od) > 11) {
+    if (+od > 11) {
         od = '11';
     }
-    return parseFloat(od);
+    return +od;
 }
 /**
  * 
@@ -190,7 +183,7 @@ function odDT(od: number) {
         hitwindow_300: range300,
         hitwindow_100: ((139 - (od * 8) + 0.5) * 2 / 3) + 0.33,
         hitwindow_50: ((199 - (od * 10) + 0.5) * 2 / 3) + 0.33,
-        od_num: parseFloat(((79.5 - range300) / 6).toFixed(2)) > 11 ? 11 : parseFloat(((79.5 - range300) / 6).toFixed(2)),
+        od_num: +((79.5 - range300) / 6).toFixed(2) > 11 ? 11 : +((79.5 - range300) / 6).toFixed(2),
     };
 
     return odobj;
@@ -207,7 +200,7 @@ function odHT(od: number) {
         hitwindow_300: range300,
         hitwindow_100: ((139 - (od * 8) + 0.5) * 4 / 3) + 0.66,
         hitwindow_50: ((199 - (od * 10) + 0.5) * 4 / 3) + 0.66,
-        od_num: parseFloat(((79.5 - range300) / 6).toFixed(2)) > 11 ? 11 : parseFloat(((79.5 - range300) / 6).toFixed(2)),
+        od_num: +((79.5 - range300) / 6).toFixed(2) > 11 ? 11 : +((79.5 - range300) / 6).toFixed(2),
     };
 
     return odobj;
@@ -570,15 +563,15 @@ function ModIntToString(modInt: number) {
  */
 function OrderMods(modString: string) {
     const ModsOrder: ModList[] = ['EZ', 'HD', 'FI', 'HT', 'DT', 'NC', 'HR', 'FL', 'SD', 'PF', 'NF', 'AT', 'CM', 'RL', 'AP', 'TP', 'SO', 'TD', '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K', 'CP', 'RD', 'MR', 'V2'];
-    const modStringArray = modString.toUpperCase().replaceAll(' ', '').replaceAll(',', '').replace(/(.{2})/g, "$1 ")
+    const modStringArray: ModList[] = modString.toUpperCase().replaceAll(' ', '').replaceAll(',', '').replace(/(.{2})/g, "$1 ")
         .replaceAll('RLX', 'RL')
         .replaceAll('RX', 'RL')
         .replaceAll('AU', 'AT')
         .replaceAll('CN', 'CM')
         .replaceAll('S2', 'V2')
-        .split(' ');
-    const modStringArrayOrdered = [];
-    const modStringArrayOrderedtest = [];
+        .split(' ') as ModList[];
+    const modStringArrayOrdered: ModList[] = [];
+    const modStringArrayOrderedtest: ModList[] = [];
     for (let i = 0; i < ModsOrder.length; i++) {
         for (let j = 0; j < modStringArray.length; j++) {
             if (ModsOrder[i] === modStringArray[j]) {
@@ -643,7 +636,7 @@ function shortModName(modstring: string) {
         .replaceAll('co-op', 'KC')
         .replaceAll('scorev2', 'S2')
         .replaceAll('mirror', 'MR')).string;
-        ;
+    ;
 }
 /**
  * 
@@ -738,7 +731,7 @@ export function modHandler(mods: string, mode: 'osu' | 'taiko' | 'fruits' | 'man
     }
     const maniaOnlyMods: ModList[] = ['FI', '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K', 'CP', 'RD', 'MR',];
     const standardMods: ModList[] = ['AP', 'TP', 'SO', 'TD',];
-    let ignoreMods = [];
+    let ignoreMods: ModList[] = [];
     switch (mode) {
         default:
         case 'osu':
@@ -891,12 +884,12 @@ function calcValues(cs: number, ar: number, od: number, hp: number, bpm: number,
     }
 
     const obj: ValObj = {
-        cs: parseFloat(ncs.toFixed(2)),
-        ar: parseFloat(nar.toFixed(2)),
-        od: parseFloat(nod.toFixed(2)),
-        hp: parseFloat(nhp.toFixed(2)),
-        bpm: parseFloat(nbpm.toFixed(2)),
-        length: parseFloat(nlength.toFixed(2)),
+        cs: +ncs.toFixed(2),
+        ar: +nar.toFixed(2),
+        od: +nod.toFixed(2),
+        hp: +nhp.toFixed(2),
+        bpm: +nbpm.toFixed(2),
+        length: +nlength.toFixed(2),
         mods,
         error,
         details: {
