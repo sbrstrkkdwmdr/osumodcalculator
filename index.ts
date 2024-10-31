@@ -1,22 +1,22 @@
 import types = require("./types");
 
 
-export type OverallDifficultyObj = {
+export type OverallDifficulty = {
     hitwindow_300: number,
     hitwindow_100: number,
     hitwindow_50: number,
     od_num: number,
 };
-export type ApproachRateObj = {
+export type ApproachRate = {
     ar: number,
     ms: number,
 };
-export type AccGra = {
+export type AccGrade = {
     grade: string,
     gradeLazer: string,
     accuracy: number;
 };
-export type ValObj = {
+export type Values = {
     cs: number,
     ar: number,
     od: number,
@@ -29,19 +29,19 @@ export type ValObj = {
     details?: {
         csRadius: number,
         arMs: number,
-        odMs: OverallDifficultyObj,
+        odMs: OverallDifficulty,
         lengthFull: string,
     };
 };
 
-export type ModList =
+export type Mods =
     'EZ' | 'HD' | 'FI' | 'HT' | 'DT' | 'NC' | 'HR' | 'FL' | 'SD' | 'PF' | 'NF' | 'AT' | 'CM' | 'RL' | 'AP' | 'TP' | 'SO' | 'TD' | '1K' | '2K' | '3K' | '4K' | '5K' | '6K' | '7K' | '8K' | '9K' | 'CP' | 'RD' | 'MR' | 'V2';
 
-export type ModListLazer = ModList | 'DC' | 'BL' | 'ST' /**strict tracking */ | 'DA' | 'CL' | 'AL' | 'ST' /**single tap */ | 'TR' /**transform */ | 'WI' | 'SI' | 'GR' | 'DF' | 'WU' | 'WD' | 'TR' /**traceable */ | 'BR' | 'AD' | 'MU' | 'NS' | 'MG' | 'RP' | 'AS' | 'FF';
+export type ModsLazer = Mods | 'DC' | 'BL' | 'ST' /**strict tracking */ | 'DA' | 'CL' | 'AL' | 'ST' /**single tap */ | 'TR' /**transform */ | 'WI' | 'SI' | 'GR' | 'DF' | 'WU' | 'WD' | 'TR' /**traceable */ | 'BR' | 'AD' | 'MU' | 'NS' | 'MG' | 'RP' | 'AS' | 'FF';
 
-export type ModListLong = 'Easy' | 'Hidden' | 'Fade in' | 'Half Time' | 'Double Time' | 'Nightcore' | 'Hard Rock' | 'Flashlight' | 'Sudden Death' | 'Perfect' | 'No Fail' | 'Auto' | 'Cinema' | 'Relax' | 'Autopilot' | 'Target Practice' | 'Spun Out' | 'Touch device' | '1K' | '2K' | '3K' | '4K' | '5K' | '6K' | '7K' | '8K' | '9K' | 'Co-op' | 'Random' | 'Mirror' | 'ScoreV2';
+export type ModsLong = 'Easy' | 'Hidden' | 'Fade in' | 'Half Time' | 'Double Time' | 'Nightcore' | 'Hard Rock' | 'Flashlight' | 'Sudden Death' | 'Perfect' | 'No Fail' | 'Auto' | 'Cinema' | 'Relax' | 'Autopilot' | 'Target Practice' | 'Spun Out' | 'Touch device' | '1K' | '2K' | '3K' | '4K' | '5K' | '6K' | '7K' | '8K' | '9K' | 'Co-op' | 'Random' | 'Mirror' | 'ScoreV2';
 
-export type ModListLazerLong = ModListLong | 'Daycore' | 'Blinds' | 'Strict Tracking' | 'Difficulty Adjust' | 'Classic' | 'Alternate' | 'Single Tap' | 'Transform' | 'Wiggle' | 'Spin In' | 'Grow' | 'Deflate' | 'Wind Up' | 'Wind Down' | 'Traceable' | 'Barrel Roll' | 'Approach Different' | 'Muted' | 'No Scope' | 'Magnetised' | 'Repel' | 'Adaptive Speed' | 'Freeze Frame';
+export type ModsLazerLong = ModsLong | 'Daycore' | 'Blinds' | 'Strict Tracking' | 'Difficulty Adjust' | 'Classic' | 'Alternate' | 'Single Tap' | 'Transform' | 'Wiggle' | 'Spin In' | 'Grow' | 'Deflate' | 'Wind Up' | 'Wind Down' | 'Traceable' | 'Barrel Roll' | 'Approach Different' | 'Muted' | 'No Scope' | 'Magnetised' | 'Repel' | 'Adaptive Speed' | 'Freeze Frame';
 
 
 /**
@@ -67,7 +67,7 @@ function DoubleTimeAR(ar: number) {
     else {
         newAR = Math.round((5 - (ms - 1200) / 120) * 100) / 100;
     }
-    const arobj: ApproachRateObj = {
+    const arobj: ApproachRate = {
         ar: newAR,
         ms: ms,
     };
@@ -98,7 +98,7 @@ function HalfTimeAR(ar: number) {
     else {
         newAR = Math.round((5 - (ms - 1200) / 120) * 100) / 100;
     }
-    const arobj: ApproachRateObj = {
+    const arobj: ApproachRate = {
         ar: newAR,
         ms: ms,
     };
@@ -110,7 +110,7 @@ function HalfTimeAR(ar: number) {
  * @returns hitwindow values in milliseconds
  */
 function ODtoms(od: number) {
-    const rangeobj: OverallDifficultyObj = {
+    const rangeobj: OverallDifficulty = {
         hitwindow_300: 79 - (od * 6) + 0.5,
         hitwindow_100: 139 - (od * 8) + 0.5,
         hitwindow_50: 199 - (od * 10) + 0.5,
@@ -123,9 +123,12 @@ function ODtoms(od: number) {
  * @param ar approach rate
  * @returns approach rate converted to milliseconds
  */
-function ARtoms(ar: number) {
+function ARtoms(ar: number): ApproachRate {
     const ogtoms = ar > 5 ? 1200 - (((ar - 5) * 10) * 15) : 1800 - (((ar) * 10) * 12);
-    return ogtoms;
+    return {
+        ar,
+        ms: ogtoms,
+    };
 }
 /**
  * 
@@ -135,7 +138,7 @@ function ARtoms(ar: number) {
  * @info set a value to a string to ignore
  * @returns od (overall difficulty)
  */
-function msToOD(hitwindow300: number, hitwindow100?: number, hitwindow50?: number) {
+function msToOD(hitwindow300: number, hitwindow100?: number, hitwindow50?: number): OverallDifficulty {
     let od: string = 'NaN';
     if (!isNaN(hitwindow300)) {
         od = ((79.5 - hitwindow300) / 6).toFixed(2);
@@ -149,14 +152,14 @@ function msToOD(hitwindow300: number, hitwindow100?: number, hitwindow50?: numbe
     if (+od > 11) {
         od = '11';
     }
-    return +od;
+    return ODtoms(+od);
 }
 /**
  * 
  * @param ms milliseconds
  * @returns ar (approach rate)
  */
-function msToAR(ms: number) {
+function msToAR(ms: number): ApproachRate {
     let ar: number;
     if (ms < 300) {
         ar = 11;
@@ -167,7 +170,10 @@ function msToAR(ms: number) {
     else {
         ar = Math.round((5 - (ms - 1200) / 120) * 100) / 100;
     }
-    return ar;
+    return {
+        ar,
+        ms,
+    };
 }
 
 
@@ -179,7 +185,7 @@ function msToAR(ms: number) {
  */
 function odDT(od: number) {
     const range300 = ((79 - (od * 6) + 0.5) * 2 / 3) + 0.33;
-    const odobj: OverallDifficultyObj = {
+    const odobj: OverallDifficulty = {
         hitwindow_300: range300,
         hitwindow_100: ((139 - (od * 8) + 0.5) * 2 / 3) + 0.33,
         hitwindow_50: ((199 - (od * 10) + 0.5) * 2 / 3) + 0.33,
@@ -248,7 +254,7 @@ function calcgrade(hit300: number, hit100: number, hit50: number, miss: number) 
         gradeLazer = 'S';
     }
 
-    const finalarr: AccGra = {
+    const finalarr: AccGrade = {
         grade,
         gradeLazer,
         accuracy: equation,
@@ -282,7 +288,7 @@ function calcgradeTaiko(hit300: number, hit100: number, miss: number) {
     if (equation == 1) {
         [grade, gradeLazer] = ['SS', 'SS'];
     }
-    const finalarr: AccGra = {
+    const finalarr: AccGrade = {
         grade,
         gradeLazer,
         accuracy: equation * 100,
@@ -318,7 +324,7 @@ function calcgradeCatch(hit300: number, hit100: number, hit50: number, hitkatu: 
         [grade, gradeLazer] = ['SS', 'SS'];
     }
 
-    const finalarr: AccGra = {
+    const finalarr: AccGrade = {
         grade,
         gradeLazer,
         accuracy: equation * 100,
@@ -353,7 +359,7 @@ function calcgradeMania(hit300max: number, hit300: number, hit200: number, hit10
     if (equation == 1) {
         [grade, gradeLazer] = ['SS', 'SS'];
     }
-    const finalarr: AccGra = {
+    const finalarr: AccGrade = {
         grade,
         gradeLazer,
         accuracy: equation * 100,
@@ -372,7 +378,7 @@ function calcgradeMania(hit300max: number, hit300: number, hit200: number, hit10
  */
 function toHR(cs: number, ar: number, od: number, hp: number) {
 
-    const hrobj: ValObj = {
+    const hrobj: Values = {
         cs: cs * 1.3 > 10 ? 10 : cs * 1.3,
         ar: ar * 1.4 > 10 ? 10 : ar * 1.4,
         od: od * 1.4 > 10 ? 10 : od * 1.4,
@@ -390,7 +396,7 @@ function toHR(cs: number, ar: number, od: number, hp: number) {
  */
 function toEZ(cs: number, ar: number, od: number, hp: number) {
 
-    const ezobj: ValObj = {
+    const ezobj: Values = {
         cs: cs / 2 > 10 ? 10 : cs / 2,
         ar: ar / 2 > 10 ? 10 : ar / 2,
         od: od / 2 > 10 ? 10 : od / 2,
@@ -399,7 +405,7 @@ function toEZ(cs: number, ar: number, od: number, hp: number) {
     return ezobj;
 }
 
-export enum ModsLong {
+export enum ModsEnum {
     None = 0,
     NoFail = 1,
     Easy = 2,
@@ -562,16 +568,16 @@ function ModIntToString(modInt: number) {
  * @returns reorders mods to be in the correct order and removes duplicates.
  */
 function OrderMods(modString: string) {
-    const ModsOrder: ModList[] = ['EZ', 'HD', 'FI', 'HT', 'DT', 'NC', 'HR', 'FL', 'SD', 'PF', 'NF', 'AT', 'CM', 'RL', 'AP', 'TP', 'SO', 'TD', '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K', 'CP', 'RD', 'MR', 'V2'];
-    const modStringArray: ModList[] = modString.toUpperCase().replaceAll(' ', '').replaceAll(',', '').replace(/(.{2})/g, "$1 ")
+    const ModsOrder: Mods[] = ['EZ', 'HD', 'FI', 'HT', 'DT', 'NC', 'HR', 'FL', 'SD', 'PF', 'NF', 'AT', 'CM', 'RL', 'AP', 'TP', 'SO', 'TD', '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K', 'CP', 'RD', 'MR', 'V2'];
+    const modStringArray: Mods[] = modString.toUpperCase().replaceAll(' ', '').replaceAll(',', '').replace(/(.{2})/g, "$1 ")
         .replaceAll('RLX', 'RL')
         .replaceAll('RX', 'RL')
         .replaceAll('AU', 'AT')
         .replaceAll('CN', 'CM')
         .replaceAll('S2', 'V2')
-        .split(' ') as ModList[];
-    const modStringArrayOrdered: ModList[] = [];
-    const modStringArrayOrderedtest: ModList[] = [];
+        .split(' ') as Mods[];
+    const modStringArrayOrdered: Mods[] = [];
+    const modStringArrayOrderedtest: Mods[] = [];
     for (let i = 0; i < ModsOrder.length; i++) {
         for (let j = 0; j < modStringArray.length; j++) {
             if (ModsOrder[i] === modStringArray[j]) {
@@ -688,7 +694,7 @@ function longModName(modstring: string) {
  */
 function unrankedMods_stable(mods: string) {
     let val = false;
-    const unverifiable: ModList[] = [
+    const unverifiable: Mods[] = [
         'AT', 'CM', 'RL', 'AP', 'V2', 'TP'
     ];
     val = unverifiable.some(x => mods.includes(x));
@@ -701,7 +707,7 @@ function unrankedMods_stable(mods: string) {
  */
 function unrankedMods_lazer(mods: string) {
     const val = false;
-    const unverifiable: ModListLazer[] = [
+    const unverifiable: ModsLazer[] = [
         'AT', 'CM'
     ];
     return val;
@@ -712,7 +718,7 @@ function unrankedMods_lazer(mods: string) {
  * NOTE LAZER MODS ARE IGNORED
  */
 export function modHandler(mods: string, mode: 'osu' | 'taiko' | 'fruits' | 'mania') {
-    const ModsOrder: ModList[] = ['EZ', 'HD', 'FI', 'HT', 'DT', 'NC', 'HR', 'FL', 'SD', 'PF', 'NF', 'AT', 'CM', 'RL', 'AP', 'TP', 'SO', 'TD', '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K', 'CP', 'RD', 'MR', 'V2'];
+    const ModsOrder: Mods[] = ['EZ', 'HD', 'FI', 'HT', 'DT', 'NC', 'HR', 'FL', 'SD', 'PF', 'NF', 'AT', 'CM', 'RL', 'AP', 'TP', 'SO', 'TD', '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K', 'CP', 'RD', 'MR', 'V2'];
     const modStringArray = mods.toUpperCase().replaceAll(' ', '').replaceAll(',', '').replace(/(.{2})/g, "$1 ")
         .replaceAll('RLX', 'RL')
         .replaceAll('RX', 'RL')
@@ -720,18 +726,18 @@ export function modHandler(mods: string, mode: 'osu' | 'taiko' | 'fruits' | 'man
         .replaceAll('CN', 'CM')
         .replaceAll('S2', 'V2')
         .split(' ');
-    const modStringArrayOrdered: ModList[] = [];
-    const modStringArrayOrderedtest: ModList[] = [];
+    const modStringArrayOrdered: Mods[] = [];
+    const modStringArrayOrderedtest: Mods[] = [];
     for (let i = 0; i < ModsOrder.length; i++) {
         for (let j = 0; j < modStringArray.length; j++) {
             if (ModsOrder[i] === modStringArray[j]) {
-                modStringArrayOrderedtest.push((modStringArray as ModList[])[j]);
+                modStringArrayOrderedtest.push((modStringArray as Mods[])[j]);
             }
         }
     }
-    const maniaOnlyMods: ModList[] = ['FI', '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K', 'CP', 'RD', 'MR',];
-    const standardMods: ModList[] = ['AP', 'TP', 'SO', 'TD',];
-    let ignoreMods: ModList[] = [];
+    const maniaOnlyMods: Mods[] = ['FI', '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K', 'CP', 'RD', 'MR',];
+    const standardMods: Mods[] = ['AP', 'TP', 'SO', 'TD',];
+    let ignoreMods: Mods[] = [];
     switch (mode) {
         default:
         case 'osu':
@@ -883,7 +889,7 @@ function calcValues(cs: number, ar: number, od: number, hp: number, bpm: number,
             break;
     }
 
-    const obj: ValObj = {
+    const obj: Values = {
         cs: +ncs.toFixed(2),
         ar: +nar.toFixed(2),
         od: +nod.toFixed(2),
@@ -894,7 +900,7 @@ function calcValues(cs: number, ar: number, od: number, hp: number, bpm: number,
         error,
         details: {
             csRadius: csToRadius(ncs),
-            arMs: ARtoms(nar),
+            arMs: ARtoms(nar).ms,
             odMs: ODtoms(nod),
             //mm:ss
             lengthFull: nlength > 60 ?
@@ -915,14 +921,14 @@ function calcValues(cs: number, ar: number, od: number, hp: number, bpm: number,
  */
 export function calcValuesAlt(cs: number, ar: number, od: number, hp: number, bpm: number, length: number, speedMult: number) {
     speedMult = (speedMult ?? 1);
-    const arMs = ARtoms(ar);
+    const arMs = ARtoms(ar).ms;
     const odMs = ODtoms(od);
-    const nar: number = msToAR(arMs / speedMult);
-    const nod: number = msToOD(odMs.hitwindow_300 / speedMult);
+    const nar: number = msToAR(arMs / speedMult).ms;
+    const nod: number = msToOD(odMs.hitwindow_300 / speedMult).od_num;
     const nbpm: number = bpm / speedMult;
     const nlength: number = length / speedMult;
 
-    const obj: ValObj = {
+    const obj: Values = {
         cs: +cs.toFixed(2),
         ar: +nar.toFixed(2),
         od: +nod.toFixed(2),
