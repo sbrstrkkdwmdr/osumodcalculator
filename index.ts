@@ -43,7 +43,6 @@ export type ModsLong = 'Easy' | 'Hidden' | 'Fade in' | 'Half Time' | 'Double Tim
 
 export type ModsLazerLong = ModsLong | 'Daycore' | 'Blinds' | 'Strict Tracking' | 'Difficulty Adjust' | 'Classic' | 'Alternate' | 'Single Tap' | 'Transform' | 'Wiggle' | 'Spin In' | 'Grow' | 'Deflate' | 'Wind Up' | 'Wind Down' | 'Traceable' | 'Barrel Roll' | 'Approach Different' | 'Muted' | 'No Scope' | 'Magnetised' | 'Repel' | 'Adaptive Speed' | 'Freeze Frame';
 
-
 /**
  * 
  * @param ar approach rate
@@ -562,22 +561,28 @@ function ModIntToString(modInt: number) {
     }
     return OrderMods(modString).string;
 }
+
+function getOrderedMods(): ModsLazer[] {
+    return ['EZ', 'HD', 'FI', 'HT', 'DC', 'DT', 'NC', 'HR', 'FL', 'SD', 'PF', 'NF', 'AT', 'CM', 'RL', 'AP', 'TP', 'SO', 'TD', '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K', 'CP', 'RD', 'MR', 'V2',
+        'BL', 'ST', 'DA', 'CL', 'AL', 'ST', 'TR', 'WI', 'SI', 'GR', 'DF', 'WU', 'WD', 'TR', 'BR', 'AD', 'MU', 'NS', 'MG', 'RP', 'AS', 'FF'
+    ];
+}
 /**
  * 
  * @param modString 
  * @returns reorders mods to be in the correct order and removes duplicates.
  */
 function OrderMods(modString: string) {
-    const ModsOrder: Mods[] = ['EZ', 'HD', 'FI', 'HT', 'DT', 'NC', 'HR', 'FL', 'SD', 'PF', 'NF', 'AT', 'CM', 'RL', 'AP', 'TP', 'SO', 'TD', '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K', 'CP', 'RD', 'MR', 'V2'];
-    const modStringArray: Mods[] = modString.toUpperCase().replaceAll(' ', '').replaceAll(',', '').replace(/(.{2})/g, "$1 ")
+    const ModsOrder = getOrderedMods();
+    const modStringArray: ModsLazer[] = modString.toUpperCase().replaceAll(' ', '').replaceAll(',', '').replace(/(.{2})/g, "$1 ")
         .replaceAll('RLX', 'RL')
         .replaceAll('RX', 'RL')
         .replaceAll('AU', 'AT')
         .replaceAll('CN', 'CM')
         .replaceAll('S2', 'V2')
-        .split(' ') as Mods[];
-    const modStringArrayOrdered: Mods[] = [];
-    const modStringArrayOrderedtest: Mods[] = [];
+        .split(' ') as ModsLazer[];
+    const modStringArrayOrdered: ModsLazer[] = [];
+    const modStringArrayOrderedtest: ModsLazer[] = [];
     for (let i = 0; i < ModsOrder.length; i++) {
         for (let j = 0; j < modStringArray.length; j++) {
             if (ModsOrder[i] === modStringArray[j]) {
@@ -589,6 +594,12 @@ function OrderMods(modString: string) {
         if (modStringArrayOrderedtest.indexOf(modStringArrayOrderedtest[i]) === i) {
             modStringArrayOrdered.push(modStringArrayOrderedtest[i]);
         }
+    }
+    if (modStringArrayOrdered.includes('DT') && modStringArrayOrdered.includes('NC')) {
+        modStringArrayOrdered.splice(modStringArrayOrdered.indexOf('DT'), 1);
+    }
+    if (modStringArrayOrdered.includes('HT') && modStringArrayOrdered.includes('DC')) {
+        modStringArrayOrdered.splice(modStringArrayOrdered.indexOf('HT'), 1);
     }
 
     return {
@@ -718,7 +729,7 @@ function unrankedMods_lazer(mods: string) {
  * NOTE LAZER MODS ARE IGNORED
  */
 export function modHandler(mods: string, mode: 'osu' | 'taiko' | 'fruits' | 'mania') {
-    const ModsOrder: Mods[] = ['EZ', 'HD', 'FI', 'HT', 'DT', 'NC', 'HR', 'FL', 'SD', 'PF', 'NF', 'AT', 'CM', 'RL', 'AP', 'TP', 'SO', 'TD', '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K', 'CP', 'RD', 'MR', 'V2'];
+    const ModsOrder = getOrderedMods();
     const modStringArray = mods.toUpperCase().replaceAll(' ', '').replaceAll(',', '').replace(/(.{2})/g, "$1 ")
         .replaceAll('RLX', 'RL')
         .replaceAll('RX', 'RL')
@@ -726,18 +737,18 @@ export function modHandler(mods: string, mode: 'osu' | 'taiko' | 'fruits' | 'man
         .replaceAll('CN', 'CM')
         .replaceAll('S2', 'V2')
         .split(' ');
-    const modStringArrayOrdered: Mods[] = [];
-    const modStringArrayOrderedtest: Mods[] = [];
+    const modStringArrayOrdered: ModsLazer[] = [];
+    const modStringArrayOrderedtest: ModsLazer[] = [];
     for (let i = 0; i < ModsOrder.length; i++) {
         for (let j = 0; j < modStringArray.length; j++) {
             if (ModsOrder[i] === modStringArray[j]) {
-                modStringArrayOrderedtest.push((modStringArray as Mods[])[j]);
+                modStringArrayOrderedtest.push((modStringArray as ModsLazer[])[j]);
             }
         }
     }
-    const maniaOnlyMods: Mods[] = ['FI', '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K', 'CP', 'RD', 'MR',];
-    const standardMods: Mods[] = ['AP', 'TP', 'SO', 'TD',];
-    let ignoreMods: Mods[] = [];
+    const maniaOnlyMods: ModsLazer[] = ['FI', '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K', 'CP', 'RD', 'MR',];
+    const standardMods: ModsLazer[] = ['AP', 'TP', 'SO', 'TD',];
+    let ignoreMods: ModsLazer[] = [];
     switch (mode) {
         default:
         case 'osu':
@@ -762,6 +773,13 @@ export function modHandler(mods: string, mode: 'osu' | 'taiko' | 'fruits' | 'man
         if (modStringArrayOrderedtest.indexOf(modStringArrayOrderedtest[i]) === i) {
             modStringArrayOrdered.push(modStringArrayOrderedtest[i]);
         }
+    }
+
+    if (modStringArrayOrdered.includes('DT') && modStringArrayOrdered.includes('NC')) {
+        modStringArrayOrdered.splice(modStringArrayOrdered.indexOf('DT'), 1);
+    }
+    if (modStringArrayOrdered.includes('HT') && modStringArrayOrdered.includes('DC')) {
+        modStringArrayOrdered.splice(modStringArrayOrdered.indexOf('HT'), 1);
     }
 
     return modStringArrayOrdered;
