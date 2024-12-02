@@ -1,6 +1,37 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.recdiff = exports.bws = exports.unrankedMods_stable = exports.unrankedMods_lazer = exports.toHR = exports.toEZ = exports.shortModName = exports.odHT = exports.odDT = exports.msToOD = exports.msToAR = exports.longModName = exports.csToRadius = exports.csFromRadius = exports.checkGrade = exports.calcgradeTaiko = exports.calcgradeMania = exports.calcgradeCatch = exports.calcgrade = exports.calcValues = exports.OrderMods = exports.ODtoms = exports.ModeNameToInt = exports.ModeIntToName = exports.ModStringToInt = exports.ModIntToString = exports.HalfTimeAR = exports.DoubleTimeAR = exports.ARtoms = exports.calcValuesAlt = exports.modHandler = exports.ModShort = exports.ModsLong = void 0;
+exports.ModShort = exports.ModsEnum = void 0;
+exports.modHandler = modHandler;
+exports.calcValuesAlt = calcValuesAlt;
+exports.ARtoms = ARtoms;
+exports.DoubleTimeAR = DoubleTimeAR;
+exports.HalfTimeAR = HalfTimeAR;
+exports.ModIntToString = ModIntToString;
+exports.ModStringToInt = ModStringToInt;
+exports.ModeIntToName = ModeIntToName;
+exports.ModeNameToInt = ModeNameToInt;
+exports.ODtoms = ODtoms;
+exports.OrderMods = OrderMods;
+exports.calcValues = calcValues;
+exports.calcgrade = calcgrade;
+exports.calcgradeCatch = calcgradeCatch;
+exports.calcgradeMania = calcgradeMania;
+exports.calcgradeTaiko = calcgradeTaiko;
+exports.checkGrade = checkGrade;
+exports.csFromRadius = csFromRadius;
+exports.csToRadius = csToRadius;
+exports.longModName = longModName;
+exports.msToAR = msToAR;
+exports.msToOD = msToOD;
+exports.odDT = odDT;
+exports.odHT = odHT;
+exports.shortModName = shortModName;
+exports.toEZ = toEZ;
+exports.toHR = toHR;
+exports.unrankedMods_lazer = unrankedMods_lazer;
+exports.unrankedMods_stable = unrankedMods_stable;
+exports.bws = bws;
+exports.recdiff = recdiff;
 /**
  *
  * @param ar approach rate
@@ -30,7 +61,6 @@ function DoubleTimeAR(ar) {
     };
     return arobj;
 }
-exports.DoubleTimeAR = DoubleTimeAR;
 /**
  *
  * @param ar approach rate
@@ -61,7 +91,6 @@ function HalfTimeAR(ar) {
     };
     return arobj;
 }
-exports.HalfTimeAR = HalfTimeAR;
 /**
  *
  * @param od overall difficulty / accuracy
@@ -72,26 +101,22 @@ function ODtoms(od) {
         hitwindow_300: 79 - (od * 6) + 0.5,
         hitwindow_100: 139 - (od * 8) + 0.5,
         hitwindow_50: 199 - (od * 10) + 0.5,
+        od_num: od,
     };
     return rangeobj;
 }
-exports.ODtoms = ODtoms;
 /**
  *
  * @param ar approach rate
  * @returns approach rate converted to milliseconds
  */
 function ARtoms(ar) {
-    /*     if (ar > 5) {
-            ogtoms = 1200 - (((ar - 5) * 10) * 15)
-        }
-        else {
-            ogtoms = 1800 - (((ar) * 10) * 12)
-        } */
     var ogtoms = ar > 5 ? 1200 - (((ar - 5) * 10) * 15) : 1800 - (((ar) * 10) * 12);
-    return ogtoms;
+    return {
+        ar: ar,
+        ms: ogtoms,
+    };
 }
-exports.ARtoms = ARtoms;
 /**
  *
  * @param hitwindow300 300 hit window in milliseconds
@@ -101,25 +126,21 @@ exports.ARtoms = ARtoms;
  * @returns od (overall difficulty)
  */
 function msToOD(hitwindow300, hitwindow100, hitwindow50) {
-    var od;
+    var od = 'NaN';
     if (!isNaN(hitwindow300)) {
         od = ((79.5 - hitwindow300) / 6).toFixed(2);
     }
-    else if (!isNaN(hitwindow100)) {
+    else if (hitwindow100 && !isNaN(hitwindow100)) {
         od = ((139.5 - hitwindow100) / 8).toFixed(2);
     }
-    else if (!isNaN(hitwindow50)) {
+    else if (hitwindow50 && !isNaN(hitwindow50)) {
         od = ((199.5 - hitwindow50) / 10).toFixed(2);
     }
-    else {
-        od = '???';
-    }
-    if (parseFloat(od) > 11) {
+    if (+od > 11) {
         od = '11';
     }
-    return parseFloat(od);
+    return ODtoms(+od);
 }
-exports.msToOD = msToOD;
 /**
  *
  * @param ms milliseconds
@@ -136,9 +157,11 @@ function msToAR(ms) {
     else {
         ar = Math.round((5 - (ms - 1200) / 120) * 100) / 100;
     }
-    return ar;
+    return {
+        ar: ar,
+        ms: ms,
+    };
 }
-exports.msToAR = msToAR;
 /**
  *
  * @param od overall difficulty / accuracy
@@ -150,11 +173,10 @@ function odDT(od) {
         hitwindow_300: range300,
         hitwindow_100: ((139 - (od * 8) + 0.5) * 2 / 3) + 0.33,
         hitwindow_50: ((199 - (od * 10) + 0.5) * 2 / 3) + 0.33,
-        od_num: parseFloat(((79.5 - range300) / 6).toFixed(2)) > 11 ? 11 : parseFloat(((79.5 - range300) / 6).toFixed(2)),
+        od_num: +((79.5 - range300) / 6).toFixed(2) > 11 ? 11 : +((79.5 - range300) / 6).toFixed(2),
     };
     return odobj;
 }
-exports.odDT = odDT;
 /**
  *
  * @param od overall difficulty / accuracy
@@ -166,11 +188,10 @@ function odHT(od) {
         hitwindow_300: range300,
         hitwindow_100: ((139 - (od * 8) + 0.5) * 4 / 3) + 0.66,
         hitwindow_50: ((199 - (od * 10) + 0.5) * 4 / 3) + 0.66,
-        od_num: parseFloat(((79.5 - range300) / 6).toFixed(2)) > 11 ? 11 : parseFloat(((79.5 - range300) / 6).toFixed(2)),
+        od_num: +((79.5 - range300) / 6).toFixed(2) > 11 ? 11 : +((79.5 - range300) / 6).toFixed(2),
     };
     return odobj;
 }
-exports.odHT = odHT;
 //https://osu.ppy.sh/wiki/en/Gameplay/Accuracy
 /**
  *
@@ -220,7 +241,6 @@ function calcgrade(hit300, hit100, hit50, miss) {
     };
     return finalarr;
 }
-exports.calcgrade = calcgrade;
 /**
  *
  * @param hit300 - hit 300s/greats (100%)
@@ -255,7 +275,6 @@ function calcgradeTaiko(hit300, hit100, miss) {
     };
     return finalarr;
 }
-exports.calcgradeTaiko = calcgradeTaiko;
 /**
  *
  * @param hit300 - fruits caught
@@ -291,7 +310,6 @@ function calcgradeCatch(hit300, hit100, hit50, hitkatu, miss) {
     };
     return finalarr;
 }
-exports.calcgradeCatch = calcgradeCatch;
 /**
  *
  * @param hit300max - hit max/300+ (100%)
@@ -328,7 +346,6 @@ function calcgradeMania(hit300max, hit300, hit200, hit100, hit50, miss) {
     };
     return finalarr;
 }
-exports.calcgradeMania = calcgradeMania;
 /**
  *
  * @param cs circle size
@@ -346,7 +363,6 @@ function toHR(cs, ar, od, hp) {
     };
     return hrobj;
 }
-exports.toHR = toHR;
 /**
  *
  * @param cs circle size
@@ -364,42 +380,41 @@ function toEZ(cs, ar, od, hp) {
     };
     return ezobj;
 }
-exports.toEZ = toEZ;
-var ModsLong;
-(function (ModsLong) {
-    ModsLong[ModsLong["None"] = 0] = "None";
-    ModsLong[ModsLong["NoFail"] = 1] = "NoFail";
-    ModsLong[ModsLong["Easy"] = 2] = "Easy";
-    ModsLong[ModsLong["TouchDevice"] = 4] = "TouchDevice";
-    ModsLong[ModsLong["Hidden"] = 8] = "Hidden";
-    ModsLong[ModsLong["HardRock"] = 16] = "HardRock";
-    ModsLong[ModsLong["SuddenDeath"] = 32] = "SuddenDeath";
-    ModsLong[ModsLong["DoubleTime"] = 64] = "DoubleTime";
-    ModsLong[ModsLong["Relax"] = 128] = "Relax";
-    ModsLong[ModsLong["HalfTime"] = 256] = "HalfTime";
-    ModsLong[ModsLong["Nightcore"] = 512] = "Nightcore";
-    ModsLong[ModsLong["Flashlight"] = 1024] = "Flashlight";
-    ModsLong[ModsLong["Autoplay"] = 2048] = "Autoplay";
-    ModsLong[ModsLong["SpunOut"] = 4096] = "SpunOut";
-    ModsLong[ModsLong["AutoPilot"] = 8192] = "AutoPilot";
-    ModsLong[ModsLong["Perfect"] = 16384] = "Perfect";
-    ModsLong[ModsLong["Key4"] = 32768] = "Key4";
-    ModsLong[ModsLong["Key5"] = 65536] = "Key5";
-    ModsLong[ModsLong["Key6"] = 131072] = "Key6";
-    ModsLong[ModsLong["Key7"] = 262144] = "Key7";
-    ModsLong[ModsLong["Key8"] = 524288] = "Key8";
-    ModsLong[ModsLong["FadeIn"] = 1048576] = "FadeIn";
-    ModsLong[ModsLong["Random"] = 2097152] = "Random";
-    ModsLong[ModsLong["Cinema"] = 4194304] = "Cinema";
-    ModsLong[ModsLong["Target"] = 8388608] = "Target";
-    ModsLong[ModsLong["Key9"] = 16777216] = "Key9";
-    ModsLong[ModsLong["KeyCoop"] = 33554432] = "KeyCoop";
-    ModsLong[ModsLong["Key1"] = 67108864] = "Key1";
-    ModsLong[ModsLong["Key3"] = 134217728] = "Key3";
-    ModsLong[ModsLong["Key2"] = 268435456] = "Key2";
-    ModsLong[ModsLong["ScoreV2"] = 536870912] = "ScoreV2";
-    ModsLong[ModsLong["Mirror"] = 1073741824] = "Mirror";
-})(ModsLong || (exports.ModsLong = ModsLong = {}));
+var ModsEnum;
+(function (ModsEnum) {
+    ModsEnum[ModsEnum["None"] = 0] = "None";
+    ModsEnum[ModsEnum["NoFail"] = 1] = "NoFail";
+    ModsEnum[ModsEnum["Easy"] = 2] = "Easy";
+    ModsEnum[ModsEnum["TouchDevice"] = 4] = "TouchDevice";
+    ModsEnum[ModsEnum["Hidden"] = 8] = "Hidden";
+    ModsEnum[ModsEnum["HardRock"] = 16] = "HardRock";
+    ModsEnum[ModsEnum["SuddenDeath"] = 32] = "SuddenDeath";
+    ModsEnum[ModsEnum["DoubleTime"] = 64] = "DoubleTime";
+    ModsEnum[ModsEnum["Relax"] = 128] = "Relax";
+    ModsEnum[ModsEnum["HalfTime"] = 256] = "HalfTime";
+    ModsEnum[ModsEnum["Nightcore"] = 512] = "Nightcore";
+    ModsEnum[ModsEnum["Flashlight"] = 1024] = "Flashlight";
+    ModsEnum[ModsEnum["Autoplay"] = 2048] = "Autoplay";
+    ModsEnum[ModsEnum["SpunOut"] = 4096] = "SpunOut";
+    ModsEnum[ModsEnum["AutoPilot"] = 8192] = "AutoPilot";
+    ModsEnum[ModsEnum["Perfect"] = 16384] = "Perfect";
+    ModsEnum[ModsEnum["Key4"] = 32768] = "Key4";
+    ModsEnum[ModsEnum["Key5"] = 65536] = "Key5";
+    ModsEnum[ModsEnum["Key6"] = 131072] = "Key6";
+    ModsEnum[ModsEnum["Key7"] = 262144] = "Key7";
+    ModsEnum[ModsEnum["Key8"] = 524288] = "Key8";
+    ModsEnum[ModsEnum["FadeIn"] = 1048576] = "FadeIn";
+    ModsEnum[ModsEnum["Random"] = 2097152] = "Random";
+    ModsEnum[ModsEnum["Cinema"] = 4194304] = "Cinema";
+    ModsEnum[ModsEnum["Target"] = 8388608] = "Target";
+    ModsEnum[ModsEnum["Key9"] = 16777216] = "Key9";
+    ModsEnum[ModsEnum["KeyCoop"] = 33554432] = "KeyCoop";
+    ModsEnum[ModsEnum["Key1"] = 67108864] = "Key1";
+    ModsEnum[ModsEnum["Key3"] = 134217728] = "Key3";
+    ModsEnum[ModsEnum["Key2"] = 268435456] = "Key2";
+    ModsEnum[ModsEnum["ScoreV2"] = 536870912] = "ScoreV2";
+    ModsEnum[ModsEnum["Mirror"] = 1073741824] = "Mirror";
+})(ModsEnum || (exports.ModsEnum = ModsEnum = {}));
 var ModShort;
 (function (ModShort) {
     ModShort[ModShort["NM"] = 0] = "NM";
@@ -475,7 +490,6 @@ function ModStringToInt(mods) {
     modInt += mods.toUpperCase().includes('MR') ? 1073741824 : 0;
     return modInt;
 }
-exports.ModStringToInt = ModStringToInt;
 /**
  *
  * @param modInt
@@ -522,21 +536,24 @@ function ModIntToString(modInt) {
     }
     return OrderMods(modString).string;
 }
-exports.ModIntToString = ModIntToString;
+function getOrderedMods() {
+    return ['EZ', 'HD', 'FI', 'HT', 'DC', 'DT', 'NC', 'HR', 'FL', 'SD', 'PF', 'NF', 'AT', 'CM', 'RL', 'AP', 'TP', 'SO', 'TD', '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K', 'CP', 'RD', 'MR', 'V2',
+        'BL', 'ST', 'DA', 'CL', 'AL', 'ST', 'TR', 'WI', 'SI', 'GR', 'DF', 'WU', 'WD', 'TR', 'BR', 'AD', 'MU', 'NS', 'MG', 'RP', 'AS', 'FF'
+    ];
+}
 /**
  *
  * @param modString
  * @returns reorders mods to be in the correct order and removes duplicates.
  */
 function OrderMods(modString) {
-    var ModsOrder = ['EZ', 'HD', 'FI', 'HT', 'DT', 'NC', 'HR', 'FL', 'SD', 'PF', 'NF', 'AT', 'CM', 'RL', 'AP', 'TP', 'SO', 'TD', '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K', 'CP', 'RD', 'MR', 'SV2'];
+    var ModsOrder = getOrderedMods();
     var modStringArray = modString.toUpperCase().replaceAll(' ', '').replaceAll(',', '').replace(/(.{2})/g, "$1 ")
         .replaceAll('RLX', 'RL')
         .replaceAll('RX', 'RL')
         .replaceAll('AU', 'AT')
         .replaceAll('CN', 'CM')
-        .replaceAll('V2', 'SV2')
-        .replaceAll('S2', 'SV2')
+        .replaceAll('S2', 'V2')
         .split(' ');
     var modStringArrayOrdered = [];
     var modStringArrayOrderedtest = [];
@@ -552,12 +569,17 @@ function OrderMods(modString) {
             modStringArrayOrdered.push(modStringArrayOrderedtest[i]);
         }
     }
+    if (modStringArrayOrdered.includes('DT') && modStringArrayOrdered.includes('NC')) {
+        modStringArrayOrdered.splice(modStringArrayOrdered.indexOf('DT'), 1);
+    }
+    if (modStringArrayOrdered.includes('HT') && modStringArrayOrdered.includes('DC')) {
+        modStringArrayOrdered.splice(modStringArrayOrdered.indexOf('HT'), 1);
+    }
     return {
         string: modStringArrayOrdered.join(''),
         array: modStringArrayOrdered
     };
 }
-exports.OrderMods = OrderMods;
 /**
  *
  * @param modstring
@@ -604,7 +626,6 @@ function shortModName(modstring) {
         .replaceAll('mirror', 'MR')).string;
     ;
 }
-exports.shortModName = shortModName;
 /**
  *
  * @param modstring
@@ -647,7 +668,6 @@ function longModName(modstring) {
         .replaceAll('S2', 'ScoreV2 ')
         .replaceAll('MR', 'Mirror ');
 }
-exports.longModName = longModName;
 /**
  * checks if any of the mods given are "unranked" (unsubmitted on stable)
  * @param mods shorthand mods name to verify (ie HDDT not hidden double time or 72)
@@ -655,12 +675,11 @@ exports.longModName = longModName;
 function unrankedMods_stable(mods) {
     var val = false;
     var unverifiable = [
-        'AT', 'CM', 'RL', 'AP', 'SV2', 'TP'
+        'AT', 'CM', 'RL', 'AP', 'V2', 'TP'
     ];
     val = unverifiable.some(function (x) { return mods.includes(x); });
     return val;
 }
-exports.unrankedMods_stable = unrankedMods_stable;
 /**
  * checks if any of the mods given are "unranked" (unsubmitted on stable)
  * @param mods shorthand mods name to verify (ie HDDT not hidden double time or 72)
@@ -672,20 +691,18 @@ function unrankedMods_lazer(mods) {
     ];
     return val;
 }
-exports.unrankedMods_lazer = unrankedMods_lazer;
 /**
  * reorders mods to be in the correct order, removes duplicates and mods that don't fit the mode
  * NOTE LAZER MODS ARE IGNORED
  */
 function modHandler(mods, mode) {
-    var ModsOrder = ['EZ', 'HD', 'FI', 'HT', 'DT', 'NC', 'HR', 'FL', 'SD', 'PF', 'NF', 'AT', 'CM', 'RL', 'AP', 'TP', 'SO', 'TD', '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K', 'CP', 'RD', 'MR', 'SV2'];
+    var ModsOrder = getOrderedMods();
     var modStringArray = mods.toUpperCase().replaceAll(' ', '').replaceAll(',', '').replace(/(.{2})/g, "$1 ")
         .replaceAll('RLX', 'RL')
         .replaceAll('RX', 'RL')
         .replaceAll('AU', 'AT')
         .replaceAll('CN', 'CM')
-        .replaceAll('V2', 'SV2')
-        .replaceAll('S2', 'SV2')
+        .replaceAll('S2', 'V2')
         .split(' ');
     var modStringArrayOrdered = [];
     var modStringArrayOrderedtest = [];
@@ -724,18 +741,20 @@ function modHandler(mods, mode) {
             modStringArrayOrdered.push(modStringArrayOrderedtest[i]);
         }
     }
+    if (modStringArrayOrdered.includes('DT') && modStringArrayOrdered.includes('NC')) {
+        modStringArrayOrdered.splice(modStringArrayOrdered.indexOf('DT'), 1);
+    }
+    if (modStringArrayOrdered.includes('HT') && modStringArrayOrdered.includes('DC')) {
+        modStringArrayOrdered.splice(modStringArrayOrdered.indexOf('HT'), 1);
+    }
     return modStringArrayOrdered;
 }
-exports.modHandler = modHandler;
 /**
- *
- * @param cs circle size
- * @returns the radius of the circle
+ * get the radius of the circle (in pixels)
  */
 function csToRadius(cs) {
     return (0.00005556 * Math.pow(cs, 2) - 4.483 * cs + 54.42);
 }
-exports.csToRadius = csToRadius;
 /**
  *
  * @param radius the radius of the circle
@@ -744,16 +763,8 @@ exports.csToRadius = csToRadius;
 function csFromRadius(radius) {
     return (5000 / 8104533921) * Math.pow(radius, 2) - (1808448550 / 8104533921) * radius + (8582285633270972 / 706821088118109);
 }
-exports.csFromRadius = csFromRadius;
 /**
- *
- * @param cs circle size
- * @param ar approach rate
- * @param od overall difficulty
- * @param hp health
- * @param bpm beats per minute
- * @param length length in seconds
- * @param mods mods
+ * calculate values after mods are applied
  */
 function calcValues(cs, ar, od, hp, bpm, length, mods) {
     var ncs = cs;
@@ -852,17 +863,17 @@ function calcValues(cs, ar, od, hp, bpm, length, mods) {
             break;
     }
     var obj = {
-        cs: parseFloat(ncs.toFixed(2)),
-        ar: parseFloat(nar.toFixed(2)),
-        od: parseFloat(nod.toFixed(2)),
-        hp: parseFloat(nhp.toFixed(2)),
-        bpm: parseFloat(nbpm.toFixed(2)),
-        length: parseFloat(nlength.toFixed(2)),
+        cs: +ncs.toFixed(2),
+        ar: +nar.toFixed(2),
+        od: +nod.toFixed(2),
+        hp: +nhp.toFixed(2),
+        bpm: +nbpm.toFixed(2),
+        length: +nlength.toFixed(2),
         mods: mods,
         error: error,
         details: {
             csRadius: csToRadius(ncs),
-            arMs: ARtoms(nar),
+            arMs: ARtoms(nar).ms,
             odMs: ODtoms(nod),
             //mm:ss
             lengthFull: nlength > 60 ?
@@ -877,23 +888,15 @@ function calcValues(cs, ar, od, hp, bpm, length, mods) {
     };
     return obj;
 }
-exports.calcValues = calcValues;
 /**
- *
- * @param cs circle size
- * @param ar approach rate
- * @param od overall difficulty
- * @param hp health
- * @param bpm beats per minute
- * @param length length in seconds
- * @param mods mods
+ * calculate all values after a speed multiplier is applied
  */
 function calcValuesAlt(cs, ar, od, hp, bpm, length, speedMult) {
     speedMult = (speedMult !== null && speedMult !== void 0 ? speedMult : 1);
-    var arMs = ARtoms(ar);
+    var arMs = ARtoms(ar).ms;
     var odMs = ODtoms(od);
-    var nar = msToAR(arMs / speedMult);
-    var nod = msToOD(odMs.hitwindow_300 / speedMult);
+    var nar = msToAR(arMs / speedMult).ms;
+    var nod = msToOD(odMs.hitwindow_300 / speedMult).od_num;
     var nbpm = bpm / speedMult;
     var nlength = length / speedMult;
     var obj = {
@@ -921,11 +924,8 @@ function calcValuesAlt(cs, ar, od, hp, bpm, length, speedMult) {
     };
     return obj;
 }
-exports.calcValuesAlt = calcValuesAlt;
 /**
- *
- * @param mode mode to convert to its corresponding integer value
- * @returns integer value of the mode
+ * convert a mode name into it's corresponding integer value
  */
 function ModeNameToInt(mode) {
     switch (mode) {
@@ -954,11 +954,8 @@ function ModeNameToInt(mode) {
             return 0;
     }
 }
-exports.ModeNameToInt = ModeNameToInt;
 /**
- *
- * @param mode the gamemode to convert to a string
- * @returns osu standard, taiko, catch, or mania.
+ * convert an integer into it's corresponding mode name
  */
 function ModeIntToName(mode) {
     switch (mode) {
@@ -974,10 +971,8 @@ function ModeIntToName(mode) {
             return 'osu';
     }
 }
-exports.ModeIntToName = ModeIntToName;
 /**
- *
- * @param string
+ * convert a string into an osu! rank/grade
  */
 function checkGrade(string, defaultRank) {
     var grade;
@@ -1018,16 +1013,18 @@ function checkGrade(string, defaultRank) {
     }
     return grade;
 }
-exports.checkGrade = checkGrade;
-//badge weight seeding
+/**
+ * convert a player's rank into their badge weight seeding rank
+ */
 function bws(badges, rank) {
     return badges > 0 ?
         Math.pow(rank, (Math.pow(0.9937, (Math.pow(badges, 2))))) :
         rank;
 }
-exports.bws = bws;
-//recommended difficulty
+/**
+ * find a player's recommended map difficulty
+ * @param pp the player's total performance
+ */
 function recdiff(pp) {
     return (Math.pow(pp, 0.4)) * 0.195;
 }
-exports.recdiff = recdiff;
