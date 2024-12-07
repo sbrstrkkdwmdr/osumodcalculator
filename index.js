@@ -895,7 +895,7 @@ function calcValuesAlt(cs, ar, od, hp, bpm, length, speedMult) {
     speedMult = (speedMult !== null && speedMult !== void 0 ? speedMult : 1);
     var arMs = ARtoms(ar).ms;
     var odMs = ODtoms(od);
-    var nar = msToAR(arMs / speedMult).ms;
+    var nar = msToAR(arMs / speedMult).ar;
     var nod = msToOD(odMs.hitwindow_300 / speedMult).od_num;
     var nbpm = bpm / speedMult;
     var nlength = length / speedMult;

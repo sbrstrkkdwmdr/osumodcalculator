@@ -5,5 +5,7 @@ var speedMult = 1;
 var foo = osumodcalc.ARtoms(9.3);
 var bar = osumodcalc.msToAR(foo.ms / speedMult);
 var baz = osumodcalc.msToAR(foo.ms);
+var qux = osumodcalc.calcValuesAlt(1, 9.3, 1, 1, 1, 1, 1);
 console.log(bar);
 console.log(baz);
+console.log(qux);
