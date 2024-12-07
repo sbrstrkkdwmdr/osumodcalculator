@@ -573,7 +573,7 @@ function getOrderedMods(): ModsLazer[] {
  * @returns reorders mods to be in the correct order and removes duplicates.
  */
 function OrderMods(modString: string) {
-    const ModsOrder = getOrderedMods();
+    const ModsOrder = getOrderedMods(); 
     const modStringArray: ModsLazer[] = modString.toUpperCase().replaceAll(' ', '').replaceAll(',', '').replace(/(.{2})/g, "$1 ")
         .replaceAll('RLX', 'RL')
         .replaceAll('RX', 'RL')
@@ -941,7 +941,7 @@ export function calcValuesAlt(cs: number, ar: number, od: number, hp: number, bp
     speedMult = (speedMult ?? 1);
     const arMs = ARtoms(ar).ms;
     const odMs = ODtoms(od);
-    const nar: number = msToAR(arMs / speedMult).ms;
+    const nar: number = msToAR(arMs / speedMult).ar;
     const nod: number = msToOD(odMs.hitwindow_300 / speedMult).od_num;
     const nbpm: number = bpm / speedMult;
     const nlength: number = length / speedMult;
@@ -1053,7 +1053,6 @@ function checkGrade(string: string, defaultRank?: types.Rank) {
     return grade;
 }
 
-//module.exports = { DoubleTimeAR, HalfTimeAR, calcgrade, calcgradeTaiko, calcgradeCatch, calcgradeMania, odDT, odHT, ODtoms, ARtoms, msToAR, msToOD, toEZ, toHR, ModStringToInt, ModIntToString, OrderMods, shortModName, longModName, csToRadius, csFromRadius }
 export { ARtoms, DoubleTimeAR, HalfTimeAR, ModIntToString, ModStringToInt, ModeIntToName, ModeNameToInt, ODtoms, OrderMods, calcValues, calcgrade, calcgradeCatch, calcgradeMania, calcgradeTaiko, checkGrade, csFromRadius, csToRadius, longModName, msToAR, msToOD, odDT, odHT, shortModName, toEZ, toHR, unrankedMods_lazer, unrankedMods_stable };
 
 /**
