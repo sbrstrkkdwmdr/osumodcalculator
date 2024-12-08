@@ -1,7 +1,8 @@
 # osu! mod calculator
 
-[![NPM](https://nodei.co/npm/osumodcalculator.png)](https://nodei.co/npm/osumodcalculator/)<br/>
+[![chartjs](https://img.shields.io/badge/NPM-CB3837?style=for-the-badge&logo=npm&logoColor=white)](https://www.npmjs.com/package/osumodcalculator)</br>
 [![CodeFactor](https://www.codefactor.io/repository/github/sbrstrkkdwmdr/osumodcalculator/badge)](https://www.codefactor.io/repository/github/sbrstrkkdwmdr/osumodcalculator)
+
 ### to do list:
 
     [x] convert AR to DT & HT
