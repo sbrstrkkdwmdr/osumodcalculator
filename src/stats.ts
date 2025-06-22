@@ -1,9 +1,17 @@
 import { types } from ".";
 
 /**
+ * Get hit windows for an Overall Difficulty (accuracy) value (standard)
  * 
- * @param od overall difficulty / accuracy
- * @returns hitwindow values in milliseconds
+ * example:
+ * ```ts
+ * const ms = ToMsOd(9);
+ * // => { 
+   // hitwindow_300: 25.5, 
+   // hitwindow_100: 67.5, 
+   // hitwindow_50: 109.5 
+   // }
+ * ```
  */
 export function ToMsOd(od: number) {
     const rangeobj = {
@@ -14,21 +22,32 @@ export function ToMsOd(od: number) {
     return rangeobj;
 }
 /**
+ * convert approach rate to milliseconds
  * 
- * @param ar approach rate
- * @returns approach rate converted to milliseconds
+ * example:
+ * ```ts
+ * const ms = ToMsAr(9); // => 9
+ * ```
  */
 function ToMsAr(ar: number) {
     const ogtoms = ar > 5 ? 1200 - (((ar - 5) * 10) * 15) : 1800 - (((ar) * 10) * 12);
     return ogtoms;
 }
 /**
+ * convert hit window timings into an Overall Difficulty (accuracy) value
  * 
- * @param hitwindow300 300 hit window in milliseconds
- * @param hitwindow100 100 hit window in milliseconds
- * @param hitwindow50 50 hit window in milliseconds
- * @info set a value to a string to ignore
- * @returns od (overall difficulty)
+ * if a hitwindow is missing, either replace it with NaN, null or undefined
+ * 
+ * example:
+ * ```ts
+ * const hitWindow_300s = 25.5;
+ * const hitWindow_100s = 67.5;
+ * const hitWindow_50s = 109.5;
+ * 
+ * const first = FromMsOd(hitWindow_300s); // 9
+ * const second = FromMsOd(NaN, hitWindow_100s); // 9
+ * const third = FromMsOd(NaN, NaN, hitWindow_50s); // 9
+ * ```
  */
 export function FromMsOd(hitwindow300: number, hitwindow100?: number, hitwindow50?: number) {
     let od: string = 'NaN';
@@ -47,9 +66,12 @@ export function FromMsOd(hitwindow300: number, hitwindow100?: number, hitwindow5
     return ToMsOd(+od);
 }
 /**
+ * calculate approach rate from milliseconds
  * 
- * @param ms milliseconds
- * @returns ar (approach rate)
+ * example:
+ * ```ts
+ * const ar = FromMsAr(600); // 9
+ * ```
  */
 export function FromMsAr(ms: number) {
     let ar: number;
@@ -62,16 +84,23 @@ export function FromMsAr(ms: number) {
     else {
         ar = Math.round((5 - (ms - 1200) / 120) * 100) / 100;
     }
-    return {
-        ar,
-        ms,
-    };
+    return ar;
+
+
 }
 
 /**
+ * calculate approach rate with Double Time applied
  * 
- * @param ar approach rate
- * @returns approach rate if the double time mod is applied
+ * example:
+ * ```ts
+ * const oldAr = 9;
+ * const newAr = ToDtAr(oldAr); 
+ * // => {
+ * // ar: 10.33
+ * // ms: 400
+ * // }
+ * ```
  */
 export function ToDtAr(ar: number) {
     /*     if (ar > 5) {
@@ -98,10 +127,19 @@ export function ToDtAr(ar: number) {
     };
     return arobj;
 }
+
 /**
+ * calculate approach rate with Half Time applied
  * 
- * @param ar approach rate
- * @returns approach rate if the half time mod is applied
+ * example:
+ * ```ts
+ * const oldAr = 9;
+ * const newAr = ToHtAr(oldAr); 
+ * // => {
+ * // ar: 7.67
+ * // ms: 800
+ * // }
+ * ```
  */
 export function ToHtAr(ar: number) {
     let newAR: number;
@@ -126,9 +164,19 @@ export function ToHtAr(ar: number) {
 }
 
 /**
+ * calculate Overall Difficulty (accuracy) with Double Time applied
  * 
- * @param od overall difficulty / accuracy
- * @returns ms values for the od hitwindows and converts to double time
+ * example:
+ * ```ts
+ * const oldOd = 9;
+ * const newOd = ToDtOd(oldOd); 
+ * // => {
+ * // hitwindow_300: 17,
+ * // hitwindow_100: 45,
+ * // hitwindow_50: 73,
+ * // od_num: 10.42,
+ * // }
+ * ```
  */
 export function ToDtOd(od: number) {
     const range300 = ((79 - (od * 6) + 0.5) * 2 / 3) + 0.33;
@@ -136,15 +184,26 @@ export function ToDtOd(od: number) {
         hitwindow_300: range300,
         hitwindow_100: ((139 - (od * 8) + 0.5) * 2 / 3) + 0.33,
         hitwindow_50: ((199 - (od * 10) + 0.5) * 2 / 3) + 0.33,
+        od: +((79.5 - range300) / 6).toFixed(2) > 11 ? 11 : +((79.5 - range300) / 6)
     };
 
     return odobj;
 
 }
 /**
+ * calculate Overall Difficulty (accuracy) with Half Time applied
  * 
- * @param od overall difficulty / accuracy
- * @returns ms values for the od hitwindows and converts to half time
+ * example:
+ * ```ts
+ * const oldOd = 9;
+ * const newOd = ToHtOd(oldOd); 
+ * // => {
+ * // hitwindow_300: 34,
+ * // hitwindow_100: 90,
+ * // hitwindow_50: 146,
+ * // od_num: 7.58,
+ * // }
+ * ```
  */
 export function ToHtOd(od: number) {
     const range300 = ((79 - (od * 6) + 0.5) * 4 / 3) + 0.66;
@@ -152,6 +211,7 @@ export function ToHtOd(od: number) {
         hitwindow_300: range300,
         hitwindow_100: ((139 - (od * 8) + 0.5) * 4 / 3) + 0.66,
         hitwindow_50: ((199 - (od * 10) + 0.5) * 4 / 3) + 0.66,
+        od: +((79.5 - range300) / 6).toFixed(2) > 11 ? 11 : +((79.5 - range300) / 6)
     };
 
     return odobj;
@@ -160,12 +220,23 @@ export function ToHtOd(od: number) {
 
 
 /**
+ * calculate values with hard rock applied
  * 
- * @param cs circle size
- * @param ar approach rate
- * @param od overall difficulty
- * @param hp health
- * @returns values converted to HR
+ * example:
+ * ```ts
+ * const baseCS = 4;
+ * const baseAR = 9.8;
+ * const baseOD = 9.1;
+ * const baseHP = 5;
+ * 
+ * const modded = toEZ(baseCS, baseAR, baseOD, baseHP);
+ * // => { 
+ * // cs: 5.2
+ * // ar: 10
+ * // od: 10
+ * // hp: 7
+ * // }
+ * ```
  */
 export function toHR(cs: number, ar: number, od: number, hp: number) {
 
@@ -177,13 +248,25 @@ export function toHR(cs: number, ar: number, od: number, hp: number) {
     };
     return hrobj;
 }
+
 /**
+ * calculate values with hard rock applied
  * 
- * @param cs circle size
- * @param ar approach rate
- * @param od overall difficulty
- * @param hp health
- * @returns values converted to EZ
+ * example:
+ * ```ts
+ * const baseCS = 4;
+ * const baseAR = 9.8;
+ * const baseOD = 9.1;
+ * const baseHP = 5;
+ * 
+ * const modded = toEZ(baseCS, baseAR, baseOD, baseHP);
+ * // => { 
+ * // cs: 2
+ * // ar: 4.9
+ * // od: 4.55
+ * // hp: 2.5
+ * // }
+ * ```
  */
 export function toEZ(cs: number, ar: number, od: number, hp: number) {
 
@@ -198,27 +281,44 @@ export function toEZ(cs: number, ar: number, od: number, hp: number) {
 
 /**
  * get the radius of the circle (in pixels)
+ * 
+ * example:
+ * ```ts
+ * const radius = csToRadius(5); // => 32.006
+ * ```
  */
 export function csToRadius(cs: number) {
     return (0.00005556 * cs ** 2 - 4.483 * cs + 54.42);
 }
 
 /**
- * radius in pixels
+ * radius to circle size
+ * 
+ * example:
+ * ```ts
+ * const radius = 32.01; // in pixels
+ * const circleSize = csFromRadius(radius); // => 5
  */
 
 export function csFromRadius(radius: number) {
     return (5000 / 8104533921) * radius ** 2 - (1808448550 / 8104533921) * radius + (8582285633270972 / 706821088118109);
 }
 
+/**
+ * calculate stats with speed applied
+ * 
+ * using DT or HT will apply 1.5 and 0.75 speed, respectively.
+ * 
+ * TODO: write examples
+ */
 export function speed(i: 'DT' | 'HT' | number, stats: {
     ar: number,
     od: number,
     bpm: number,
     song_length: number,
 }) {
-    if(!i){
-        i = 1.0
+    if (!i) {
+        i = 1.0;
     }
     if (typeof i == 'string') {
         switch (i) {
@@ -250,6 +350,13 @@ export function speed(i: 'DT' | 'HT' | number, stats: {
     };
 }
 
+/**
+ * calculate values with mods applied
+ * 
+ * if custom speed is unused then the speed from any given mods will be used (DT, HT etc.)
+ * 
+ * TODO: write examples
+ */
 export function modded(stats: {
     cs: number,
     ar: number,
@@ -258,7 +365,7 @@ export function modded(stats: {
     bpm: number,
     song_length: number,
 },
-    mods: types.ApiMod[] | types.ModsLazer[],
+    mods: types.ApiMod[] | types.Mod[],
     customSpeed?: number,
 ) {
     if (mods.length == 0) {
@@ -307,7 +414,7 @@ export function modded(stats: {
     let modSl = stats.song_length;
 
     if (typeof mods[0] == 'string') {
-        mods = mods as types.ModsLazer[];
+        mods = mods as types.Mod[];
 
         if (mods.includes('HR')) {
             modCs *= 1.3;

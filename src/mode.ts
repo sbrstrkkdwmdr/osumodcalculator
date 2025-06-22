@@ -2,6 +2,11 @@ import { types } from ".";
 
 /**
  * convert a mode name into it's corresponding integer value
+ * 
+ * example:
+ * ```ts
+ * toInt('ctb'); // => 2
+ * ```
  */
 export function toInt(mode: string): number {
     switch (mode) {
@@ -19,7 +24,12 @@ export function toInt(mode: string): number {
 }
 
 /**
- * convert an integer into it's corresponding mode name
+ * convert an integer into its corresponding mode name
+ * 
+ * example:
+ * ```ts
+ * toName(0); // => 'osu'
+ * ```
  */
 export function toName(mode: number): types.GameMode {
     switch (mode) {

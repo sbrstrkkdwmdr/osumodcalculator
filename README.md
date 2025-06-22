@@ -3,21 +3,12 @@
 [![chartjs](https://img.shields.io/badge/NPM-CB3837?style=for-the-badge&logo=npm&logoColor=white)](https://www.npmjs.com/package/osumodcalculator)</br>
 [![CodeFactor](https://www.codefactor.io/repository/github/sbrstrkkdwmdr/osumodcalculator/badge)](https://www.codefactor.io/repository/github/sbrstrkkdwmdr/osumodcalculator)
 
-### to do list:
-
-    [x] convert AR to DT & HT
-    [x] convert OD to DT & HT
-    [x] convert AR & OD to milliseconds
-    [x] convert milliseconds to AR & OD
-    [x] convert values to HR & EZ
-    [x] convert mod integers to string and vice versa
-    [x] convert circle size to object radius and vice versa
-
-### to install:
+### Installation
 
 run `npm i osumodcalculator`
 in your main js file:
 
+### Usage
 ```js
 const osumodcalc = require("osumodcalculator");
 //code here

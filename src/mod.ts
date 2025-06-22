@@ -1,7 +1,9 @@
 import { types } from ".";
-import { ModsLazer } from "./types";
 
-export enum ModsEnum {
+/**
+ * Mods as an enum
+ */
+export enum ModLong {
     None = 0,
     NoFail = 1,
     Easy = 2,
@@ -35,7 +37,10 @@ export enum ModsEnum {
     ScoreV2 = 536870912,
     Mirror = 1073741824
 }
-export enum ModShort {
+/**
+ * Mod acronyms as an enum
+ */
+export enum ModAcronyms {
     NM = 0,
     NF = 1,
     EZ = 2,
@@ -66,10 +71,13 @@ export enum ModShort {
     '1K' = 67108864,
     '3K' = 134217728,
     '2K' = 268435456,
-    SV2 = 536870912,
+    S2 = 536870912,
     MR = 1073741824
 }
 
+/**
+ * Dictionary of mod acronyms and mods they're incompatible with / cancel out
+ */
 export const incompatible: types.Dict = {
     'DT': ['NC', 'HT', 'DC'],
     'NC': ['DT', 'HT', 'DC'],
@@ -93,90 +101,58 @@ export const incompatible: types.Dict = {
 
 /**
  * STABLE MODS ONLY
+ * 
+ * Converts each mod to their enum value and adds them together
+ * 
+ * example:
+ * ```ts
+ * const mods = ['EZ', 'HD', 'DT']
+ * const modInt = toInt(mods); // => 74
+ * ```
  */
-export function toInt(mods: string) {
+export function toInt(mods: types.ModLegacy[]) {
     let modInt = 0;
-
-    modInt += mods.toUpperCase().includes('NF') ? 1 : 0;
-    modInt += mods.toUpperCase().includes('EZ') ? 2 : 0;
-    modInt += mods.toUpperCase().includes('TD') ? 4 : 0;
-    modInt += mods.toUpperCase().includes('HD') ? 8 : 0;
-    modInt += mods.toUpperCase().includes('HR') ? 16 : 0;
-    modInt += mods.toUpperCase().includes('SD') ? 32 : 0;
-    modInt += mods.toUpperCase().includes('DT') ? 64 : 0;
-    modInt += mods.toUpperCase().includes('RX') || mods.toUpperCase().includes('RL') || mods.toUpperCase().includes('RLX') ? 128 : 0;
-    modInt += mods.toUpperCase().includes('HT') ? 256 : 0;
-    modInt += mods.toUpperCase().includes('NC') ? 512 + 64 : 0;
-    modInt += mods.toUpperCase().includes('FL') ? 1024 : 0;
-    modInt += mods.toUpperCase().includes('AT') ? 2048 : 0;
-    modInt += mods.toUpperCase().includes('SO') ? 4096 : 0;
-    modInt += mods.toUpperCase().includes('AP') || mods.toUpperCase().includes('RX2') ? 8192 : 0;
-    modInt += mods.toUpperCase().includes('PF') ? 16384 + 32 : 0;
-    modInt += mods.toUpperCase().includes('1K') ? 67108864 : 0;
-    modInt += mods.toUpperCase().includes('2K') ? 268435456 : 0;
-    modInt += mods.toUpperCase().includes('3K') ? 134217728 : 0;
-    modInt += mods.toUpperCase().includes('4K') ? 32768 : 0;
-    modInt += mods.toUpperCase().includes('5K') ? 65536 : 0;
-    modInt += mods.toUpperCase().includes('6K') ? 131072 : 0;
-    modInt += mods.toUpperCase().includes('7K') ? 262144 : 0;
-    modInt += mods.toUpperCase().includes('8K') ? 524288 : 0;
-    modInt += mods.toUpperCase().includes('9K') ? 16777216 : 0;
-    modInt += mods.toUpperCase().includes('FI') ? 1048576 : 0;
-    modInt += mods.toUpperCase().includes('RDM') ? 2097152 : 0;
-    modInt += mods.toUpperCase().includes('CM') ? 4194304 : 0;
-    modInt += mods.toUpperCase().includes('TP') ? 8388608 : 0;
-    modInt += mods.toUpperCase().includes('KC') ? 33554432 : 0;
-    modInt += mods.toUpperCase().includes('SV2') || mods.toUpperCase().includes('S2') ? 536870912 : 0;
-    modInt += mods.toUpperCase().includes('MR') ? 1073741824 : 0;
+    for (const mod of mods) {
+        if (Object.keys(ModAcronyms).includes(mod)) {
+            // @ts-ignore Element implicitly has an 'any' type because index expression is not of type 'number'.ts(7015)
+            const v: number = ModAcronyms[mod];
+            modInt += v;
+        }
+    }
     return modInt;
 }
 
 /**
  * STABLE MODS ONLY
+ * 
+ * Converts an enum into the acronym of each mod
+ * 
+ * example:
+ * ```ts
+ * const modInt = 88;
+ * const mods = toString(modInt); // => ['HD','DT','HR'];
+ * ```
  */
 export function toString(modInt: number) {
-    let modString = '';
-    modString += modInt & 1 ? 'NF' : '';
-    modString += modInt & 2 ? 'EZ' : '';
-    modString += modInt & 4 ? 'TD' : '';
-    modString += modInt & 8 ? 'HD' : '';
-    modString += modInt & 16 ? 'HR' : '';
-    modString += modInt & 32 ? 'SD' : '';
-    modString += modInt & 64 ? 'DT' : '';
-    modString += modInt & 128 ? 'RL' : '';
-    modString += modInt & 256 ? 'HT' : '';
-    modString += modInt & 512 ? 'NC' : '';
-    modString += modInt & 1024 ? 'FL' : '';
-    modString += modInt & 2048 ? 'AT' : '';
-    modString += modInt & 4096 ? 'SO' : '';
-    modString += modInt & 8192 ? 'AP' : '';
-    modString += modInt & 16384 ? 'PF' : '';
-    modString += modInt & 67108864 ? '1K' : '';
-    modString += modInt & 268435456 ? '2K' : '';
-    modString += modInt & 134217728 ? '3K' : '';
-    modString += modInt & 32768 ? '4K' : '';
-    modString += modInt & 65536 ? '5K' : '';
-    modString += modInt & 131072 ? '6K' : '';
-    modString += modInt & 262144 ? '7K' : '';
-    modString += modInt & 524288 ? '8K' : '';
-    modString += modInt & 16777216 ? '9K' : '';
-    modString += modInt & 1048576 ? 'FI' : '';
-    modString += modInt & 2097152 ? 'RD' : '';
-    modString += modInt & 4194304 ? 'CN' : '';
-    modString += modInt & 8388608 ? 'TP' : '';
-    modString += modInt & 33554432 ? 'KC' : '';
-    modString += modInt & 536870912 ? 'SV2' : '';
-    modString += modInt & 1073741824 ? 'MR' : '';
-    if (modString.includes('DT') && modString.includes('NC')) {
-        modString = modString.replace('DT', '');
+    let mods: types.ModLegacy[] = [];
+    for (const key in ModAcronyms) {
+        if (typeof ModAcronyms[key] == 'number' && modInt & ModAcronyms[key]) {
+            mods.push(key as types.ModLegacy);
+        }
     }
-    if (modString.includes('SD') && modString.includes('PF')) {
-        modString = modString.replace('SD', '');
+    if (mods.includes('DT') && mods.includes('NC')) {
+        const index = mods.indexOf('DT');
+        mods.splice(index, 1);
     }
-    return OrderMods(modString).string;
+    if (mods.includes('SD') && mods.includes('PF')) {
+        const index = mods.indexOf('SD');
+        mods.splice(index, 1);
+    }
+    removeIncompatible(mods);
+    return mods;
 }
 
-function getOrderedMods(): types.ModsLazer[] {
+function getOrderedMods(): types.Mod[] {
     return ['EZ', 'HD', 'FI', 'HT', 'DC', 'DT', 'NC', 'HR', 'FL', 'SD', 'PF', 'NF', 'AT', 'CM', 'RL', 'AP', 'TP', 'SO', 'TD', '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K', 'CP', 'RD', 'MR', 'V2',
         'BL', 'ST', 'DA', 'CL', 'AL', 'ST', 'TR', 'WI', 'SI', 'GR', 'DF', 'WU', 'WD', 'TR', 'BR', 'AD', 'MU', 'NS', 'MG', 'RP', 'AS', 'FF'
     ];
@@ -186,17 +162,17 @@ function getOrderedMods(): types.ModsLazer[] {
  * @param modString 
  * @returns reorders mods to be in the correct order and removes duplicates.
  */
-export function OrderMods(modString: string) {
+function legacy_OrderMods(modString: string) {
     const ModsOrder = getOrderedMods();
-    const modStringArray: types.ModsLazer[] = modString.toUpperCase().replaceAll(' ', '').replaceAll(',', '').replace(/(.{2})/g, "$1 ")
+    const modStringArray: types.Mod[] = modString.toUpperCase().replaceAll(' ', '').replaceAll(',', '').replace(/(.{2})/g, "$1 ")
         .replaceAll('RLX', 'RL')
         .replaceAll('RX', 'RL')
         .replaceAll('AU', 'AT')
         .replaceAll('CN', 'CM')
         .replaceAll('S2', 'V2')
-        .split(' ') as types.ModsLazer[];
-    const modStringArrayOrdered: types.ModsLazer[] = [];
-    const modStringArrayOrderedtest: types.ModsLazer[] = [];
+        .split(' ') as types.Mod[];
+    const modStringArrayOrdered: types.Mod[] = [];
+    const modStringArrayOrderedtest: types.Mod[] = [];
     for (let i = 0; i < ModsOrder.length; i++) {
         for (let j = 0; j < modStringArray.length; j++) {
             if (ModsOrder[i] === modStringArray[j]) {
@@ -229,7 +205,7 @@ export function OrderMods(modString: string) {
  * @returns converts mod strings to their shorthand name ie nightcore -> NC
  */
 export function toAcronym(modstring: string) {
-    return OrderMods(modstring.toLowerCase()
+    return legacy_OrderMods(modstring.toLowerCase()
         .replaceAll(' ', '')
         .replaceAll('-', '')
         .replaceAll('nofail', 'NF')
@@ -273,7 +249,7 @@ export function toAcronym(modstring: string) {
  * 
  */
 export function toFullName(modstring: string) {
-    return (OrderMods(modstring).string)
+    return (legacy_OrderMods(modstring).string)
         .replaceAll(' ', '')
         .replaceAll('-', '')
         .replaceAll('NF', 'NoFail ')
@@ -313,32 +289,38 @@ export function toFullName(modstring: string) {
 /**
  * check if mods are unranked
  */
-export function isUnranked_stable(mods: string) {
-    let val = false;
-    const unverifiable: types.Mods[] = [
-        'AT', 'CM', 'RL', 'AP', 'V2', 'TP'
-    ];
-    val = unverifiable.some(x => mods.includes(x));
-    return val;
-}
+// export function isUnranked_stable(mods: string) {
+//     let val = false;
+//     const unverifiable: types.Mod[] = [
+//         'AT', 'CM', 'RL', 'AP', 'V2', 'TP'
+//     ];
+//     val = unverifiable.some(x => mods.includes(x));
+//     return val;
+// }
 
 /**
  * checks if any of the mods given are "unranked" on lazer
  * this won't be touched bcs rate change might be added at some point
  */
-export function isUnranked(mods: string) {
-    const val = false;
-    const unverifiable: ModsLazer[] = [
-        'AT', 'CM'
-    ];
-    return val;
-}
+// export function isUnranked(mods: string) {
+//     const val = false;
+//     const unverifiable: types.Mod[] = [
+//         'AT', 'CM'
+//     ];
+//     return val;
+// }
 
 /**
  * remove duplicate mods 
+ * 
+ * example:
+ * ```ts
+ * const mods = ['HD', 'DT', 'HR', 'DT'];
+ * const fixed = removeDupe(mods); // => ['HD', 'DT', 'HR']
+ * ```
  */
-export function removeDupe(mods: types.ModsLazer[]) {
-    const nodupe: types.ModsLazer[] = [];
+export function removeDupe(mods: types.Mod[]) {
+    const nodupe: types.Mod[] = [];
     for (const mod of mods) {
         if (!nodupe.includes(mod)) {
             nodupe.push(mod);
@@ -350,8 +332,8 @@ export function removeDupe(mods: types.ModsLazer[]) {
 /**
  * order mods
  */
-export function order(mods: types.ModsLazer[]) {
-    const nt: types.ModsLazer[] = [];
+export function order(mods: types.Mod[]) {
+    const nt: types.Mod[] = [];
     for (const om of getOrderedMods()) {
         for (const mod of mods) {
             if (om === mod) {
@@ -364,11 +346,17 @@ export function order(mods: types.ModsLazer[]) {
 
 /**
  * get mods not allowed in a given gamemode
+ * 
+ * example:
+ * ```ts
+ * const mode = 'osu'
+ * const fixed = disallowed(mods); // => ['FI', '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K', 'CP', 'RD', 'MR']
+ * ```
  */
 export function disallowed(mode: types.GameMode) {
-    let ignoreMods: types.ModsLazer[] = [];
-    const maniaOnlyMods: types.ModsLazer[] = ['FI', '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K', 'CP', 'RD', 'MR',];
-    const standardMods: types.ModsLazer[] = ['AP', 'TP', 'SO', 'TD',];
+    let ignoreMods: types.Mod[] = [];
+    const maniaOnlyMods: types.Mod[] = ['FI', '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K', 'CP', 'RD', 'MR',];
+    const standardMods: types.Mod[] = ['AP', 'TP', 'SO', 'TD',];
     switch (mode) {
         default:
         case 'osu':
@@ -385,20 +373,42 @@ export function disallowed(mode: types.GameMode) {
 }
 
 /**
- * remove mods from other modes and incompatible mods such as ez+hr
+ * remove mods from other modes
+ * 
+ * example:
+ * ```ts
+ * const mods = ['4K','EZ','FI', 'DT',];
+ * const mode = 'osu'
+ * const fixed = disallowedRemove(mods); // => ['EZ', 'DT',]
+ * ```
  */
-export function disallowedRemove(mods: types.ModsLazer[], mode: types.GameMode) {
+export function disallowedRemove(mods: types.Mod[], mode: types.GameMode) {
     const ignore = disallowed(mode);
-    const nt: {
-        acr: types.ModsLazer;
-        ignore: boolean;
-    }[] = [];
+    const nt: types.Mod[] = [];
     for (const mod of mods) {
         if (!ignore.includes(mod)) {
-            nt.push({ acr: mod, ignore: false });
+            nt.push(mod);
         }
     }
-    const fr: types.ModsLazer[] = [];
+    return nt;
+}
+
+/**
+ * removes incompatible mods such as ez+hr
+ * 
+ * example:
+ * ```ts
+ * const mods = ['EZ','HD','DT','NC','HR']
+ * const fixed = removeIncompatible(mods);
+ * ```
+ */
+export function removeIncompatible(mods: types.Mod[]) {
+    const nt: {
+        acr: types.Mod;
+        ignore: boolean;
+    }[] = mods.map(x => { return { acr: x, ignore: false }; });
+
+    const fr: types.Mod[] = [];
     for (const mod of nt) {
         if (Object.keys(incompatible).includes(mod.acr) && !mod.ignore) {
             for (const submod of nt) {
@@ -415,9 +425,16 @@ export function disallowedRemove(mods: types.ModsLazer[], mode: types.GameMode) 
 }
 
 /**
- * order, removes duplicates, removes incompabitle
+ * re-orders, removes duplicates, removes incompabitle
+ * 
+ * example: 
+ * ```ts
+ * const mods = ['DT', 'HR', 'HD', 'EZ', '4K','HD'];
+ * const mode = 'osu';
+ * const fixed = fix(mods, mode); // => ['HD','DT','HR']
+ * ```
  */
-export function handle(mods: types.ModsLazer[], mode: types.GameMode) {
+export function fix(mods: types.Mod[], mode: types.GameMode) {
     const nodupe = removeDupe(mods);
 
     const nt = order(nodupe);
