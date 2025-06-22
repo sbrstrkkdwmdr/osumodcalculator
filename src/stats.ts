@@ -51,7 +51,7 @@ export function FromMsOd(hitwindow300: number, hitwindow100?: number, hitwindow5
  * @param ms milliseconds
  * @returns ar (approach rate)
  */
-export function FromMsAr(ms: number): types.ApproachRate {
+export function FromMsAr(ms: number) {
     let ar: number;
     if (ms < 300) {
         ar = 11;
@@ -92,7 +92,7 @@ export function ToDtAr(ar: number) {
     else {
         newAR = Math.round((5 - (ms - 1200) / 120) * 100) / 100;
     }
-    const arobj: types.ApproachRate = {
+    const arobj = {
         ar: newAR,
         ms: ms,
     };
@@ -118,7 +118,7 @@ export function ToHtAr(ar: number) {
     else {
         newAR = Math.round((5 - (ms - 1200) / 120) * 100) / 100;
     }
-    const arobj: types.ApproachRate = {
+    const arobj = {
         ar: newAR,
         ms: ms,
     };
@@ -169,7 +169,7 @@ export function ToHtOd(od: number) {
  */
 export function toHR(cs: number, ar: number, od: number, hp: number) {
 
-    const hrobj: types.Values = {
+    const hrobj = {
         cs: cs * 1.3 > 10 ? 10 : cs * 1.3,
         ar: ar * 1.4 > 10 ? 10 : ar * 1.4,
         od: od * 1.4 > 10 ? 10 : od * 1.4,
@@ -187,7 +187,7 @@ export function toHR(cs: number, ar: number, od: number, hp: number) {
  */
 export function toEZ(cs: number, ar: number, od: number, hp: number) {
 
-    const ezobj: types.Values = {
+    const ezobj = {
         cs: cs / 2 > 10 ? 10 : cs / 2,
         ar: ar / 2 > 10 ? 10 : ar / 2,
         od: od / 2 > 10 ? 10 : od / 2,
