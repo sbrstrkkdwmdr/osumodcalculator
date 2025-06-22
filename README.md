@@ -9,6 +9,7 @@ run `npm i osumodcalculator`
 in your main js file:
 
 ### Usage
+
 ```js
 const osumodcalc = require("osumodcalculator");
 //code here
@@ -22,13 +23,13 @@ import * as osumodcalc from "osumodcalculator";
 
 ### notes:
 
-    EZ & HR calculations should come before DT/HT calculations
-    OD is listed as accuracy in the osu! api
-    HP is listed as drain in the osu! api
+-   EZ & HR calculations should come before DT/HT calculations
+-   OD is listed as accuracy in the osu! api
+-   HP is listed as drain in the osu! api
 
-# documentation
+## documentation
 
-see [here](https://sbrstrkkdwmdr.github.io/projects/osumodcalcutor)
+[Full documentation is here](https://sbrstrkkdwmdr.github.io/projects/osumodcalcutor)
 
 ### credits:
 

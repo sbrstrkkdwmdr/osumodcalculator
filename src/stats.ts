@@ -63,7 +63,7 @@ export function FromMsOd(hitwindow300: number, hitwindow100?: number, hitwindow5
     if (+od > 11) {
         od = '11';
     }
-    return ToMsOd(+od);
+    return +od;
 }
 /**
  * calculate approach rate from milliseconds
@@ -367,7 +367,23 @@ export function modded(stats: {
 },
     mods: types.ApiMod[] | types.Mod[],
     customSpeed?: number,
-) {
+): {
+    cs: number,
+    ar: number,
+    od: number,
+    hp: number,
+    bpm: number,
+    song_length: number,
+    extra: {
+        csRadius: number,
+        arMs: number,
+        odMs: {
+            hitwindow_300: number,
+            hitwindow_100: number,
+            hitwindow_50: number,
+        },
+    };
+} {
     if (mods.length == 0) {
         if (!customSpeed || customSpeed == 1) {
             return {

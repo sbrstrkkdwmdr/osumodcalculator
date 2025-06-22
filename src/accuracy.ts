@@ -3,6 +3,7 @@ import { types } from ".";
 //https://osu.ppy.sh/wiki/en/Gameplay/Accuracy
 /**
  * calculates accuracy and rank for osu!
+ * 
  * rank_legacy uses old hit-ratio based ranks
  * 
  * example using [this score](https://osu.ppy.sh/scores/1603783625):
@@ -131,7 +132,6 @@ export function taiko(great: number, good: number, miss: number) {
  * const calc = fruits(hit300, hit100, miss);
  * // =>
  * // {
- * // rank_legacy: "A"
  * // rank: "A"
  * // accuracy: 97.14
  * // }

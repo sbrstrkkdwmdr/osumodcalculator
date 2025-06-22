@@ -158,9 +158,7 @@ function getOrderedMods(): types.Mod[] {
     ];
 }
 /**
- * 
- * @param modString 
- * @returns reorders mods to be in the correct order and removes duplicates.
+ * TODO: write documentation
  */
 function legacy_OrderMods(modString: string) {
     const ModsOrder = getOrderedMods();
@@ -200,9 +198,7 @@ function legacy_OrderMods(modString: string) {
 
 
 /**
- * 
- * @param modstring 
- * @returns converts mod strings to their shorthand name ie nightcore -> NC
+ * TODO: write documentation
  */
 export function toAcronym(modstring: string) {
     return legacy_OrderMods(modstring.toLowerCase()
@@ -246,7 +242,7 @@ export function toAcronym(modstring: string) {
     ;
 }
 /**
- * 
+ * TODO: write documentation
  */
 export function toFullName(modstring: string) {
     return (legacy_OrderMods(modstring).string)
@@ -331,6 +327,8 @@ export function removeDupe(mods: types.Mod[]) {
 
 /**
  * order mods
+ * 
+ * TODO: write examples
  */
 export function order(mods: types.Mod[]) {
     const nt: types.Mod[] = [];
@@ -350,7 +348,7 @@ export function order(mods: types.Mod[]) {
  * example:
  * ```ts
  * const mode = 'osu'
- * const fixed = disallowed(mods); // => ['FI', '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K', 'CP', 'RD', 'MR']
+ * const ignore_these_mods = disallowed(mods); // => ['FI', '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K', 'CP', 'RD', 'MR']
  * ```
  */
 export function disallowed(mode: types.GameMode) {
