@@ -36,3 +36,7 @@ import * as osumodcalc from "osumodcalculator";
 [osu! accuracy wiki](https://osu.ppy.sh/wiki/en/Gameplay/Accuracy) <br/>
 [osu! grades wiki](https://osu.ppy.sh/wiki/en/FAQ#grades) <br/>
 [Difficulty Settings Table](https://www.reddit.com/r/osugame/comments/6phntt/difficulty_settings_table_with_all_values/) <br/>
+
+### Contact
+
+[My website](https://sbrstrkkdwmdr.me)
