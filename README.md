@@ -29,7 +29,7 @@ import * as osumodcalc from "osumodcalculator";
 
 ## documentation
 
-[Full documentation is here](https://sbrstrkkdwmdr.github.io/projects/osumodcalcutor)
+[Full documentation is here](https://sbrstrkkdwmdr.github.io/projects/osumodcalculator)
 
 ### credits:
 

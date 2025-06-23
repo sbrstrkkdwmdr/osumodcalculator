@@ -224,12 +224,12 @@ export function ToHtOd(od: number) {
  * 
  * example:
  * ```ts
- * const baseCS = 4;
- * const baseAR = 9.8;
- * const baseOD = 9.1;
- * const baseHP = 5;
+ * const circleSize = 4;
+ * const approachRate = 9.8;
+ * const overallDifficulty = 9.1;
+ * const health = 5;
  * 
- * const modded = toEZ(baseCS, baseAR, baseOD, baseHP);
+ * const modded = toEZ(circleSize, approachRate, overallDifficulty, health);
  * // => { 
  * // cs: 5.2
  * // ar: 10
@@ -254,12 +254,12 @@ export function toHR(cs: number, ar: number, od: number, hp: number) {
  * 
  * example:
  * ```ts
- * const baseCS = 4;
- * const baseAR = 9.8;
- * const baseOD = 9.1;
- * const baseHP = 5;
+ * const circleSize = 4;
+ * const approachRate = 9.8;
+ * const overallDifficulty = 9.1;
+ * const health = 5;
  * 
- * const modded = toEZ(baseCS, baseAR, baseOD, baseHP);
+ * const modded = toEZ(circleSize, approachRate, overallDifficulty, health);
  * // => { 
  * // cs: 2
  * // ar: 4.9
@@ -309,13 +309,36 @@ export function csFromRadius(radius: number) {
  * 
  * using DT or HT will apply 1.5 and 0.75 speed, respectively.
  * 
- * TODO: write examples
+ * example using https://osu.ppy.sh/b759056:
+ * ```ts
+ * const speed = 1.15;
+ * const approachRate = 9.2
+ * const overallDifficulty = 8
+ * const bpm = 189
+ * const songLength = 189
+ * const newStats = speed(speed, { ar:approachRate, od: overallDifficulty, bpm, songLength});
+ * // => 
+ * {
+ * ar: 9.7,
+ * od: 8.68,
+ * bpm: 217.35,
+ * songLength: 164.34782608695653,      
+ * extra: {
+ *   arMs: 495.6521739130436,
+ *   odMs: {
+ *     hitwindow_300: 27.39130434782609,
+ *     hitwindow_100: 65.65217391304348,
+ *     hitwindow_50: 103.91304347826087,
+ *   },
+ * },
+ * }
+ * ```
  */
 export function speed(i: 'DT' | 'HT' | number, stats: {
     ar: number,
     od: number,
     bpm: number,
-    song_length: number,
+    songLength: number,
 }) {
     if (!i) {
         i = 1.0;
@@ -336,13 +359,13 @@ export function speed(i: 'DT' | 'HT' | number, stats: {
     modOd.hitwindow_100 /= i;
     modOd.hitwindow_50 /= i;
 
-    const modBpm = stats.bpm / i;
-    const modSl = stats.song_length / i;
+    const modBpm = stats.bpm * i;
+    const modSl = stats.songLength / i;
     return {
         ar: FromMsAr(modAr),
         od: FromMsOd(modOd.hitwindow_300),
         bpm: modBpm,
-        song_length: modSl,
+        songLength: modSl,
         extra: {
             arMs: modAr,
             odMs: modOd,
@@ -355,7 +378,52 @@ export function speed(i: 'DT' | 'HT' | number, stats: {
  * 
  * if custom speed is unused then the speed from any given mods will be used (DT, HT etc.)
  * 
- * TODO: write examples
+ * example:
+ * ```ts
+    const circleSize = 4;
+    const approachRate = 10;
+    const overallDifficulty = 5.5;
+    const hp = 6;
+    const bpm = 215;
+    const songLength = 180;
+    const mods: omc.types.ApiMod[] = [{
+        acronym: 'DT',
+        settings: {
+            speed_change: 1.15
+        }
+    },
+    {
+        acronym: 'DA',
+        settings: {
+            circle_size: 3.5
+        }
+    }
+    ];
+    const moddedStats = omc.stats.modded({
+        cs: circleSize,
+        ar: approachRate,
+        od: overallDifficulty,
+        hp, bpm, songLength
+    }, mods);
+    // =>
+    {
+  cs: 3.5,
+  ar: 10.39,
+  od: 6.51,
+  hp: 6,
+  bpm: 247.24999999999997,
+  songLength: 156.52173913043478,
+  extra: {
+    csRadius: 38.730180610000005,
+    arMs: 391.304347826087,
+    odMs: {
+      hitwindow_300: 40.434782608695656,
+      hitwindow_100: 83.04347826086958,
+      hitwindow_50: 125.65217391304348,
+    },
+  },
+}
+ * ```
  */
 export function modded(stats: {
     cs: number,
@@ -363,7 +431,7 @@ export function modded(stats: {
     od: number,
     hp: number,
     bpm: number,
-    song_length: number,
+    songLength: number,
 },
     mods: types.ApiMod[] | types.Mod[],
     customSpeed?: number,
@@ -373,7 +441,7 @@ export function modded(stats: {
     od: number,
     hp: number,
     bpm: number,
-    song_length: number,
+    songLength: number,
     extra: {
         csRadius: number,
         arMs: number,
@@ -392,7 +460,7 @@ export function modded(stats: {
                 od: stats.od,
                 hp: stats.hp,
                 bpm: stats.bpm,
-                song_length: stats.song_length,
+                songLength: stats.songLength,
                 extra: {
                     csRadius: csToRadius(stats.cs),
                     arMs: ToMsAr(stats.ar),
@@ -406,15 +474,15 @@ export function modded(stats: {
         modOd.hitwindow_100 /= customSpeed;
         modOd.hitwindow_50 /= customSpeed;
 
-        const modBpm = stats.bpm / customSpeed;
-        const modSl = stats.song_length / customSpeed;
+        const modBpm = stats.bpm * customSpeed;
+        const modSl = stats.songLength / customSpeed;
         return {
             cs: stats.cs,
             ar: FromMsAr(modAr),
             od: FromMsOd(modOd.hitwindow_300),
             hp: stats.hp,
             bpm: modBpm,
-            song_length: modSl,
+            songLength: modSl,
             extra: {
                 csRadius: csToRadius(stats.cs),
                 arMs: modAr,
@@ -427,7 +495,7 @@ export function modded(stats: {
     let modOdMs = ToMsOd(stats.od);
     let modHp = stats.hp;
     let modBpm = stats.bpm;
-    let modSl = stats.song_length;
+    let modSl = stats.songLength;
 
     if (typeof mods[0] == 'string') {
         mods = mods as types.Mod[];
@@ -464,14 +532,26 @@ export function modded(stats: {
             modHp /= 2;
         }
 
-        if (!customSpeed) {
-            for (const mod of mods) {
+        console.log('meow');
+        for (const mod of mods) {
+            if (mod?.settings) {
+                if (mod.settings?.circle_size) {
+                    modCs = mod.settings.circle_size;
+                }
+                if (mod.settings?.approach_rate) {
+                    modArMs = ToMsAr(mod.settings.approach_rate);
+                }
+                if (mod.settings?.overall_difficulty) {
+                    modOdMs = ToMsOd(mod.settings.overall_difficulty);
+                }
+                if (mod.settings?.drain_rate) {
+                    modHp = mod.settings.drain_rate;
+                }
                 if (mod?.settings?.speed_change) {
                     customSpeed = mod?.settings?.speed_change;
                 }
             }
         }
-
         if (!customSpeed) {
             if (modacrs.includes('DT') || modacrs.includes('NC')) customSpeed = 1.5;
             if (modacrs.includes('HT') || modacrs.includes('DC')) customSpeed = 0.75;
@@ -483,19 +563,19 @@ export function modded(stats: {
         modOdMs.hitwindow_300 /= customSpeed;
         modOdMs.hitwindow_100 /= customSpeed;
         modOdMs.hitwindow_50 /= customSpeed;
-        modBpm /= customSpeed;
+        modBpm *= customSpeed;
         modSl /= customSpeed;
     }
 
     return {
-        cs: stats.cs,
+        cs: modCs,
         ar: FromMsAr(modArMs),
         od: FromMsOd(modOdMs.hitwindow_300),
-        hp: stats.hp,
+        hp: modHp,
         bpm: modBpm,
-        song_length: modSl,
+        songLength: modSl,
         extra: {
-            csRadius: csToRadius(stats.cs),
+            csRadius: csToRadius(modCs),
             arMs: modArMs,
             odMs: modOdMs,
         }

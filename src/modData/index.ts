@@ -11,5 +11,5 @@ import { Mods as fun } from './fun';
 export const Mods: types.ModDetailed[] = easy
     .concat(hard)
     .concat(auto)
-    .concat(conv) // TODO
-    .concat(fun); // TODO
+    .concat(conv) 
+    .concat(fun); 

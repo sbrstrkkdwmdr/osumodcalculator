@@ -54,8 +54,8 @@ export function toInt(mods: types.ModLegacy[]) {
     const searchmap = map.map(x => x[0]);
     for (const mod of mods) {
         if (searchmap.includes(mod)) {
-            // @ts-ignore Element implicitly has an 'any' type because index expression is not of type 'number'.ts(7015)
-            const v: number = ModAcronyms[mod];
+            const idx = searchmap.indexOf(mod);
+            const v: number = map[idx][1];
             modInt += v;
         }
     }
@@ -94,59 +94,54 @@ function getOrderedMods(): types.Mod[] {
 }
 
 /**
- * TODO: write documentation
+ * Converts mod names to their respective acronyms
+ * 
+ * mods are NOT case sensitive
+ * 
+ * example:
+ * ```ts
+ * const mods = ['Fade In', 'Magnetised', 'Single Tap'];
+ * const acronyms = nameToAcronym(mods); // => ['FI', 'MG', 'SG']
+ * ```
  */
-export function toAcronym(mods: string[]) {
+export function nameToAcronym(mods: string[]) {
+    mods = mods.map(x => x.toLowerCase());
     const acronyms: types.Mod[] = [];
-    const map: [types.ModLong, types.Mod][] = Mods.map(x => [x.acronym, x.name] as [types.ModLong, types.Mod]);
+    const map: [string, types.Mod][] = Mods.map(x => [x.name.toLowerCase(), x.acronym] as [string, types.Mod]);
     const searchmap = map.map(x => x[0]);
     for (const mod of mods) {
-        if (searchmap.includes(mod as types.ModLong)) {
-            const index = searchmap.indexOf(mod as types.ModLong);
+        if (searchmap.includes(mod)) {
+            const index = searchmap.indexOf(mod);
             acronyms.push(map[index][1]);
         }
     }
     return acronyms;
 }
+
 /**
- * TODO: write documentation
+ * Converts mod acronyms to their respective names
+ * 
+ * mods are NOT case sensitive
+ * 
+ * example:
+ * ```ts
+ * const mods = ['ST', 'AC', 'TP'];
+ * const acronyms = acronymToName(mods); // => ['Strict Tracking', 'Accuracy Challenge', 'Target Practice']
+ * ```
  */
-export function toFullName(mods: types.Mod[]) {
+export function acronymToName(mods: types.Mod[]) {
+    mods = mods.map(x => x.toUpperCase() as types.Mod);
     const fullnames: types.ModLong[] = [];
-    const map: [types.ModLong, types.Mod][] = Mods.map(x => [x.acronym, x.name] as [types.ModLong, types.Mod]);
-    const searchmap = map.map(x => x[1]);
+    const map: [types.Mod, types.ModLong][] = Mods.map(x => [x.acronym, x.name] as [types.Mod, types.ModLong]);
+    const searchmap = map.map(x => x[0]);
     for (const mod of mods) {
         if (searchmap.includes(mod)) {
             const index = searchmap.indexOf(mod);
-            fullnames.push(map[index][0]);
+            fullnames.push(map[index][1]);
         }
     }
     return fullnames;
 }
-
-/**
- * check if mods are unranked
- */
-// export function isUnranked_stable(mods: string) {
-//     let val = false;
-//     const unverifiable: types.Mod[] = [
-//         'AT', 'CN', 'RL', 'AP', 'V2', 'TP'
-//     ];
-//     val = unverifiable.some(x => mods.includes(x));
-//     return val;
-// }
-
-/**
- * checks if any of the mods given are "unranked" on lazer
- * this won't be touched bcs rate change might be added at some point
- */
-// export function isUnranked(mods: string) {
-//     const val = false;
-//     const unverifiable: types.Mod[] = [
-//         'AT', 'CN'
-//     ];
-//     return val;
-// }
 
 /**
  * remove duplicate mods 
@@ -168,9 +163,13 @@ export function removeDupe(mods: types.Mod[]) {
 }
 
 /**
- * order mods
+ * orders mods
  * 
- * TODO: write examples
+ * example: 
+ * ```ts
+ * const mods = ['DT', 'HR', 'HD',];
+ * const fixed = order(mods); // => ['HD','DT','HR']
+ * ```
  */
 export function order(mods: types.Mod[]) {
     const nt: types.Mod[] = [];
@@ -187,6 +186,7 @@ export function order(mods: types.Mod[]) {
 /**
  * get mods not allowed in a given gamemode
  * 
+ * TODO: 
  * example:
  * ```ts
  * const mode = 'osu'

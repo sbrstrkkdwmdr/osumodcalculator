@@ -5,7 +5,7 @@
     "main": "dist/index",
     "types": "src/index",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "test": "jest --silent=false",
         "typedoc": "typedoc",
         "createDocs": "typedoc src/index.ts"
     },
@@ -38,7 +38,10 @@
     },
     "homepage": "https://github.com/sbrstrkkdwmdr/osumodcalculator#readme",
     "devDependencies": {
+        "@types/jest": "^30.0.0",
         "@types/node": "^18.6.5",
+        "jest": "^30.0.2",
+        "ts-jest": "^29.4.0",
         "typedoc": "^0.28.5",
         "typedoc-material-theme": "^1.4.0",
         "typedoc-theme-hierarchy": "^6.0.0"
