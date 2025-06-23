@@ -1,4 +1,4 @@
-import { mode } from '.';
+import { mode } from '..';
 
 test('str->int', () => {
     const fn = mode.toInt;

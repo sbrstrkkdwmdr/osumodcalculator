@@ -1,4 +1,4 @@
-import { accuracy, } from ".";
+import { accuracy, } from "..";
 
 test('standard', () => {
     const hit300 = 232;

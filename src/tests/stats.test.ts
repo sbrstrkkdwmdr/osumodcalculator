@@ -1,4 +1,4 @@
-import * as omc from '.';
+import * as omc from '..';
 
 test('speed', () => {
     const mockedAdd = omc.stats.speed as jest.MockedFunction<typeof omc.stats.speed>;

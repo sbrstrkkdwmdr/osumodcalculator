@@ -1,4 +1,4 @@
-import { mod, types } from '.';
+import { mod, types } from '..';
 
 test('acr->int', () => {
     const fn = mod.toInt;

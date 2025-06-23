@@ -1,4 +1,4 @@
-import { extra } from '.';
+import { extra } from '..';
 
 test('bws', () => {
     const badges: number = 5;
