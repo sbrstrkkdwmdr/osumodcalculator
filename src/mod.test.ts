@@ -1,13 +1,13 @@
-import * as omc from '.';
+import { mod, types } from '.';
 
 test('acr->int', () => {
-    const fn = omc.mod.toInt;
+    const fn = mod.toInt;
     let i = fn(['EZ', 'HD', 'DT']);
     expect(i).toBe(74);
 });
 
 test('int->acr', () => {
-    const fn = omc.mod.intToAcronym;
+    const fn = mod.intToAcronym;
     let i = fn(88);
     expect(i.includes('HD')).toBe(true);
     expect(i.includes('HR')).toBe(true);
@@ -16,7 +16,7 @@ test('int->acr', () => {
 });
 
 test('full->acr', () => {
-    const fn = omc.mod.nameToAcronym;
+    const fn = mod.nameToAcronym;
     const mods = ['Fade In', 'Magnetised', 'Single Tap'];
     let out = fn(mods);
     expect(out.length).toBe(3);
@@ -26,8 +26,8 @@ test('full->acr', () => {
 });
 
 test('acr->full', () => {
-    const fn = omc.mod.acronymToName
-    const mods:omc.types.Mod[] = ['ST', 'AC', 'TP'];
+    const fn = mod.acronymToName;
+    const mods: types.Mod[] = ['ST', 'AC', 'TP'];
     let out = fn(mods);
     expect(out.length).toBe(3);
     expect(out[0]).toBe('Strict Tracking');
@@ -36,21 +36,63 @@ test('acr->full', () => {
 });
 
 test('duplicate', () => {
-    const fn = omc.mod.removeDupe;
-    const mods:omc.types.Mod[] = ['HD', 'DT', 'HR', 'DT'];
+    const fn = mod.removeDupe;
+    const mods: types.Mod[] = ['HD', 'DT', 'HR', 'DT'];
     let out = fn(mods);
     expect(out.length).toBe(3);
     expect(out[0]).toBe('HD');
     expect(out[1]).toBe('DT');
     expect(out[2]).toBe('HR');
-})
+});
 
 test('order', () => {
-    const fn = omc.mod.order;
-    const mods:omc.types.Mod[] = ['DT', 'HR', 'HD',];
+    const fn = mod.order;
+    const mods: types.Mod[] = ['DT', 'HR', 'HD',];
     let out = fn(mods);
     expect(out.length).toBe(3);
     expect(out[0]).toBe('HD');
     expect(out[1]).toBe('DT');
     expect(out[2]).toBe('HR');
-})
+});
+
+test('disallowed', () => {
+    const fn = mod.disallowed;
+    let out = fn('osu');
+    console.log(out);
+    out = fn('taiko');
+    console.log(out);
+    out = fn('fruits');
+    console.log(out);
+    out = fn('mania');
+    console.log(out);
+});
+
+test('remove disallowed', () => {
+    const fn = mod.removeDisallowed;
+    const mods: types.Mod[] = ['4K', 'EZ', 'FI', 'DT',];
+    const mode = 'osu';
+    const fixed = fn(mods, mode);
+    expect(fixed.length).toBe(2);
+    expect(fixed[0]).toBe('EZ');
+    expect(fixed[1]).toBe('DT');
+});
+
+test('incompatible', () => {
+    const fn = mod.removeIncompatible;
+    const mods: types.Mod[] = ['EZ', 'HD', 'DT', 'NC', 'HR'];
+    const fixed = fn(mods);
+    expect(fixed.length).toBe(3);
+    expect(fixed[0]).toBe('EZ');
+    expect(fixed[1]).toBe('HD');
+    expect(fixed[2]).toBe('DT');
+});
+
+test('fix all', () => {
+    const fn = mod.fix;
+    const mods: types.Mod[] = ['DT', 'HR', 'HD', 'EZ', '4K', 'HD'];
+    const fixed = fn(mods);
+    expect(fixed.length).toBe(3);
+    expect(fixed[0]).toBe('HD');
+    expect(fixed[1]).toBe('DT');
+    expect(fixed[2]).toBe('HR');
+});

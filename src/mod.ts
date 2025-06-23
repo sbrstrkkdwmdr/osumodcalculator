@@ -195,18 +195,47 @@ export function order(mods: types.Mod[]) {
  */
 export function disallowed(mode: types.GameMode) {
     let ignoreMods: types.Mod[] = [];
-    const maniaOnlyMods: types.Mod[] = ['FI', '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K', 'CO', 'RD', 'MR',];
-    const standardMods: types.Mod[] = ['AP', 'TP', 'SO', 'TD',];
+    const s: types.Mod[] = [
+        'BL', 'ST', 'AP', 'SO', 'TP', 'AL', 'TR', 'WG', 'SI', 'GR', 'DF', 'TC', 'BR', 'AD', 'MG', 'RP', 'FR', 'BU', 'SY', 'DP', 'BM', 'TD',
+    ];
+    const t: types.Mod[] = [
+        'SW'
+    ];
+    const f: types.Mod[] = [
+        'FF'
+    ];
+    const m: types.Mod[] = [
+        'NR', 'FI', 'CO', 'IN', 'HO',
+        '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K',
+    ];
+    const st: types.Mod[] = [
+        'CL', 'SG'
+    ];
+    const sf: types.Mod[] = [
+        'NS'
+    ];
+    const stm: types.Mod[] = [
+        'RD', 'AS'
+    ];
+    const sfm: types.Mod[] = [
+        'MR'
+    ];
+    const tm: types.Mod[] = [
+        'CS'
+    ];
     switch (mode) {
         default:
         case 'osu':
-            ignoreMods = maniaOnlyMods;
+            ignoreMods = t.concat(f).concat(m).concat(tm);
             break;
-        case 'taiko': case 'fruits':
-            ignoreMods = maniaOnlyMods.concat(standardMods);
+        case 'taiko':
+            ignoreMods = s.concat(f).concat(m).concat(sf).concat(sfm);
+            break;
+        case 'fruits':
+            ignoreMods = s.concat(t).concat(m).concat(st).concat(stm).concat(tm);
             break;
         case 'mania':
-            ignoreMods = standardMods;
+            ignoreMods = s.concat(t).concat(f).concat(st).concat(sf);
             break;
     }
     return ignoreMods;
@@ -219,10 +248,10 @@ export function disallowed(mode: types.GameMode) {
  * ```ts
  * const mods = ['4K','EZ','FI', 'DT',];
  * const mode = 'osu'
- * const fixed = disallowedRemove(mods); // => ['EZ', 'DT',]
+ * const fixed = removeDisallowed(mods); // => ['EZ', 'DT',]
  * ```
  */
-export function disallowedRemove(mods: types.Mod[], mode: types.GameMode) {
+export function removeDisallowed(mods: types.Mod[], mode: types.GameMode = 'osu') {
     const ignore = disallowed(mode);
     const nt: types.Mod[] = [];
     for (const mod of mods) {
@@ -239,7 +268,7 @@ export function disallowedRemove(mods: types.Mod[], mode: types.GameMode) {
  * example:
  * ```ts
  * const mods = ['EZ','HD','DT','NC','HR']
- * const fixed = removeIncompatible(mods);
+ * const fixed = removeIncompatible(mods); // => ['EZ', 'HD', 'DT']
  * ```
  */
 export function removeIncompatible(mods: types.Mod[], mode: types.GameMode = 'osu') {
@@ -250,8 +279,7 @@ export function removeIncompatible(mods: types.Mod[], mode: types.GameMode = 'os
     for (const mod of mods) {
         if (!ignore.includes(mod)) {
             const idx = map.indexOf(mod);
-            Mods[idx].incompatible;
-            for (const ig in Mods[idx].incompatible) {
+            for (const ig of Mods[idx].incompatible) {
                 if (ig.startsWith('(')) {
                     if (
                         (!ig.includes('!' + mode) && ig.includes(mode)) ||
@@ -266,7 +294,6 @@ export function removeIncompatible(mods: types.Mod[], mode: types.GameMode = 'os
             fr.push(mod);
         }
     }
-
     return fr;
 }
 
@@ -280,12 +307,15 @@ export function removeIncompatible(mods: types.Mod[], mode: types.GameMode = 'os
  * const fixed = fix(mods, mode); // => ['HD','DT','HR']
  * ```
  */
-export function fix(mods: types.Mod[], mode: types.GameMode) {
+export function fix(mods: types.Mod[], mode: types.GameMode = 'osu') {
     const nodupe = removeDupe(mods);
 
-    const nt = order(nodupe);
+    const dr = removeDisallowed(nodupe, mode);
 
-    const dr = disallowedRemove(nt, mode);
+    const inc = removeIncompatible(dr, mode);
 
-    return dr;
+    const nt = order(inc);
+
+
+    return nt;
 }

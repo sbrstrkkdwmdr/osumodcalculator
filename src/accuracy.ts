@@ -6,19 +6,19 @@ import { types } from ".";
  * 
  * rank_legacy uses old hit-ratio based ranks
  * 
- * example using [this score](https://osu.ppy.sh/scores/1603783625):
+ * example using [this score](https://osu.ppy.sh/scores/1597034515):
  * ```ts
- * const hit300 = 647;
- * const hit100 = 24;
- * const hit50 = 0;
- * const miss = 7;
- * const calc = standard(hit300, hit100, hit50, miss);
- * // =>
- * // {
- * // rank_legacy: "A"
- * // rank: "A"
- * // accuracy: 96.60
- * // }
+const hit300 = 232;
+const hit100 = 23;
+const hit50 = 0;
+const miss = 0;
+const calc = accuracy.standard(hit300, hit100, hit50, miss);
+// =>
+// {
+//  rank_legacy: "S"
+//  rank: "A"
+//  accuracy: 93.98
+// }
  * ```
  */
 export function standard(great: number, ok: number, meh: number, miss: number) {
@@ -122,18 +122,18 @@ export function taiko(great: number, good: number, miss: number) {
 /**
  * calculates accuracy and rank for osu!catch / fruits / ctb
  * 
- * example using [this score](https://osu.ppy.sh/scores/1960031859):
+ * example using [this score](https://osu.ppy.sh/scores/5045322123):
  * ```ts
- * const hit300 = 145;
- * const hit100 = 18;
- * const hit50 = 71;
- * const hitkatu = 2;
- * const miss = 5;
- * const calc = fruits(hit300, hit100, miss);
+    const hit300 = 419;
+    const hit100 = 2; // drops
+    const hit50 = 209; // droplets
+    const hitkatu = 234 - 209; // droplet miss
+    const miss = 87; // miss
+    const calc = accuracy.fruits(hit300, hit100, hit50, hitkatu, miss);
  * // =>
  * // {
- * // rank: "A"
- * // accuracy: 97.14
+ * // rank: "D"
+ * // accuracy: 94.90
  * // }
  * ```
  */
@@ -177,24 +177,27 @@ export function fruits(fruits: number, drops: number, droplets: number, droplets
 /**
  * calculates accuracy and rank for osu!mania
  * 
- * example using [this score](https://osu.ppy.sh/scores/2148063130):
+ * example using [this score](https://osu.ppy.sh/scores/5045329156):
  * ```ts
- * const hitgeki = 120;
- * const hit300 = 155;
- * const hitkatu = 94;
- * const hit100 = 22;
- * const hit50 = 2;
- * const miss = 3;
- * const calc = mania(hit300, hit100, miss);
+    const hitgeki = 162;
+    const hit300 = 178;
+    const hitkatu = 92;
+    const hit100 = 32;
+    const hit50 = 16;
+    const miss = 25;
+    const calc = accuracy.mania(hitgeki, hit300, hitkatu, hit100, hit50, miss, true);
  * // =>
  * // {
  * // rank: "B"
- * // accuracy: 86.27
+ * // accuracy: 81.29
  * // }
  * ```
  */
-export function mania(perfect: number, great: number, good: number, ok: number, meh: number, miss: number) {
-    const equation = Math.floor((300 * (perfect + great)) + (200 * good) + (100 * ok) + (50 * meh)) / Math.floor(300 * (perfect + great + good + ok + meh + miss));
+export function mania(perfect: number, great: number, good: number, ok: number, meh: number, miss: number, useScoreV2 = true) {
+    const equation1 = Math.floor(
+        (300 * (perfect + great)) + (200 * good) + (100 * ok) + (50 * meh)) / Math.floor(300 * (perfect + great + good + ok + meh + miss));
+    const equationsv2 = Math.floor((305 * perfect) + (300 * great) + (200 * good) + (100 * ok) + (50 * meh)) / Math.floor(305 * (perfect + great + good + ok + meh + miss));
+    const equation = useScoreV2 ? equationsv2 : equation1;
     let [/* rank_legacy */, rankLazer] = ['D', 'D'];
     if (equation >= 0.7) {
         [/* rank_legacy */, rankLazer] = ['C', 'C'];

@@ -1,7 +1,7 @@
-import * as omc from '.';
+import { mode } from '.';
 
 test('str->int', () => {
-    const fn = omc.mode.toInt;
+    const fn = mode.toInt;
     let i = fn('ctb');
     expect(i).toBe(2);
     i = fn('std');
@@ -13,7 +13,7 @@ test('str->int', () => {
 });
 
 test('int->str', () => {
-    let fn = omc.mode.toName;
+    let fn = mode.toName;
     let name = fn(1);
     expect(name).toBe('taiko');
     name = fn(2);
@@ -23,5 +23,5 @@ test('int->str', () => {
     name = fn(3);
     expect(name).toBe('mania');
     name = fn(6);
-    expect(name).toBe('osu')
+    expect(name).toBe('osu');
 });
