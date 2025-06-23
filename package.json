@@ -44,6 +44,7 @@
         "ts-jest": "^29.4.0",
         "typedoc": "^0.28.5",
         "typedoc-material-theme": "^1.4.0",
+        "typedoc-plugin-include-example": "^2.1.2",
         "typedoc-theme-hierarchy": "^6.0.0"
     },
     "dependencies": {

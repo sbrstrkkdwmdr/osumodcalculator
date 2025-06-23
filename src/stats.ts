@@ -3,15 +3,7 @@ import { types } from ".";
 /**
  * Get hit windows for an Overall Difficulty (accuracy) value (standard)
  * 
- * example:
- * ```ts
- * const ms = ToMsOd(9);
- * // => { 
-   // hitwindow_300: 25.5, 
-   // hitwindow_100: 67.5, 
-   // hitwindow_50: 109.5 
-   // }
- * ```
+ * @includeExample src/example/stats.ts:17-22
  */
 export function ToMsOd(od: number) {
     const rangeobj = {
@@ -24,12 +16,9 @@ export function ToMsOd(od: number) {
 /**
  * convert approach rate to milliseconds
  * 
- * example:
- * ```ts
- * const ms = ToMsAr(9); // => 9
- * ```
+ * @includeExample src/example/stats.ts:25
  */
-function ToMsAr(ar: number) {
+export function ToMsAr(ar: number) {
     const ogtoms = ar > 5 ? 1200 - (((ar - 5) * 10) * 15) : 1800 - (((ar) * 10) * 12);
     return ogtoms;
 }
@@ -38,16 +27,7 @@ function ToMsAr(ar: number) {
  * 
  * if a hitwindow is missing, either replace it with NaN, null or undefined
  * 
- * example:
- * ```ts
- * const hitWindow_300s = 25.5;
- * const hitWindow_100s = 67.5;
- * const hitWindow_50s = 109.5;
- * 
- * const first = FromMsOd(hitWindow_300s); // 9
- * const second = FromMsOd(NaN, hitWindow_100s); // 9
- * const third = FromMsOd(NaN, NaN, hitWindow_50s); // 9
- * ```
+ * @includeExample src/example/stats.ts:28-34
  */
 export function FromMsOd(hitwindow300: number, hitwindow100?: number, hitwindow50?: number) {
     let od: string = 'NaN';
@@ -68,10 +48,7 @@ export function FromMsOd(hitwindow300: number, hitwindow100?: number, hitwindow5
 /**
  * calculate approach rate from milliseconds
  * 
- * example:
- * ```ts
- * const ar = FromMsAr(600); // 9
- * ```
+ * @includeExample src/example/stats.ts:37
  */
 export function FromMsAr(ms: number) {
     let ar: number;
@@ -92,15 +69,7 @@ export function FromMsAr(ms: number) {
 /**
  * calculate approach rate with Double Time applied
  * 
- * example:
- * ```ts
- * const oldAr = 9;
- * const newAr = ToDtAr(oldAr); 
- * // => {
- * // ar: 10.33
- * // ms: 400
- * // }
- * ```
+ * @includeExample src/example/stats.ts:40-35
  */
 export function ToDtAr(ar: number) {
     /*     if (ar > 5) {
@@ -131,15 +100,7 @@ export function ToDtAr(ar: number) {
 /**
  * calculate approach rate with Half Time applied
  * 
- * example:
- * ```ts
- * const oldAr = 9;
- * const newAr = ToHtAr(oldAr); 
- * // => {
- * // ar: 7.67
- * // ms: 800
- * // }
- * ```
+ * @includeExample src/example/stats.ts:48-53
  */
 export function ToHtAr(ar: number) {
     let newAR: number;
@@ -166,17 +127,7 @@ export function ToHtAr(ar: number) {
 /**
  * calculate Overall Difficulty (accuracy) with Double Time applied
  * 
- * example:
- * ```ts
- * const oldOd = 9;
- * const newOd = ToDtOd(oldOd); 
- * // => {
- * // hitwindow_300: 17,
- * // hitwindow_100: 45,
- * // hitwindow_50: 73,
- * // od_num: 10.42,
- * // }
- * ```
+ * @includeExample src/example/stats.ts:56-63
  */
 export function ToDtOd(od: number) {
     const range300 = ((79 - (od * 6) + 0.5) * 2 / 3) + 0.33;
@@ -193,17 +144,7 @@ export function ToDtOd(od: number) {
 /**
  * calculate Overall Difficulty (accuracy) with Half Time applied
  * 
- * example:
- * ```ts
- * const oldOd = 9;
- * const newOd = ToHtOd(oldOd); 
- * // => {
- * // hitwindow_300: 34,
- * // hitwindow_100: 90,
- * // hitwindow_50: 146,
- * // od_num: 7.58,
- * // }
- * ```
+ * @includeExample src/example/stats.ts:66-73
  */
 export function ToHtOd(od: number) {
     const range300 = ((79 - (od * 6) + 0.5) * 4 / 3) + 0.66;
@@ -222,21 +163,7 @@ export function ToHtOd(od: number) {
 /**
  * calculate values with hard rock applied
  * 
- * example:
- * ```ts
- * const circleSize = 4;
- * const approachRate = 9.8;
- * const overallDifficulty = 9.1;
- * const health = 5;
- * 
- * const modded = toEZ(circleSize, approachRate, overallDifficulty, health);
- * // => { 
- * // cs: 5.2
- * // ar: 10
- * // od: 10
- * // hp: 7
- * // }
- * ```
+ * @includeExample src/example/stats.ts:76-87
  */
 export function toHR(cs: number, ar: number, od: number, hp: number) {
 
@@ -252,21 +179,7 @@ export function toHR(cs: number, ar: number, od: number, hp: number) {
 /**
  * calculate values with hard rock applied
  * 
- * example:
- * ```ts
- * const circleSize = 4;
- * const approachRate = 9.8;
- * const overallDifficulty = 9.1;
- * const health = 5;
- * 
- * const modded = toEZ(circleSize, approachRate, overallDifficulty, health);
- * // => { 
- * // cs: 2
- * // ar: 4.9
- * // od: 4.55
- * // hp: 2.5
- * // }
- * ```
+ * @includeExample src/example/stats.ts:90-101
  */
 export function toEZ(cs: number, ar: number, od: number, hp: number) {
 
@@ -282,10 +195,7 @@ export function toEZ(cs: number, ar: number, od: number, hp: number) {
 /**
  * get the radius of the circle (in pixels)
  * 
- * example:
- * ```ts
- * const radius = csToRadius(5); // => 32.006
- * ```
+ * @includeExample src/example/stats.ts:104
  */
 export function csToRadius(cs: number) {
     return (0.00005556 * cs ** 2 - 4.483 * cs + 54.42);
@@ -294,45 +204,20 @@ export function csToRadius(cs: number) {
 /**
  * radius to circle size
  * 
- * example:
- * ```ts
- * const radius = 32.01; // in pixels
- * const circleSize = csFromRadius(radius); // => 5
+ * @includeExample src/example/stats.ts:108-109
  */
 
 export function csFromRadius(radius: number) {
-    return (5000 / 8104533921) * radius ** 2 - (1808448550 / 8104533921) * radius + (8582285633270972 / 706821088118109);
+    return +((5000 / 8104533921) * radius ** 2 - (1808448550 / 8104533921) * radius + (8582285633270972 / 706821088118109)).toFixed(2);
 }
 
 /**
  * calculate stats with speed applied
  * 
- * using DT or HT will apply 1.5 and 0.75 speed, respectively.
+ * @param i - the level of speed to apply. 
+ * Using DT or HT will apply 1.5 and 0.75 speed, respectively.
  * 
- * example using https://osu.ppy.sh/b759056:
- * ```ts
- * const speed = 1.15;
- * const approachRate = 9.2
- * const overallDifficulty = 8
- * const bpm = 189
- * const songLength = 189
- * const newStats = speed(speed, { ar:approachRate, od: overallDifficulty, bpm, songLength});
- * // => 
- * {
- * ar: 9.7,
- * od: 8.68,
- * bpm: 217.35,
- * songLength: 164.34782608695653,      
- * extra: {
- *   arMs: 495.6521739130436,
- *   odMs: {
- *     hitwindow_300: 27.39130434782609,
- *     hitwindow_100: 65.65217391304348,
- *     hitwindow_50: 103.91304347826087,
- *   },
- * },
- * }
- * ```
+ * @includeExample src/example/stats.ts:112-133
  */
 export function speed(i: 'DT' | 'HT' | number, stats: {
     ar: number,
@@ -378,52 +263,7 @@ export function speed(i: 'DT' | 'HT' | number, stats: {
  * 
  * if custom speed is unused then the speed from any given mods will be used (DT, HT etc.)
  * 
- * example:
- * ```ts
-    const circleSize = 4;
-    const approachRate = 10;
-    const overallDifficulty = 5.5;
-    const hp = 6;
-    const bpm = 215;
-    const songLength = 180;
-    const mods: omc.types.ApiMod[] = [{
-        acronym: 'DT',
-        settings: {
-            speed_change: 1.15
-        }
-    },
-    {
-        acronym: 'DA',
-        settings: {
-            circle_size: 3.5
-        }
-    }
-    ];
-    const moddedStats = omc.stats.modded({
-        cs: circleSize,
-        ar: approachRate,
-        od: overallDifficulty,
-        hp, bpm, songLength
-    }, mods);
-    // =>
-    {
-  cs: 3.5,
-  ar: 10.39,
-  od: 6.51,
-  hp: 6,
-  bpm: 247.24999999999997,
-  songLength: 156.52173913043478,
-  extra: {
-    csRadius: 38.730180610000005,
-    arMs: 391.304347826087,
-    odMs: {
-      hitwindow_300: 40.434782608695656,
-      hitwindow_100: 83.04347826086958,
-      hitwindow_50: 125.65217391304348,
-    },
-  },
-}
- * ```
+ * @includeExample src/example/stats.ts:136-177
  */
 export function modded(stats: {
     cs: number,

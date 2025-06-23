@@ -1,7 +1,7 @@
 {
     "entryPoints": ["./src/index.ts"],
     "out": "./docs",
-    "plugin": ["typedoc-material-theme", /* "typedoc-theme-hierarchy" */],
+    "plugin": ["typedoc-material-theme", "typedoc-plugin-include-example" /* "typedoc-theme-hierarchy" */],
     // "theme": "hierarchy",
     "themeColor": "#F763A5",
 }

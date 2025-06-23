@@ -42,11 +42,7 @@ export enum ModInts {
  * 
  * Converts each mod to their enum value and adds them together
  * 
- * example:
- * ```ts
- * const mods = ['EZ', 'HD', 'DT']
- * const modInt = toInt(mods); // => 74
- * ```
+ * @includeExample src/examples/mod.ts:4-5
  */
 export function toInt(mods: types.ModLegacy[]) {
     let modInt = 0;
@@ -67,11 +63,7 @@ export function toInt(mods: types.ModLegacy[]) {
  * 
  * Converts an enum into the acronym of each mod
  * 
- * example:
- * ```ts
- * const modInt = 88;
- * const mods = toString(modInt); // => ['HD','DT','HR'];
- * ```
+ * @includeExample src/examples/mod.ts:8-9
  */
 export function intToAcronym(modInt: number) {
     const mods: types.ModLegacy[] = [];
@@ -98,11 +90,7 @@ function getOrderedMods(): types.Mod[] {
  * 
  * mods are NOT case sensitive
  * 
- * example:
- * ```ts
- * const mods = ['Fade In', 'Magnetised', 'Single Tap'];
- * const acronyms = nameToAcronym(mods); // => ['FI', 'MG', 'SG']
- * ```
+ * @includeExample src/examples/mod.ts:12-13
  */
 export function nameToAcronym(mods: string[]) {
     mods = mods.map(x => x.toLowerCase());
@@ -123,11 +111,7 @@ export function nameToAcronym(mods: string[]) {
  * 
  * mods are NOT case sensitive
  * 
- * example:
- * ```ts
- * const mods = ['ST', 'AC', 'TP'];
- * const acronyms = acronymToName(mods); // => ['Strict Tracking', 'Accuracy Challenge', 'Target Practice']
- * ```
+ * @includeExample src/examples/mod.ts:16-17
  */
 export function acronymToName(mods: types.Mod[]) {
     mods = mods.map(x => x.toUpperCase() as types.Mod);
@@ -146,11 +130,7 @@ export function acronymToName(mods: types.Mod[]) {
 /**
  * remove duplicate mods 
  * 
- * example:
- * ```ts
- * const mods = ['HD', 'DT', 'HR', 'DT'];
- * const fixed = removeDupe(mods); // => ['HD', 'DT', 'HR']
- * ```
+ * @includeExample src/examples/mod.ts:20-21
  */
 export function removeDupe(mods: types.Mod[]) {
     const nodupe: types.Mod[] = [];
@@ -165,11 +145,7 @@ export function removeDupe(mods: types.Mod[]) {
 /**
  * orders mods
  * 
- * example: 
- * ```ts
- * const mods = ['DT', 'HR', 'HD',];
- * const fixed = order(mods); // => ['HD','DT','HR']
- * ```
+ * @includeExample src/examples/mod.ts:24-25
  */
 export function order(mods: types.Mod[]) {
     const nt: types.Mod[] = [];
@@ -185,13 +161,7 @@ export function order(mods: types.Mod[]) {
 
 /**
  * get mods not allowed in a given gamemode
- * 
- * TODO: 
- * example:
- * ```ts
- * const mode = 'osu'
- * const ignore_these_mods = disallowed(mods); // => ['FI', '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K', 'CP', 'RD', 'MR']
- * ```
+ *  * @includeExample src/examples/mod.ts:28
  */
 export function disallowed(mode: types.GameMode) {
     let ignoreMods: types.Mod[] = [];
@@ -244,12 +214,7 @@ export function disallowed(mode: types.GameMode) {
 /**
  * remove mods from other modes
  * 
- * example:
- * ```ts
- * const mods = ['4K','EZ','FI', 'DT',];
- * const mode = 'osu'
- * const fixed = removeDisallowed(mods); // => ['EZ', 'DT',]
- * ```
+ * @includeExample src/examples/mod.ts:31-33
  */
 export function removeDisallowed(mods: types.Mod[], mode: types.GameMode = 'osu') {
     const ignore = disallowed(mode);
@@ -265,11 +230,7 @@ export function removeDisallowed(mods: types.Mod[], mode: types.GameMode = 'osu'
 /**
  * removes incompatible mods such as ez+hr
  * 
- * example:
- * ```ts
- * const mods = ['EZ','HD','DT','NC','HR']
- * const fixed = removeIncompatible(mods); // => ['EZ', 'HD', 'DT']
- * ```
+ * @includeExample src/examples/mod.ts:36-37
  */
 export function removeIncompatible(mods: types.Mod[], mode: types.GameMode = 'osu') {
     const ignore: types.Mod[] = [];
@@ -300,12 +261,7 @@ export function removeIncompatible(mods: types.Mod[], mode: types.GameMode = 'os
 /**
  * re-orders, removes duplicates, removes incompabitle
  * 
- * example: 
- * ```ts
- * const mods = ['DT', 'HR', 'HD', 'EZ', '4K','HD'];
- * const mode = 'osu';
- * const fixed = fix(mods, mode); // => ['HD','DT','HR']
- * ```
+ * @includeExample src/examples/mod.ts:40-42
  */
 export function fix(mods: types.Mod[], mode: types.GameMode = 'osu') {
     const nodupe = removeDupe(mods);

@@ -6,24 +6,11 @@ import { types } from ".";
  * 
  * rank_legacy uses old hit-ratio based ranks
  * 
- * example using [this score](https://osu.ppy.sh/scores/1597034515):
- * ```ts
-const hit300 = 232;
-const hit100 = 23;
-const hit50 = 0;
-const miss = 0;
-const calc = accuracy.standard(hit300, hit100, hit50, miss);
-// =>
-// {
-//  rank_legacy: "S"
-//  rank: "A"
-//  accuracy: 93.98
-// }
- * ```
+ * @includeExample src/example/accuracy.ts:4-16
  */
 export function standard(great: number, ok: number, meh: number, miss: number) {
     const totalhits = great + ok + meh + miss;
-    const equation = ((Math.floor((300 * great) + (100 * ok) + (50 * meh))) / (Math.floor(300 * (great + ok + meh + miss)))) * 100;
+    const equation = ((Math.floor((300 * great) + (100 * ok) + (50 * meh))) / (Math.floor(300 * (great + ok + meh + miss))));
     //https://osu.ppy.sh/wiki/en/FAQ#ranks
     let [rank_legacy, rankLazer] = ['D', 'D'];
     if (great / totalhits > 0.6) {
@@ -58,7 +45,7 @@ export function standard(great: number, ok: number, meh: number, miss: number) {
     const finalarr = {
         rank_legacy,
         rank: rankLazer,
-        accuracy: equation,
+        accuracy: +(equation * 100).toFixed(2),
     };
 
     return finalarr;
@@ -66,19 +53,7 @@ export function standard(great: number, ok: number, meh: number, miss: number) {
 /**
  * calculates accuracy and rank for osu!taiko
  * 
- * example using [this score](https://osu.ppy.sh/scores/1860658559):
- * ```ts
- * const hit300 = 90;
- * const hit100 = 25;
- * const miss = 6;
- * const calc = taiko(hit300, hit100, miss);
- * // =>
- * // {
- * // rank_legacy: "B"
- * // rank: "B"
- * // accuracy: 84.71
- * // }
- * ```
+ * @includeExample src/example/accuracy.ts:19-30
  */
 export function taiko(great: number, good: number, miss: number) {
     const equation = (Math.abs(great + (good / 2))) / (Math.abs(great + good + miss));
@@ -113,7 +88,7 @@ export function taiko(great: number, good: number, miss: number) {
     const finalarr = {
         rank_legacy,
         rank: rankLazer,
-        accuracy: equation * 100,
+        accuracy: +(equation * 100).toFixed(2),
     };
     return finalarr;
 
@@ -122,20 +97,7 @@ export function taiko(great: number, good: number, miss: number) {
 /**
  * calculates accuracy and rank for osu!catch / fruits / ctb
  * 
- * example using [this score](https://osu.ppy.sh/scores/5045322123):
- * ```ts
-    const hit300 = 419;
-    const hit100 = 2; // drops
-    const hit50 = 209; // droplets
-    const hitkatu = 234 - 209; // droplet miss
-    const miss = 87; // miss
-    const calc = accuracy.fruits(hit300, hit100, hit50, hitkatu, miss);
- * // =>
- * // {
- * // rank: "D"
- * // accuracy: 94.90
- * // }
- * ```
+ * @includeExample src/example/accuracy.ts:33-45
  */
 export function fruits(fruits: number, drops: number, droplets: number, droplets_miss: number, miss: number) {
     const equation = Math.floor(fruits + drops + droplets) / Math.floor(fruits + drops + droplets + droplets_miss + miss);
@@ -159,39 +121,15 @@ export function fruits(fruits: number, drops: number, droplets: number, droplets
     const finalarr = {
         /* rank_legacy, */
         rank: rankLazer,
-        accuracy: equation * 100,
+        accuracy: +(equation * 100).toFixed(2),
     };
     return finalarr;
 }
-/**
- * 
- * @param hit300max - hit max/300+ (100%)
- * @param hit300 - hit 300 (100%)
- * @param hit200 - hit 200 (66.66%)
- * @param hit100 - hit 100 (33.33%)
- * @param hit50 - hit 50 (16.66%)
- * @param miss - miss (0%)
- * @returns an array containing ranks and accuracy
- */
 
 /**
  * calculates accuracy and rank for osu!mania
  * 
- * example using [this score](https://osu.ppy.sh/scores/5045329156):
- * ```ts
-    const hitgeki = 162;
-    const hit300 = 178;
-    const hitkatu = 92;
-    const hit100 = 32;
-    const hit50 = 16;
-    const miss = 25;
-    const calc = accuracy.mania(hitgeki, hit300, hitkatu, hit100, hit50, miss, true);
- * // =>
- * // {
- * // rank: "B"
- * // accuracy: 81.29
- * // }
- * ```
+ * @includeExample src/example/accuracy.ts:48-61
  */
 export function mania(perfect: number, great: number, good: number, ok: number, meh: number, miss: number, useScoreV2 = true) {
     const equation1 = Math.floor(
@@ -217,7 +155,7 @@ export function mania(perfect: number, great: number, good: number, ok: number, 
     const finalarr = {
         // rank_legacy,
         rank: rankLazer,
-        accuracy: equation * 100,
+        accuracy: +(equation * 100).toFixed(2),
     };
     return finalarr;
 }

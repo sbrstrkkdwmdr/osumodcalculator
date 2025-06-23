@@ -2,13 +2,13 @@ import { mod, types } from '..';
 
 test('acr->int', () => {
     const fn = mod.toInt;
-    let i = fn(['EZ', 'HD', 'DT']);
+    let i = fn(['EZ', 'HD', 'DT']); // => 74
     expect(i).toBe(74);
 });
 
 test('int->acr', () => {
     const fn = mod.intToAcronym;
-    let i = fn(88);
+    let i = fn(88); // => ['HD', 'DT', 'HR']
     expect(i.includes('HD')).toBe(true);
     expect(i.includes('HR')).toBe(true);
     expect(i.includes('DT')).toBe(true);
@@ -18,7 +18,7 @@ test('int->acr', () => {
 test('full->acr', () => {
     const fn = mod.nameToAcronym;
     const mods = ['Fade In', 'Magnetised', 'Single Tap'];
-    let out = fn(mods);
+    let out = fn(mods); // => ['FI', 'MG', 'SG]
     expect(out.length).toBe(3);
     expect(out[0]).toBe('FI');
     expect(out[1]).toBe('MG');
@@ -28,7 +28,7 @@ test('full->acr', () => {
 test('acr->full', () => {
     const fn = mod.acronymToName;
     const mods: types.Mod[] = ['ST', 'AC', 'TP'];
-    let out = fn(mods);
+    let out = fn(mods); // => ['Strict Tracking', 'Accuracy Challenge','Target Practice']
     expect(out.length).toBe(3);
     expect(out[0]).toBe('Strict Tracking');
     expect(out[1]).toBe('Accuracy Challenge');
@@ -38,7 +38,7 @@ test('acr->full', () => {
 test('duplicate', () => {
     const fn = mod.removeDupe;
     const mods: types.Mod[] = ['HD', 'DT', 'HR', 'DT'];
-    let out = fn(mods);
+    let out = fn(mods); // => ['HD','DT','HR']
     expect(out.length).toBe(3);
     expect(out[0]).toBe('HD');
     expect(out[1]).toBe('DT');
@@ -48,7 +48,7 @@ test('duplicate', () => {
 test('order', () => {
     const fn = mod.order;
     const mods: types.Mod[] = ['DT', 'HR', 'HD',];
-    let out = fn(mods);
+    let out = fn(mods); // => ['HD','DT','HR']
     expect(out.length).toBe(3);
     expect(out[0]).toBe('HD');
     expect(out[1]).toBe('DT');
@@ -71,7 +71,7 @@ test('remove disallowed', () => {
     const fn = mod.removeDisallowed;
     const mods: types.Mod[] = ['4K', 'EZ', 'FI', 'DT',];
     const mode = 'osu';
-    const fixed = fn(mods, mode);
+    const fixed = fn(mods, mode); // => ['EZ', 'DT']
     expect(fixed.length).toBe(2);
     expect(fixed[0]).toBe('EZ');
     expect(fixed[1]).toBe('DT');
@@ -80,7 +80,7 @@ test('remove disallowed', () => {
 test('incompatible', () => {
     const fn = mod.removeIncompatible;
     const mods: types.Mod[] = ['EZ', 'HD', 'DT', 'NC', 'HR'];
-    const fixed = fn(mods);
+    const fixed = fn(mods); // => ['EZ', 'HD', 'DT']
     expect(fixed.length).toBe(3);
     expect(fixed[0]).toBe('EZ');
     expect(fixed[1]).toBe('HD');
