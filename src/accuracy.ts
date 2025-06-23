@@ -6,7 +6,7 @@ import { types } from ".";
  * 
  * rank_legacy uses old hit-ratio based ranks
  * 
- * @includeExample src/example/accuracy.ts:4-16
+ * @includeExample src/examples/accuracy.ts:4-16
  */
 export function standard(great: number, ok: number, meh: number, miss: number) {
     const totalhits = great + ok + meh + miss;
@@ -53,7 +53,7 @@ export function standard(great: number, ok: number, meh: number, miss: number) {
 /**
  * calculates accuracy and rank for osu!taiko
  * 
- * @includeExample src/example/accuracy.ts:19-30
+ * @includeExample src/examples/accuracy.ts:19-30
  */
 export function taiko(great: number, good: number, miss: number) {
     const equation = (Math.abs(great + (good / 2))) / (Math.abs(great + good + miss));
@@ -97,7 +97,7 @@ export function taiko(great: number, good: number, miss: number) {
 /**
  * calculates accuracy and rank for osu!catch / fruits / ctb
  * 
- * @includeExample src/example/accuracy.ts:33-45
+ * @includeExample src/examples/accuracy.ts:33-45
  */
 export function fruits(fruits: number, drops: number, droplets: number, droplets_miss: number, miss: number) {
     const equation = Math.floor(fruits + drops + droplets) / Math.floor(fruits + drops + droplets + droplets_miss + miss);
@@ -129,7 +129,7 @@ export function fruits(fruits: number, drops: number, droplets: number, droplets
 /**
  * calculates accuracy and rank for osu!mania
  * 
- * @includeExample src/example/accuracy.ts:48-61
+ * @includeExample src/examples/accuracy.ts:48-61
  */
 export function mania(perfect: number, great: number, good: number, ok: number, meh: number, miss: number, useScoreV2 = true) {
     const equation1 = Math.floor(

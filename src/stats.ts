@@ -3,7 +3,7 @@ import { types } from ".";
 /**
  * Get hit windows for an Overall Difficulty (accuracy) value (standard)
  * 
- * @includeExample src/example/stats.ts:17-22
+ * @includeExample src/examples/stats.ts:17-22
  */
 export function ToMsOd(od: number) {
     const rangeobj = {
@@ -16,7 +16,7 @@ export function ToMsOd(od: number) {
 /**
  * convert approach rate to milliseconds
  * 
- * @includeExample src/example/stats.ts:25
+ * @includeExample src/examples/stats.ts:25
  */
 export function ToMsAr(ar: number) {
     const ogtoms = ar > 5 ? 1200 - (((ar - 5) * 10) * 15) : 1800 - (((ar) * 10) * 12);
@@ -27,7 +27,7 @@ export function ToMsAr(ar: number) {
  * 
  * if a hitwindow is missing, either replace it with NaN, null or undefined
  * 
- * @includeExample src/example/stats.ts:28-34
+ * @includeExample src/examples/stats.ts:28-34
  */
 export function FromMsOd(hitwindow300: number, hitwindow100?: number, hitwindow50?: number) {
     let od: string = 'NaN';
@@ -48,7 +48,7 @@ export function FromMsOd(hitwindow300: number, hitwindow100?: number, hitwindow5
 /**
  * calculate approach rate from milliseconds
  * 
- * @includeExample src/example/stats.ts:37
+ * @includeExample src/examples/stats.ts:37
  */
 export function FromMsAr(ms: number) {
     let ar: number;
@@ -69,7 +69,7 @@ export function FromMsAr(ms: number) {
 /**
  * calculate approach rate with Double Time applied
  * 
- * @includeExample src/example/stats.ts:40-35
+ * @includeExample src/examples/stats.ts:30-34
  */
 export function ToDtAr(ar: number) {
     /*     if (ar > 5) {
@@ -100,7 +100,7 @@ export function ToDtAr(ar: number) {
 /**
  * calculate approach rate with Half Time applied
  * 
- * @includeExample src/example/stats.ts:48-53
+ * @includeExample src/examples/stats.ts:48-53
  */
 export function ToHtAr(ar: number) {
     let newAR: number;
@@ -127,7 +127,7 @@ export function ToHtAr(ar: number) {
 /**
  * calculate Overall Difficulty (accuracy) with Double Time applied
  * 
- * @includeExample src/example/stats.ts:56-63
+ * @includeExample src/examples/stats.ts:56-63
  */
 export function ToDtOd(od: number) {
     const range300 = ((79 - (od * 6) + 0.5) * 2 / 3) + 0.33;
@@ -144,7 +144,7 @@ export function ToDtOd(od: number) {
 /**
  * calculate Overall Difficulty (accuracy) with Half Time applied
  * 
- * @includeExample src/example/stats.ts:66-73
+ * @includeExample src/examples/stats.ts:66-73
  */
 export function ToHtOd(od: number) {
     const range300 = ((79 - (od * 6) + 0.5) * 4 / 3) + 0.66;
@@ -163,7 +163,7 @@ export function ToHtOd(od: number) {
 /**
  * calculate values with hard rock applied
  * 
- * @includeExample src/example/stats.ts:76-87
+ * @includeExample src/examples/stats.ts:76-87
  */
 export function toHR(cs: number, ar: number, od: number, hp: number) {
 
@@ -179,7 +179,7 @@ export function toHR(cs: number, ar: number, od: number, hp: number) {
 /**
  * calculate values with hard rock applied
  * 
- * @includeExample src/example/stats.ts:90-101
+ * @includeExample src/examples/stats.ts:90-101
  */
 export function toEZ(cs: number, ar: number, od: number, hp: number) {
 
@@ -195,7 +195,7 @@ export function toEZ(cs: number, ar: number, od: number, hp: number) {
 /**
  * get the radius of the circle (in pixels)
  * 
- * @includeExample src/example/stats.ts:104
+ * @includeExample src/examples/stats.ts:104
  */
 export function csToRadius(cs: number) {
     return (0.00005556 * cs ** 2 - 4.483 * cs + 54.42);
@@ -204,7 +204,7 @@ export function csToRadius(cs: number) {
 /**
  * radius to circle size
  * 
- * @includeExample src/example/stats.ts:108-109
+ * @includeExample src/examples/stats.ts:108-109
  */
 
 export function csFromRadius(radius: number) {
@@ -217,7 +217,7 @@ export function csFromRadius(radius: number) {
  * @param i - the level of speed to apply. 
  * Using DT or HT will apply 1.5 and 0.75 speed, respectively.
  * 
- * @includeExample src/example/stats.ts:112-133
+ * @includeExample src/examples/stats.ts:112-133
  */
 export function speed(i: 'DT' | 'HT' | number, stats: {
     ar: number,
@@ -263,7 +263,7 @@ export function speed(i: 'DT' | 'HT' | number, stats: {
  * 
  * if custom speed is unused then the speed from any given mods will be used (DT, HT etc.)
  * 
- * @includeExample src/example/stats.ts:136-177
+ * @includeExample src/examples/stats.ts:136-177
  */
 export function modded(stats: {
     cs: number,

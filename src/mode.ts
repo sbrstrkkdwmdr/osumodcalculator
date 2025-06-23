@@ -3,7 +3,7 @@ import { types } from ".";
 /**
  * convert a mode name into it's corresponding integer value
  * 
- * @includeExample src/examples.mode.ts:4-7
+ * @includeExample src/examples/mode.ts:4-7
  */
 export function toInt(mode: string): number {
     switch (mode) {
@@ -23,7 +23,7 @@ export function toInt(mode: string): number {
 /**
  * convert an integer into its corresponding mode name
  * 
- * @includeExample src/examples.mode.ts:10-11
+ * @includeExample src/examples/mode.ts:10-11
  */
 export function toName(mode: number): types.GameMode {
     switch (mode) {
