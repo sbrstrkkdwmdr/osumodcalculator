@@ -254,6 +254,7 @@ export function speed(i: 'DT' | 'HT' | number, stats: {
         extra: {
             arMs: modAr,
             odMs: modOd,
+            lengthReadable: secondsToReadable(modSl),
         }
     };
 }
@@ -290,6 +291,7 @@ export function modded(stats: {
             hitwindow_100: number,
             hitwindow_50: number,
         },
+        lengthReadable: string,
     };
 } {
     if (mods.length == 0) {
@@ -305,6 +307,7 @@ export function modded(stats: {
                     csRadius: csToRadius(stats.cs),
                     arMs: ToMsAr(stats.ar),
                     odMs: ToMsOd(stats.od),
+                    lengthReadable: secondsToReadable(stats.songLength),
                 }
             };
         }
@@ -327,6 +330,7 @@ export function modded(stats: {
                 csRadius: csToRadius(stats.cs),
                 arMs: modAr,
                 odMs: modOd,
+                lengthReadable: secondsToReadable(modSl),
             }
         };
     }
@@ -372,7 +376,6 @@ export function modded(stats: {
             modHp /= 2;
         }
 
-        console.log('meow');
         for (const mod of mods) {
             if (mod?.settings) {
                 if (mod.settings?.circle_size) {
@@ -418,6 +421,19 @@ export function modded(stats: {
             csRadius: csToRadius(modCs),
             arMs: modArMs,
             odMs: modOdMs,
+            lengthReadable: secondsToReadable(modSl),
         }
     };
+}
+
+function secondsToReadable(inpt: number) {
+    return inpt > 60 ?
+        inpt % 60 < 10 ?
+            Math.floor(inpt / 60) + ':0' + Math.floor(inpt % 60) :
+            Math.floor(inpt / 60) + ':' + Math.floor(inpt % 60)
+        :
+        inpt % 60 < 10 ?
+            Math.floor(inpt / 60) + ':0' + Math.floor(inpt % 60) :
+            Math.floor(inpt / 60) + ':' + Math.floor(inpt % 60);
+
 }
