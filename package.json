@@ -1,6 +1,6 @@
 {
     "name": "osumodcalculator",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "description": "osu! calculator for converting values to DT & HT and other things",
     "main": "dist/index",
     "types": "src/index",

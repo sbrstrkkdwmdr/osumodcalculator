@@ -272,6 +272,24 @@ export function fix(mods: types.Mod[], mode: types.GameMode = 'osu') {
 
     const nt = order(inc);
 
-
     return nt;
+}
+
+/**
+ * convert string into mods
+ * 
+ * make sure each mod is 2 characters
+ * 
+ * @includeExample src/examples/mod.ts:45-46
+ */
+export function fromString(str: string): types.Mod[] {
+    const temp = str.replace(/(.{2})/g, "$1 ").split(' ');
+    const map = Mods.map(x => x.acronym);
+    const output: types.Mod[] = [];
+    temp.forEach(mod => {
+        if (map.includes(mod as types.Mod)) {
+            output.push(mod as types.Mod);
+        }
+    });
+    return output;
 }

@@ -96,3 +96,12 @@ test('fix all', () => {
     expect(fixed[1]).toBe('DT');
     expect(fixed[2]).toBe('HR');
 });
+
+test('from string', () => {
+    const mods = 'HDDTHR';
+    const fixed = mod.fromString(mods); // => ['HD','DT','HR']
+    expect(fixed.length).toBe(3);
+    expect(fixed[0]).toBe('HD');
+    expect(fixed[1]).toBe('DT');
+    expect(fixed[2]).toBe('HR');
+});

@@ -1,5 +1,9 @@
 # CHANGELOG
 
+### 2.0.2
+
+- add `mod.fromString()` 
+
 ### 2.0.1
 
 - `stats.modded()` and `stats.speed()` now include a formatted song length 

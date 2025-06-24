@@ -1,8 +1,8 @@
-import { acronymToName, disallowed, fix, intToAcronym, nameToAcronym, order, removeDisallowed, removeDupe, removeIncompatible, toInt } from '../mod';
-import { GameMode, Mod } from '../types';
+import { acronymToName, disallowed, fix, fromString, intToAcronym, nameToAcronym, order, removeDisallowed, removeDupe, removeIncompatible, toInt, } from '../mod';
+import { GameMode, Mod, ModLegacy } from '../types';
 {
-    const mods: Mod[] = ['EZ', 'HD', 'DT'];
-    acronymToName(mods); // => 74
+    const mods: ModLegacy[] = ['EZ', 'HD', 'DT'];
+    toInt(mods); // => 74
 }
 {
     const modInt = 88;
@@ -40,4 +40,8 @@ import { GameMode, Mod } from '../types';
     const mods: Mod[] = ['DT', 'HR', 'HD', 'EZ', '4K', 'HD'];
     const mode: GameMode = 'osu';
     fix(mods, mode); // => ['HD', 'DT', 'HR']
+}
+{
+    const mods = 'HDDTHR';
+    fromString(mods); // => ['HD','DT','HR']
 }
