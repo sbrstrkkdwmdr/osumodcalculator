@@ -45,7 +45,6 @@ function standardRankLegacy(great: number, meh: number, miss: number, totalhits:
 }
 
 function standardRankLazer(equation: number, miss: number) {
-    console.log(equation)
     let rankLazer = 'D';
     if (equation >= 0.7) {
         rankLazer = 'C';

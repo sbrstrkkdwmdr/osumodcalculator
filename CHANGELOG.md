@@ -1,5 +1,9 @@
 # CHANGELOG
 
+### 2.0.4
+
+- forgot to remove a console.log while testing 
+
 ### 2.0.3
 
 - `accuracy` fix SS being impossible for lazer (osu) and legacy (taiko)
