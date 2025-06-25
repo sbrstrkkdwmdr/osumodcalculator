@@ -2,6 +2,8 @@
 
 ### 2.0.3
 
+- `accuracy` fix SS being impossible for lazer (osu) and legacy (taiko)
+- add postinstall script
 - merge `mod.removeDisallowed()` functionality into `mod.removeIncompatible()`
 
 ### 2.0.2

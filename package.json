@@ -1,13 +1,15 @@
 {
     "name": "osumodcalculator",
-    "version": "2.0.2",
+    "version": "2.0.3",
     "description": "osu! calculator for converting values to DT & HT and other things",
     "main": "dist/index",
     "types": "src/index",
     "scripts": {
         "test": "jest --silent=false",
         "typedoc": "typedoc",
-        "createDocs": "typedoc src/index.ts"
+        "createDocs": "typedoc src/index.ts",
+        "build": "tsc",
+        "prepare": "tsc"
     },
     "repository": {
         "type": "git",

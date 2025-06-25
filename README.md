@@ -1,24 +1,18 @@
 # osu! mod calculator
 
-[![chartjs](https://img.shields.io/badge/NPM-CB3837?style=for-the-badge&logo=npm&logoColor=white)](https://www.npmjs.com/package/osumodcalculator)</br>
+[![NPM link](https://img.shields.io/badge/NPM-CB3837?style=for-the-badge&logo=npm&logoColor=white)](https://www.npmjs.com/package/osumodcalculator)</br>
 [![CodeFactor](https://www.codefactor.io/repository/github/sbrstrkkdwmdr/osumodcalculator/badge)](https://www.codefactor.io/repository/github/sbrstrkkdwmdr/osumodcalculator)
 
 ### Installation
 
-run `npm i osumodcalculator`
-in your main js file:
+`npm i osumodcalculator`
 
 ### Usage
 
-```js
-const osumodcalc = require("osumodcalculator");
-//code here
-```
+```ts
+import { types, mod } from "osumodcalculator";
 
-OR
-
-```js
-import * as osumodcalc from "osumodcalculator";
+const mods:types.Mod[] = mod.fromString('HDDTHR'); // => ['HD', 'DT', 'HR']
 ```
 
 ### notes:

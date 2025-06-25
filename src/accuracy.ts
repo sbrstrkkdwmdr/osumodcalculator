@@ -12,7 +12,23 @@ export function standard(great: number, ok: number, meh: number, miss: number) {
     const totalhits = great + ok + meh + miss;
     const equation = ((Math.floor((300 * great) + (100 * ok) + (50 * meh))) / (Math.floor(300 * (great + ok + meh + miss))));
     //https://osu.ppy.sh/wiki/en/FAQ#ranks
-    let [rank_legacy, rankLazer] = ['D', 'D'];
+    let [rank_legacy, rankLazer] = [standardRankLegacy(great, meh, miss, totalhits), standardRankLazer(equation, miss)];
+    if (equation == 1) {
+        rank_legacy = 'SS';
+        rankLazer = 'SS';
+    }
+
+    const finalarr = {
+        rank_legacy,
+        rank: rankLazer,
+        accuracy: +(equation * 100).toFixed(2),
+    };
+
+    return finalarr;
+}
+
+function standardRankLegacy(great: number, meh: number, miss: number, totalhits: number) {
+    let rank_legacy = 'D';
     if (great / totalhits > 0.6) {
         rank_legacy = 'C';
     }
@@ -25,41 +41,15 @@ export function standard(great: number, ok: number, meh: number, miss: number) {
     if (Math.abs(great / totalhits) > 0.9 && miss == 0 && Math.abs(meh / totalhits) < 0.01) {
         rank_legacy = 'S';
     }
-    if (ok < 1 && meh < 1 && miss == 0) {
-        rank_legacy = 'SS';
-        rankLazer = 'SS';
-    }
-    if (equation >= 70) {
+    return rank_legacy;
+}
+
+function standardRankLazer(equation: number, miss: number) {
+    console.log(equation)
+    let rankLazer = 'D';
+    if (equation >= 0.7) {
         rankLazer = 'C';
     }
-    if (equation >= 80) {
-        rankLazer = 'B';
-    }
-    if (equation >= 90) {
-        rankLazer = 'A';
-    }
-    if (equation >= 95 && miss == 0) {
-        rankLazer = 'S';
-    }
-
-    const finalarr = {
-        rank_legacy,
-        rank: rankLazer,
-        accuracy: +(equation * 100).toFixed(2),
-    };
-
-    return finalarr;
-}
-/**
- * calculates accuracy and rank for osu!taiko
- * 
- * @includeExample src/examples/accuracy.ts:19-30
- */
-export function taiko(great: number, good: number, miss: number) {
-    const equation = (Math.abs(great + (good / 2))) / (Math.abs(great + good + miss));
-    const totalhits = great + good + miss;
-    //rank = 'https://osu.ppy.sh/wiki/en/FAQ#ranks'
-    let [rank_legacy, rankLazer] = ['D', 'D'];
     if (equation >= 0.8) {
         rankLazer = 'B';
     }
@@ -69,9 +59,33 @@ export function taiko(great: number, good: number, miss: number) {
     if (equation >= 0.95 && miss == 0) {
         rankLazer = 'S';
     }
+    return rankLazer;
+}
+
+/**
+ * calculates accuracy and rank for osu!taiko
+ * 
+ * @includeExample src/examples/accuracy.ts:19-30
+ */
+export function taiko(great: number, good: number, miss: number) {
+    const equation = (Math.abs(great + (good / 2))) / (Math.abs(great + good + miss));
+    const totalhits = great + good + miss;
+    //rank = 'https://osu.ppy.sh/wiki/en/FAQ#ranks'
+    let [rank_legacy, rankLazer] = [taikoRankLegacy(great, good, miss, totalhits), taikoRankLazer(equation, miss)];
     if (equation == 1) {
         [rank_legacy, rankLazer] = ['SS', 'SS'];
     }
+
+    const finalarr = {
+        rank_legacy,
+        rank: rankLazer,
+        accuracy: +(equation * 100).toFixed(2),
+    };
+    return finalarr;
+}
+
+function taikoRankLegacy(great: number, good: number, miss: number, totalhits: number) {
+    let rank_legacy = 'D';
     if (great / totalhits > 0.6) {
         rank_legacy = 'C';
     }
@@ -81,17 +95,24 @@ export function taiko(great: number, good: number, miss: number) {
     if ((great / totalhits > 0.8 && miss == 0) || (great / totalhits > 0.9)) {
         rank_legacy = 'A';
     }
-    if (Math.abs(great / totalhits) > 0.9 && miss == 0 && Math.abs(good / totalhits) < 0.01) {
+    if (great / totalhits > 0.9 && miss == 0 && good / totalhits < 0.01) {
         rank_legacy = 'S';
     }
+    return rank_legacy;
+}
 
-    const finalarr = {
-        rank_legacy,
-        rank: rankLazer,
-        accuracy: +(equation * 100).toFixed(2),
-    };
-    return finalarr;
-
+function taikoRankLazer(equation: number, miss: number) {
+    let rankLazer = 'D';
+    if (equation >= 0.8) {
+        rankLazer = 'B';
+    }
+    if (equation >= 0.9) {
+        rankLazer = 'A';
+    }
+    if (equation >= 0.95 && miss == 0) {
+        rankLazer = 'S';
+    }
+    return rankLazer;
 }
 
 /**
