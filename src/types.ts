@@ -93,4 +93,5 @@ export interface ModDetailed {
     acronym: Mod,
     incompatible: string[], // use acronyms. if it only applies to a specific mode prefix with (mode) or (!mode) if the opposite
     enum: number, // use -1 if unknown / NA
+    restrictMode?: GameMode[], // IF this isnt in all modes, then list which ones it is in here
 }

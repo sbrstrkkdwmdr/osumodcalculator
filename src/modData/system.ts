@@ -16,6 +16,7 @@ export const Mods: types.ModDetailed[] = [
         name: 'Touch Device',
         acronym: 'TD',
         incompatible: ['AT', 'CN', 'AP', 'BM'],
-        enum: 4
+        enum: 4,
+        restrictMode: ['osu'],
     },
 ];

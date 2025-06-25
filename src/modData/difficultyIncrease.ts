@@ -34,25 +34,27 @@ export const Mods: types.ModDetailed[] = [
         name: 'Nightcore',
         acronym: 'NC',
         incompatible: ['HT', 'DC', 'DT', 'AS', 'WU', 'WD'],
-        enum: 512
+        enum: 512,
     },
     {
         name: 'Fade In',
         acronym: 'FI',
         incompatible: ['HD', 'CO', 'FL'],
-        enum: 1048576
+        enum: 1048576,
+        restrictMode: ['mania'],
     },
     {
         name: 'Hidden',
         acronym: 'HD',
         incompatible: ['FI', 'CO', '(mania)FL', 'SI', 'TC', 'AD', 'DP'],
-        enum: 8
+        enum: 8,
     },
     {
         name: 'Cover',
         acronym: 'CO',
         incompatible: ['HD', 'FI', 'FL'],
-        enum: -1
+        enum: -1,
+        restrictMode: ['mania'],
     },
     {
         name: 'Flashlight',
@@ -64,13 +66,15 @@ export const Mods: types.ModDetailed[] = [
         name: 'Blinds',
         acronym: 'BL',
         incompatible: ['FL'],
-        enum: -1
+        enum: -1,
+        restrictMode: ['osu'],
     },
     {
         name: 'Strict Tracking',
         acronym: 'ST',
         incompatible: ['TP', 'CL'],
-        enum: -1
+        enum: -1,
+        restrictMode: ['osu'],
     },
     {
         name: 'Accuracy Challenge',

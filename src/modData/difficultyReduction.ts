@@ -35,5 +35,6 @@ export const Mods: types.ModDetailed[] = [
         acronym: 'NC',
         incompatible: ['HO'],
         enum: -1,
+        restrictMode: ['mania'],
     }
 ];

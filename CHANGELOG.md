@@ -1,5 +1,9 @@
 # CHANGELOG
 
+### 2.0.3
+
+- merge `mod.removeDisallowed()` functionality into `mod.removeIncompatible()`
+
 ### 2.0.2
 
 - add `mod.fromString()` 

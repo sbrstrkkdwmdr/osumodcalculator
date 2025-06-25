@@ -160,77 +160,9 @@ export function order(mods: types.Mod[]) {
 }
 
 /**
- * get mods not allowed in a given gamemode
- *  * @includeExample src/examples/mod.ts:28
- */
-export function disallowed(mode: types.GameMode) {
-    let ignoreMods: types.Mod[] = [];
-    const s: types.Mod[] = [
-        'BL', 'ST', 'AP', 'SO', 'TP', 'AL', 'TR', 'WG', 'SI', 'GR', 'DF', 'TC', 'BR', 'AD', 'MG', 'RP', 'FR', 'BU', 'SY', 'DP', 'BM', 'TD',
-    ];
-    const t: types.Mod[] = [
-        'SW'
-    ];
-    const f: types.Mod[] = [
-        'FF'
-    ];
-    const m: types.Mod[] = [
-        'NR', 'FI', 'CO', 'IN', 'HO',
-        '1K', '2K', '3K', '4K', '5K', '6K', '7K', '8K', '9K',
-    ];
-    const st: types.Mod[] = [
-        'CL', 'SG'
-    ];
-    const sf: types.Mod[] = [
-        'NS'
-    ];
-    const stm: types.Mod[] = [
-        'RD', 'AS'
-    ];
-    const sfm: types.Mod[] = [
-        'MR'
-    ];
-    const tm: types.Mod[] = [
-        'CS'
-    ];
-    switch (mode) {
-        default:
-        case 'osu':
-            ignoreMods = t.concat(f).concat(m).concat(tm);
-            break;
-        case 'taiko':
-            ignoreMods = s.concat(f).concat(m).concat(sf).concat(sfm);
-            break;
-        case 'fruits':
-            ignoreMods = s.concat(t).concat(m).concat(st).concat(stm).concat(tm);
-            break;
-        case 'mania':
-            ignoreMods = s.concat(t).concat(f).concat(st).concat(sf);
-            break;
-    }
-    return ignoreMods;
-}
-
-/**
- * remove mods from other modes
+ * removes incompatible mods such as ez+hr and mods from other mods
  * 
- * @includeExample src/examples/mod.ts:31-33
- */
-export function removeDisallowed(mods: types.Mod[], mode: types.GameMode = 'osu') {
-    const ignore = disallowed(mode);
-    const nt: types.Mod[] = [];
-    for (const mod of mods) {
-        if (!ignore.includes(mod)) {
-            nt.push(mod);
-        }
-    }
-    return nt;
-}
-
-/**
- * removes incompatible mods such as ez+hr
- * 
- * @includeExample src/examples/mod.ts:36-37
+ * @includeExample src/examples/mod.ts:28-29
  */
 export function removeIncompatible(mods: types.Mod[], mode: types.GameMode = 'osu') {
     const ignore: types.Mod[] = [];
@@ -238,9 +170,13 @@ export function removeIncompatible(mods: types.Mod[], mode: types.GameMode = 'os
 
     const fr: types.Mod[] = [];
     for (const mod of mods) {
-        if (!ignore.includes(mod)) {
-            const idx = map.indexOf(mod);
-            for (const ig of Mods[idx].incompatible) {
+        const idx = map.indexOf(mod);
+        const checkMod = Mods[idx];
+
+        if (!ignore.includes(mod) && (
+            checkMod.restrictMode && checkMod.restrictMode.includes(mode) || !checkMod.restrictMode || checkMod.restrictMode.length == 0
+        )) {
+            for (const ig of checkMod.incompatible) {
                 if (ig.startsWith('(')) {
                     if (
                         (!ig.includes('!' + mode) && ig.includes(mode)) ||
@@ -261,14 +197,12 @@ export function removeIncompatible(mods: types.Mod[], mode: types.GameMode = 'os
 /**
  * re-orders, removes duplicates, removes incompabitle
  * 
- * @includeExample src/examples/mod.ts:40-42
+ * @includeExample src/examples/mod.ts:32-34
  */
 export function fix(mods: types.Mod[], mode: types.GameMode = 'osu') {
     const nodupe = removeDupe(mods);
 
-    const dr = removeDisallowed(nodupe, mode);
-
-    const inc = removeIncompatible(dr, mode);
+    const inc = removeIncompatible(nodupe, mode);
 
     const nt = order(inc);
 
@@ -280,7 +214,7 @@ export function fix(mods: types.Mod[], mode: types.GameMode = 'osu') {
  * 
  * make sure each mod is 2 characters
  * 
- * @includeExample src/examples/mod.ts:45-46
+ * @includeExample src/examples/mod.ts:37-38
  */
 export function fromString(str: string): types.Mod[] {
     const temp = str.replace(/(.{2})/g, "$1 ").split(' ');

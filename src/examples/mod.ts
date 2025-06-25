@@ -1,4 +1,4 @@
-import { acronymToName, disallowed, fix, fromString, intToAcronym, nameToAcronym, order, removeDisallowed, removeDupe, removeIncompatible, toInt, } from '../mod';
+import { acronymToName, fix, fromString, intToAcronym, nameToAcronym, order, removeDupe, removeIncompatible, toInt, } from '../mod';
 import { GameMode, Mod, ModLegacy } from '../types';
 {
     const mods: ModLegacy[] = ['EZ', 'HD', 'DT'];
@@ -25,15 +25,7 @@ import { GameMode, Mod, ModLegacy } from '../types';
     order(mods); // => ['HD','DT','HR']
 }
 {
-    // to do: disallowed example
-}
-{
-    const mods: Mod[] = ['4K', 'EZ', 'FI', 'DT',];
-    const mode: GameMode = 'osu';
-    removeDisallowed(mods, mode); // => ['EZ', 'DT']
-}
-{
-    const mods: Mod[] = ['EZ', 'HD', 'DT', 'NC', 'HR'];
+    const mods: Mod[] = ['4K', 'FI', 'EZ', 'HD', 'DT', 'NC', 'HR'];
     removeIncompatible(mods); // => ['EZ', 'HD', 'DT']
 }
 {

@@ -23,17 +23,20 @@ export const Mods: types.ModDetailed[] = [
         acronym: 'RX',
         incompatible: ['AT', 'CN', 'AP', 'AL', 'SG', 'MG'],
         enum: 128,
+        restrictMode: ['osu', 'taiko', 'fruits'],
     },
     {
         name: 'Autopilot',
         acronym: 'AP',
         incompatible: ['AT', 'CN', 'RX', 'SO', 'MG', 'RP'],
-        enum: 8192
+        enum: 8192,
+        restrictMode: ['osu'],
     },
     {
         name: 'Spun Out',
         acronym: 'SO',
         incompatible: ['AT', 'CN', 'AP', 'TP'],
-        enum: 4096
+        enum: 4096,
+        restrictMode: ['osu'],
     }
 ];

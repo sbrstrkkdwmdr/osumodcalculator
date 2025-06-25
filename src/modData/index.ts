@@ -8,6 +8,9 @@ import { Mods as hard } from './difficultyIncrease';
 import { Mods as easy } from './difficultyReduction';
 import { Mods as fun } from './fun';
 
+/**
+ * see [this page](https://osu.ppy.sh/wiki/en/Gameplay/Game_modifier_%28lazer%29) for details
+ */
 export const Mods: types.ModDetailed[] = easy
     .concat(hard)
     .concat(auto)

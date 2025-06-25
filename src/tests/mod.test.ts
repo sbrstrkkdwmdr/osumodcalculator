@@ -55,31 +55,9 @@ test('order', () => {
     expect(out[2]).toBe('HR');
 });
 
-test('disallowed', () => {
-    const fn = mod.disallowed;
-    let out = fn('osu');
-    console.log(out);
-    out = fn('taiko');
-    console.log(out);
-    out = fn('fruits');
-    console.log(out);
-    out = fn('mania');
-    console.log(out);
-});
-
-test('remove disallowed', () => {
-    const fn = mod.removeDisallowed;
-    const mods: types.Mod[] = ['4K', 'EZ', 'FI', 'DT',];
-    const mode = 'osu';
-    const fixed = fn(mods, mode); // => ['EZ', 'DT']
-    expect(fixed.length).toBe(2);
-    expect(fixed[0]).toBe('EZ');
-    expect(fixed[1]).toBe('DT');
-});
-
 test('incompatible', () => {
     const fn = mod.removeIncompatible;
-    const mods: types.Mod[] = ['EZ', 'HD', 'DT', 'NC', 'HR'];
+    const mods: types.Mod[] = ['4K', 'FI', 'EZ', 'HD', 'DT', 'NC', 'HR'];
     const fixed = fn(mods); // => ['EZ', 'HD', 'DT']
     expect(fixed.length).toBe(3);
     expect(fixed[0]).toBe('EZ');
