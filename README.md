@@ -1,7 +1,9 @@
 # osu! mod calculator
 
-[![NPM link](https://img.shields.io/badge/NPM-CB3837?style=for-the-badge&logo=npm&logoColor=white)](https://www.npmjs.com/package/osumodcalculator)</br>
+[![NPM link](https://img.shields.io/badge/NPM-CB3837?style=for-the-badge&logo=npm&logoColor=white)](https://www.npmjs.com/package/osumodcalculator)
 [![CodeFactor](https://www.codefactor.io/repository/github/sbrstrkkdwmdr/osumodcalculator/badge)](https://www.codefactor.io/repository/github/sbrstrkkdwmdr/osumodcalculator)
+
+[Docs](https://sbrstrkkdwmdr.github.io/osumodcalculator)
 
 ### Installation
 
@@ -20,10 +22,6 @@ const mods:types.Mod[] = mod.fromString('HDDTHR'); // => ['HD', 'DT', 'HR']
 -   EZ & HR calculations should come before DT/HT calculations
 -   OD is listed as accuracy in the osu! api
 -   HP is listed as drain in the osu! api
-
-## documentation
-
-[Full documentation is here](https://sbrstrkkdwmdr.github.io/projects/osumodcalculator)
 
 ### credits:
 
