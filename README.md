@@ -14,7 +14,7 @@
 ```ts
 import { types, mod } from "osumodcalculator";
 
-const mods:types.Mod[] = mod.fromString('HDDTHR'); // => ['HD', 'DT', 'HR']
+const mods: types.Mod[] = mod.fromString("HDDTHR"); // => ['HD', 'DT', 'HR']
 ```
 
 ### notes:
