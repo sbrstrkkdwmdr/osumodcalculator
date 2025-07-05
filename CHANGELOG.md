@@ -1,5 +1,9 @@
 # CHANGELOG
 
+### 2.0.5
+
+- add `mode.fromValue()`
+
 ### 2.0.4
 
 - forgot to remove a console.log while testing 
