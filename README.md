@@ -25,9 +25,10 @@ const mods: types.Mod[] = mod.fromString("HDDTHR"); // => ['HD', 'DT', 'HR']
 
 ### credits:
 
-[osu! accuracy wiki](https://osu.ppy.sh/wiki/en/Gameplay/Accuracy) <br/>
-[osu! grades wiki](https://osu.ppy.sh/wiki/en/FAQ#grades) <br/>
-[Difficulty Settings Table](https://www.reddit.com/r/osugame/comments/6phntt/difficulty_settings_table_with_all_values/) <br/>
+-   [osu! accuracy wiki](https://osu.ppy.sh/wiki/en/Gameplay/Accuracy)
+-   [osu! grades wiki](https://osu.ppy.sh/wiki/en/FAQ#grades)
+-   [osu! mods wiki](https://osu.ppy.sh/wiki/en/Gameplay/Game_modifier_%28lazer%29)
+-   [Difficulty Settings Table](https://www.reddit.com/r/osugame/comments/6phntt/difficulty_settings_table_with_all_values/)
 
 ### Contact
 
