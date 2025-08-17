@@ -82,11 +82,11 @@ export type ModLegacy =
 /**
  * All mods
  */
-export type Mod = ModLegacy | 'BM' | 'DP' | 'SY' | 'BU' | '10K' | 'HO' | 'CS' | 'IN' | 'SW' | 'NR' | 'AC' | 'DC' | 'BL' | 'ST' | 'DA' | 'CL' | 'AL' | 'SG' | 'TR' /**transform */ | 'WG' | 'SI' | 'GR' | 'DF' | 'WU' | 'WD' | 'TC' /**traceable */ | 'BR' | 'AD' | 'MU' | 'NS' | 'MG' | 'RP' | 'AS' | 'FF' | 'FR';
+export type Mod = ModLegacy | 'BM' | 'DP' | 'SY' | 'BU' | '10K' | 'HO' | 'CS' | 'IN' | 'SW' | 'NR' | 'AC' | 'DC' | 'BL' | 'ST' | 'DA' | 'CL' | 'AL' | 'SG' | 'TR' /**transform */ | 'WG' | 'SI' | 'GR' | 'DF' | 'WU' | 'WD' | 'TC' /**traceable */ | 'BR' | 'AD' | 'MU' | 'NS' | 'MG' | 'RP' | 'AS' | 'FF' | 'FR' | 'MF';
 
 export type ModLegacyLong = 'Easy' | 'Hidden' | 'Fade In' | 'Half Time' | 'Double Time' | 'Nightcore' | 'Hard Rock' | 'Flashlight' | 'Sudden Death' | 'Perfect' | 'No Fail' | 'Autoplay' | 'Cinema' | 'Relax' | 'Autopilot' | 'Target Practice' | 'Spun Out' | 'Touch Device' | '1K' | '2K' | '3K' | '4K' | '5K' | '6K' | '7K' | '8K' | '9K' | 'Co-op' | 'Random' | 'Mirror' | 'Score V2';
 
-export type ModLong = ModLegacyLong | 'Bloom' | 'Depth' | 'Synesthesia' | 'Bubbles' | '10K' | 'Hold Off' | 'Constant Speed' | 'Invert' | 'Swap' | 'No Release' | 'Accuracy Challenge' | 'Cover' | 'Daycore' | 'Blinds' | 'Strict Tracking' | 'Difficulty Adjust' | 'Classic' | 'Alternate' | 'Single Tap' | 'Transform' | 'Wiggle' | 'Spin In' | 'Grow' | 'Deflate' | 'Wind Up' | 'Wind Down' | 'Traceable' | 'Barrel Roll' | 'Approach Different' | 'Muted' | 'No Scope' | 'Magnetised' | 'Repel' | 'Adaptive Speed' | 'Floating Fruits' | 'Freeze Frame';
+export type ModLong = ModLegacyLong | 'Bloom' | 'Depth' | 'Synesthesia' | 'Bubbles' | '10K' | 'Hold Off' | 'Constant Speed' | 'Invert' | 'Swap' | 'No Release' | 'Accuracy Challenge' | 'Cover' | 'Daycore' | 'Blinds' | 'Strict Tracking' | 'Difficulty Adjust' | 'Classic' | 'Alternate' | 'Single Tap' | 'Transform' | 'Wiggle' | 'Spin In' | 'Grow' | 'Deflate' | 'Wind Up' | 'Wind Down' | 'Traceable' | 'Barrel Roll' | 'Approach Different' | 'Muted' | 'No Scope' | 'Magnetised' | 'Repel' | 'Adaptive Speed' | 'Floating Fruits' | 'Freeze Frame' | 'Moving Fast';
 
 export interface ModDetailed {
     name: ModLong,

@@ -150,4 +150,11 @@ export const Mods: types.ModDetailed[] = [
         enum: -1,
         restrictMode: ['osu'],
     },
+    {
+        name: 'Moving Fast',
+        acronym: 'MF',
+        incompatible: ['AT', 'CN', 'RX'],
+        enum: -1,
+        restrictMode: ['fruits'],
+    },
 ];
